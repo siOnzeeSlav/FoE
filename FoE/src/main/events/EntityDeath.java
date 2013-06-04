@@ -109,6 +109,7 @@ public class EntityDeath implements Listener {
 							String message = p.config.getString("umrtiZpravy.Giant");
 							Bukkit.broadcastMessage(replace(message, playerName, mobName));
 						}
+						// Žádost #008.
 					}
 				}
 			}
