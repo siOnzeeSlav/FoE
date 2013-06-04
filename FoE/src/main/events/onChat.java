@@ -130,6 +130,7 @@ public class onChat implements Listener {
 					player.sendMessage(p.nahraditBarvy(config.getString("capsLock.Zprava")));
 					message = message.toLowerCase();
 				}
+				// Žádost #004.
 			}
 			event.setMessage(message);
 			
