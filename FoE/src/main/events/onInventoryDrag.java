@@ -26,7 +26,7 @@ public class onInventoryDrag implements Listener {
 		
 		try {
 			if (title.startsWith("Inventar ")) {
-				
+				// Dodìlat
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
