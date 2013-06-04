@@ -1,0 +1,135 @@
+# FreeLance: na techto pluginech pracuje sionzee.
+# Copyright (C) 2012  Honza Trzicky (siOnzee) <siOnzee@frelania.eu>
+
+name: FoE
+main: main.FoE
+version: 1.2.8
+author: siOnzee
+website: 'http://www.frelania.eu/'
+soft-depend: [FoE-Updater]
+permissions:
+    FoE.*:
+        description: "Vsechny Prava."
+        children:
+            FoE.Informace: true
+            FoE.AntiReklama.Bypass: true
+            FoE.Oznameni: true
+            FoE.VypnoutChat.Psat: true
+            FoE.VypnoutChat: true
+            FoE.Cenzura: true
+            FoE.Gramatika: true
+            FoE.AdminChat.Videt: true
+            FoE.AdminChat.Psat: true
+            FoE.AntiSpam.Psat: true
+            FoE.Tp: true
+            FoE.Rezervace.VIP: true
+            FoE.Inventar: true
+            FoE.Inventar.Upravovat: true
+            FoE.Manager.Kick: true
+            FoE.Manager.Ban: true
+            FoE.Manager.Unban: true
+            FoE.HELP: true
+            FoE.HELP.Videt: true
+            FoE.Clear: true
+    FoE.Informace:
+      description: FoE CMD
+      default: true
+    FoE.AntiReklama.Bypass:
+      description: FoE CMD
+      default: false
+    FoE.Oznameni:
+      description: FoE CMD
+      default: false
+    FoE.VypnoutChat.Psat:
+      description: FoE CMD
+      default: false
+    FoE.VypnoutChat:
+      description: FoE CMD
+      default: false
+    FoE.Cenzura:
+      description: FoE CMD
+      default: false
+    FoE.Gramatika:
+      description: FoE CMD
+      default: false
+    FoE.AdminChat.Videt:
+      description: FoE CMD
+      default: false
+    FoE.AdminChat.Psat:
+      description: FoE CMD
+      default: false
+    FoE.AntiSpam.Psat:
+      description: FoE CMD
+      default: false
+    FoE.Tp:
+      description: FoE CMD
+      default: false
+    FoE.Rezervace.VIP:
+      description: FoE CMD
+      default: false
+    FoE.Inventar:
+      description: FoE CMD
+      default: false
+    FoE.Inventar.Upravovat:
+      description: FoE CMD
+      default: false
+    FoE.Manager.Ban:
+      description: FoE CMD
+      default: false
+    FoE.Manager.Unban:
+      description: FoE CMD
+      default: false
+    FoE.Manager.Kick:
+      description: FoE CMD
+      default: false
+    FoE.HELP:
+      description: FoE CMD
+      default: true
+    FoE.HELP.Videt:
+      description: FoE CMD
+      default: false
+    FoE.Clear:
+      description: FoE CMD
+      default: false
+commands:
+    FoE:
+      description: FoE CMD
+    infcmd:
+      description: FoE CMD
+      permission: FoE.Informace
+    zpravacmd:
+      description: FoE CMD
+      permission: FoE.Oznameni
+    chatcmd:
+      description: FoE CMD
+      permission: FoE.VypnoutChat
+    cenzuracmd:
+      description: FoE CMD
+      permission: FoE.Cenzura
+    gramatikacmd:
+      description: FoE CMD
+      permission: FoE.Gramatika
+    acmd:
+      description: FoE CMD
+      permission: FoE.AdminChat.Psat
+    tpcmd:
+      description: FoE CMD
+      permission: FoE.Tp
+    invcmd:
+      description: FoE CMD
+      permission: FoE.Inventar
+    bancmd:
+      description: FoE CMD
+      permission: FoE.Manager.Ban
+    unbancmd:
+      description: FoE CMD
+      permission: FoE.Manager.Unban
+    kickcmd:
+      description: FoE CMD
+      permission: FoE.Manager.Kick
+    helpcmd:
+      description: FoE CMD
+      permission: FoE.HELP
+    clearcmd:
+      description: FoE CMD
+      permission: FoE.Clear
