@@ -140,6 +140,8 @@ public class onChat implements Listener {
 			if (p.capsLockPovolit) {
 				if (message.equals(message.toUpperCase()) && message.matches("[A-Z]")) {
 					player.sendMessage(p.nahraditBarvy(config.getString("capsLock.Zprava")));
+					if (config.getString("capsLock.Akce").length() != 0)
+						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("capsLock.Akce"), playerName));
 					message = message.toLowerCase();
 				}
 				// Žádost #004.

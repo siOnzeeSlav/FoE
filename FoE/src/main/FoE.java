@@ -1248,6 +1248,9 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("capsLock.Zprava"))
 				config.set("capsLock.Zprava", "&4Zachovej klidnou hlavu a piš malíma písmenkama.");
 			
+			if (!config.contains("capsLock.Akce"))
+				config.set("capsLock.Akce", "");
+			
 			if (!config.contains("clearChat.Povolit"))
 				config.set("clearChat.Povolit", "ano");
 			
