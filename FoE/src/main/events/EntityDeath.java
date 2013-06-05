@@ -1,5 +1,6 @@
 package main.events;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -8,7 +9,10 @@ import main.FoE;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Blaze;
+import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Enderman;
@@ -34,7 +38,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class EntityDeath implements Listener {
-	public FoE	p;
+	public FoE					p;
+	
+	public File					umrtiZpravyFile	= new File("plugins/FoE/umrtiZpravy.yml");
+	public YamlConfiguration	umrtiZpravy		= YamlConfiguration.loadConfiguration(umrtiZpravyFile);
 	
 	public EntityDeath(FoE plugin) {
 		this.p = plugin;
@@ -43,983 +50,1041 @@ public class EntityDeath implements Listener {
 	@EventHandler
 	public void onDeath(EntityDeathEvent event) {
 		try {
+			Entity entity = event.getEntity();
+			Player player = (Player) entity;
 			if (p.umrtiZpravyPovolit) {
-				Entity entity = event.getEntity();
 				if (entity != null) {
 					if (entity instanceof Player) {
-						Player player = (Player) entity;
 						String playerName = player.getName();
 						EntityDamageEvent EDevent = player.getLastDamageCause();
 						Entity killer = null;
 						if (EDevent instanceof EntityDamageByEntityEvent) {
 							killer = ((EntityDamageByEntityEvent) EDevent).getDamager();
 						}
-						String mobName = "BezeJmena";
-						if (killer.getType() != null) {
-							mobName = killer.getType().getName();
-						}
-						Player target = (Player) killer;
-						String targetName = target.getName();
-						if (killer instanceof Creeper) {
-							String message = p.config.getString("umrtiZpravy.Creeper");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Zombie) {
-							String message = p.config.getString("umrtiZpravy.Zombie");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Skeleton) {
-							String message = p.config.getString("umrtiZpravy.Skeleton");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Spider) {
-							String message = p.config.getString("umrtiZpravy.Spider");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Wither) {
-							String message = p.config.getString("umrtiZpravy.Wither");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Wolf) {
-							String message = p.config.getString("umrtiZpravy.Wolf");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Ghast) {
-							String message = p.config.getString("umrtiZpravy.Ghast");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Explosive) {
-							String message = p.config.getString("umrtiZpravy.Explosive");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof PigZombie) {
-							String message = p.config.getString("umrtiZpravy.PigZombie");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Slime) {
-							String message = p.config.getString("umrtiZpravy.Slime");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof SmallFireball) {
-							String message = p.config.getString("umrtiZpravy.SmallFireball");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Witch) {
-							String message = p.config.getString("umrtiZpravy.Witch");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Enderman) {
-							String message = p.config.getString("umrtiZpravy.Enderman");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof EnderDragon) {
-							String message = p.config.getString("umrtiZpravy.EnderDragon");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Blaze) {
-							String message = p.config.getString("umrtiZpravy.Blaze");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Silverfish) {
-							String message = p.config.getString("umrtiZpravy.Silverfish");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						} else if (killer instanceof Giant) {
-							String message = p.config.getString("umrtiZpravy.Giant");
-							Bukkit.broadcastMessage(replace(message, playerName, mobName));
-						}
-						
-						if (killer instanceof Player) {
-							switch (getItem(target)) {
-								case ACTIVATOR_RAIL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case AIR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ANVIL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case APPLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ARROW:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BAKED_POTATO:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BEACON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BED:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BEDROCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BED_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BIRCH_WOOD_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BLAZE_POWDER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BLAZE_ROD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOAT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOOK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOOKSHELF:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOOK_AND_QUILL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOW:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BOWL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BREAD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BREWING_STAND:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BREWING_STAND_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BRICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BRICK_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BROWN_MUSHROOM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BUCKET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case BURNING_FURNACE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CACTUS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CAKE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CAKE_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CARROT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CARROT_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CARROT_STICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CAULDRON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CAULDRON_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CHAINMAIL_BOOTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CHAINMAIL_CHESTPLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CHAINMAIL_HELMET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CHAINMAIL_LEGGINGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CHEST:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CLAY:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CLAY_BALL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CLAY_BRICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COAL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COAL_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COBBLESTONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COBBLESTONE_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COBBLE_WALL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COCOA:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COMMAND:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COMPASS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COOKED_BEEF:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COOKED_CHICKEN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COOKED_FISH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case COOKIE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case CROPS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DAYLIGHT_DETECTOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DEAD_BUSH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DETECTOR_RAIL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_AXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_BOOTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_CHESTPLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_HELMET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_HOE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_LEGGINGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_PICKAXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIAMOND_SPADE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIODE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIODE_BLOCK_OFF:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIODE_BLOCK_ON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DIRT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DISPENSER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DOUBLE_STEP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DRAGON_EGG:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case DROPPER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EGG:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EMERALD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EMERALD_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EMERALD_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EMPTY_MAP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENCHANTED_BOOK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENCHANTMENT_TABLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENDER_CHEST:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENDER_PEARL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENDER_PORTAL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENDER_PORTAL_FRAME:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ENDER_STONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EXPLOSIVE_MINECART:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EXP_BOTTLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case EYE_OF_ENDER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FEATHER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FENCE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FENCE_GATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FERMENTED_SPIDER_EYE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+						if (killer != null) {
+							if (killer.getType() != null) {
+								String targetName = killer.getType().getName();
+								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
+									if (killer instanceof Creeper) {
+										String message = umrtiZpravy.getString("Creeper");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Zombie) {
+										String message = umrtiZpravy.getString("Zombie");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Skeleton) {
+										String message = umrtiZpravy.getString("Skeleton");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Spider) {
+										String message = umrtiZpravy.getString("Spider");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Wither) {
+										String message = umrtiZpravy.getString("Wither");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Wolf) {
+										String message = umrtiZpravy.getString("Wolf");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Ghast) {
+										String message = umrtiZpravy.getString("Ghast");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Explosive) {
+										String message = umrtiZpravy.getString("Explosive");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof PigZombie) {
+										String message = umrtiZpravy.getString("PigZombie");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Slime) {
+										String message = umrtiZpravy.getString("Slime");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof SmallFireball) {
+										String message = umrtiZpravy.getString("SmallFireball");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Witch) {
+										String message = umrtiZpravy.getString("Witch");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Enderman) {
+										String message = umrtiZpravy.getString("Enderman");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof EnderDragon) {
+										String message = umrtiZpravy.getString("EnderDragon");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Blaze) {
+										String message = umrtiZpravy.getString("Blaze");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Silverfish) {
+										String message = umrtiZpravy.getString("Silverfish");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof Giant) {
+										String message = umrtiZpravy.getString("Giant");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									} else if (killer instanceof CaveSpider) {
+										String message = umrtiZpravy.getString("CaveSpider");
+										Bukkit.broadcastMessage(replace(message, playerName, targetName));
+									}
+								} else if (killer instanceof Player) {
+									Player target = (Player) killer;
+									
+									switch (getItem(target)) {
+										case ACTIVATOR_RAIL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case AIR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ANVIL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case APPLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ARROW:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BAKED_POTATO:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BEACON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BED:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BEDROCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BED_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BIRCH_WOOD_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BLAZE_POWDER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BLAZE_ROD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOAT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOOK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOOKSHELF:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOOK_AND_QUILL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOW:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BOWL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BREAD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BREWING_STAND:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BREWING_STAND_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BRICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BRICK_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BROWN_MUSHROOM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BUCKET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case BURNING_FURNACE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CACTUS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CAKE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CAKE_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CARROT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CARROT_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CARROT_STICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CAULDRON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CAULDRON_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CHAINMAIL_BOOTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CHAINMAIL_CHESTPLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CHAINMAIL_HELMET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CHAINMAIL_LEGGINGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CHEST:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CLAY:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CLAY_BALL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CLAY_BRICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COAL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COAL_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COBBLESTONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COBBLESTONE_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COBBLE_WALL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COCOA:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COMMAND:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COMPASS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COOKED_BEEF:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COOKED_CHICKEN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COOKED_FISH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case COOKIE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case CROPS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DAYLIGHT_DETECTOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DEAD_BUSH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DETECTOR_RAIL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_AXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_BOOTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_CHESTPLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_HELMET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_HOE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_LEGGINGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_PICKAXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIAMOND_SPADE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIODE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIODE_BLOCK_OFF:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIODE_BLOCK_ON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DIRT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DISPENSER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DOUBLE_STEP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DRAGON_EGG:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case DROPPER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EGG:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EMERALD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EMERALD_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EMERALD_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EMPTY_MAP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENCHANTED_BOOK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENCHANTMENT_TABLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENDER_CHEST:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENDER_PEARL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENDER_PORTAL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENDER_PORTAL_FRAME:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ENDER_STONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EXPLOSIVE_MINECART:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EXP_BOTTLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case EYE_OF_ENDER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FEATHER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FENCE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FENCE_GATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FERMENTED_SPIDER_EYE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FIRE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FIREBALL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FIREWORK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FIREWORK_CHARGE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FISHING_ROD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FLINT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FLINT_AND_STEEL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FLOWER_POT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FLOWER_POT_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case FURNACE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GHAST_TEAR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GLASS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GLASS_BOTTLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GLOWING_REDSTONE_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GLOWSTONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GLOWSTONE_DUST:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLDEN_APPLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLDEN_CARROT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_AXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_BOOTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_CHESTPLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_HELMET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_HOE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_INGOT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_LEGGINGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_NUGGET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_PICKAXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_PLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_RECORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_SPADE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GOLD_SWORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GRASS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GRAVEL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GREEN_RECORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case GRILLED_PORK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case HOPPER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case HOPPER_MINECART:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case HUGE_MUSHROOM_1:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case HUGE_MUSHROOM_2:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ICE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case INK_SACK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_AXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_BOOTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_CHESTPLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_DOOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_DOOR_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_FENCE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_HELMET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_HOE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_INGOT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_LEGGINGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_PICKAXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_PLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_SPADE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case IRON_SWORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ITEM_FRAME:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case JACK_O_LANTERN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case JUKEBOX:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case JUNGLE_WOOD_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LADDER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LAPIS_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LAPIS_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LAVA:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LAVA_BUCKET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEATHER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEATHER_BOOTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEATHER_CHESTPLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEATHER_HELMET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEATHER_LEGGINGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEAVES:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LEVER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LOCKED_CHEST:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case LOG:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MAGMA_CREAM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MAP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MELON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MELON_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MELON_SEEDS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MELON_STEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MILK_BUCKET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MINECART:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MOB_SPAWNER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MONSTER_EGG:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MONSTER_EGGS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MOSSY_COBBLESTONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MUSHROOM_SOUP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case MYCEL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHERRACK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_BRICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_BRICK_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_BRICK_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_FENCE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_STALK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_STAR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NETHER_WARTS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case NOTE_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case OBSIDIAN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PAINTING:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PAPER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PISTON_BASE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PISTON_EXTENSION:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PISTON_MOVING_PIECE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PISTON_STICKY_BASE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POISONOUS_POTATO:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PORK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PORTAL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POTATO:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POTATO_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POTION:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POWERED_MINECART:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case POWERED_RAIL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PUMPKIN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PUMPKIN_PIE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PUMPKIN_SEEDS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case PUMPKIN_STEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case QUARTZ:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case QUARTZ_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case QUARTZ_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case QUARTZ_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RAILS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RAW_BEEF:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RAW_CHICKEN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RAW_FISH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case REDSTONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case REDSTONE_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case REDSTONE_COMPARATOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case REDSTONE_ORE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case REDSTONE_WIRE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RED_MUSHROOM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case RED_ROSE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case ROTTEN_FLESH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SADDLE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SAND:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SANDSTONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SANDSTONE_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SAPLING:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SEEDS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SHEARS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SIGN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SKULL_ITEM:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SLIME_BALL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SMOOTH_BRICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SMOOTH_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SNOW:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SNOW_BALL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SNOW_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SOIL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SOUL_SAND:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SPECKLED_MELON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SPIDER_EYE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SPONGE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SPRUCE_WOOD_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STEP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STICK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_AXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_BUTTON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_HOE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_PICKAXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_PLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_SPADE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STONE_SWORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STORAGE_MINECART:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case STRING:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SUGAR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SUGAR_CANE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SUGAR_CANE_BLOCK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case SULPHUR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case THIN_GLASS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TNT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TORCH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TRAPPED_CHEST:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TRAP_DOOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TRIPWIRE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case TRIPWIRE_HOOK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case VINE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WALL_SIGN:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WATCH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WATER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WATER_BUCKET:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WATER_LILY:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WEB:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WHEAT:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOODEN_DOOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_AXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_BUTTON:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_DOOR:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_DOUBLE_STEP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_HOE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_PICKAXE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_PLATE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_SPADE:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_STAIRS:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_STEP:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOD_SWORD:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WOOL:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WORKBENCH:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case WRITTEN_BOOK:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										case YELLOW_FLOWER:
+											poslatZpravu(umrtiZpravy.getString("Predmet." + getItem(target)), playerName, targetName, getItemName(target));
+											break;
+										default:
+											break;
+									}
+								}
+							}
+							
+						} else {
+							switch (EDevent.getCause()) {
+								case BLOCK_EXPLOSION:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
+									break;
+								case DROWNING:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
+									break;
+								case FALL:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
+									break;
+								case FALLING_BLOCK:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
 								case FIRE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FIREBALL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FIREWORK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FIREWORK_CHARGE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FISHING_ROD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FLINT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FLINT_AND_STEEL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FLOWER_POT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FLOWER_POT_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case FURNACE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GHAST_TEAR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GLASS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GLASS_BOTTLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GLOWING_REDSTONE_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GLOWSTONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GLOWSTONE_DUST:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLDEN_APPLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLDEN_CARROT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_AXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_BOOTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_CHESTPLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_HELMET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_HOE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_INGOT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_LEGGINGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_NUGGET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_PICKAXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_PLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_RECORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_SPADE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GOLD_SWORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GRASS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GRAVEL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GREEN_RECORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case GRILLED_PORK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case HOPPER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case HOPPER_MINECART:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case HUGE_MUSHROOM_1:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case HUGE_MUSHROOM_2:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ICE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case INK_SACK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_AXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_BOOTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_CHESTPLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_DOOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_DOOR_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_FENCE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_HELMET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_HOE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_INGOT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_LEGGINGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_PICKAXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_PLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_SPADE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case IRON_SWORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ITEM_FRAME:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case JACK_O_LANTERN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case JUKEBOX:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case JUNGLE_WOOD_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case LADDER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case LAPIS_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case LAPIS_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
 								case LAVA:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LAVA_BUCKET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case LIGHTNING:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEATHER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case MAGIC:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEATHER_BOOTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case MELTING:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEATHER_CHESTPLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case POISON:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEATHER_HELMET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case PROJECTILE:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEATHER_LEGGINGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case STARVATION:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEAVES:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case SUFFOCATION:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LEVER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case SUICIDE:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LOCKED_CHEST:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case VOID:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
-								case LOG:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MAGMA_CREAM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MAP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MELON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MELON_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MELON_SEEDS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MELON_STEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MILK_BUCKET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MINECART:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MOB_SPAWNER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MONSTER_EGG:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MONSTER_EGGS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MOSSY_COBBLESTONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MUSHROOM_SOUP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case MYCEL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHERRACK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_BRICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_BRICK_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_BRICK_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_FENCE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_STALK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_STAR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NETHER_WARTS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case NOTE_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case OBSIDIAN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PAINTING:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PAPER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PISTON_BASE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PISTON_EXTENSION:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PISTON_MOVING_PIECE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PISTON_STICKY_BASE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POISONOUS_POTATO:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PORK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PORTAL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POTATO:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POTATO_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POTION:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POWERED_MINECART:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case POWERED_RAIL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PUMPKIN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PUMPKIN_PIE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PUMPKIN_SEEDS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case PUMPKIN_STEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case QUARTZ:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case QUARTZ_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case QUARTZ_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case QUARTZ_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RAILS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RAW_BEEF:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RAW_CHICKEN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RAW_FISH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case REDSTONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case REDSTONE_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case REDSTONE_COMPARATOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case REDSTONE_ORE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case REDSTONE_WIRE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RED_MUSHROOM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case RED_ROSE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case ROTTEN_FLESH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SADDLE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SAND:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SANDSTONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SANDSTONE_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SAPLING:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SEEDS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SHEARS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SIGN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SKULL_ITEM:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SLIME_BALL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SMOOTH_BRICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SMOOTH_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SNOW:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SNOW_BALL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SNOW_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SOIL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SOUL_SAND:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SPECKLED_MELON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SPIDER_EYE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SPONGE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SPRUCE_WOOD_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STEP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STICK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_AXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_BUTTON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_HOE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_PICKAXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_PLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_SPADE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STONE_SWORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STORAGE_MINECART:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case STRING:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SUGAR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SUGAR_CANE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SUGAR_CANE_BLOCK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case SULPHUR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case THIN_GLASS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TNT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TORCH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TRAPPED_CHEST:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TRAP_DOOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TRIPWIRE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case TRIPWIRE_HOOK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case VINE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WALL_SIGN:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WATCH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WATER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WATER_BUCKET:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WATER_LILY:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WEB:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WHEAT:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOODEN_DOOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_AXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_BUTTON:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_DOOR:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_DOUBLE_STEP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_HOE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_PICKAXE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_PLATE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_SPADE:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_STAIRS:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_STEP:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOD_SWORD:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WOOL:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WORKBENCH:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case WRITTEN_BOOK:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
-									break;
-								case YELLOW_FLOWER:
-									Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet." + getItem(target)), playerName, targetName));
+								case WITHER:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
 								default:
 									break;
@@ -1037,56 +1102,46 @@ public class EntityDeath implements Listener {
 		}
 	}
 	
+	public String replaceColorsAndPlayer(String message, String playerName) {
+		if (message.matches(".*\\{JMENO}.*"))
+			message = message.replaceAll("\\{JMENO}", playerName);
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
+	}
+	
+	public void poslatZpravu(String somethingLikeNode, String playerName, String targetName, String itemName) {
+		if (!umrtiZpravy.contains(somethingLikeNode)) {
+			umrtiZpravy.set(somethingLikeNode, "&4{TARGET} &8byl zabit &4{JMENO} &8s pøedmìtem &4{ITEM}&8.");
+			p.saveConfig(umrtiZpravy, umrtiZpravyFile);
+		}
+		Bukkit.broadcastMessage(replacePredmet(umrtiZpravy.getString(somethingLikeNode), playerName, targetName, itemName));
+	}
+	
 	public Material getItem(Player target) {
 		return target.getItemInHand().getType();
 	}
 	
-	public void checkConfig() {
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
-		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD"))
-			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
+	public String getItemName(Player target) {
+		return target.getItemInHand().getType().toString();
 	}
 	
-	public String replacePredmet(String message, String playerName, String targetName) {
+	public String replacePredmet(String message, String playerName, String targetName, String itemName) {
 		if (message.matches(".*\\{JMENO}.*"))
 			message = message.replaceAll("\\{JMENO}", playerName);
 		if (message.matches(".*\\{TARGET}.*"))
 			message = message.replaceAll("\\{TARGET}", targetName);
+		if (message.matches(".*\\{ITEM}.*"))
+			message = message.replaceAll("\\{ITEM}", itemName);
 		
 		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		return message;
 	}
 	
-	public String replace(String message, String playerName, String mobName) {
+	public String replace(String message, String playerName, String targetName) {
 		if (message.matches(".*\\{JMENO}.*"))
 			message = message.replaceAll("\\{JMENO}", playerName);
 		if (message.matches(".*\\{MOB}.*"))
-			message = message.replaceAll("\\{MOB}", mobName);
+			message = message.replaceAll("\\{MOB}", targetName);
 		
 		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		

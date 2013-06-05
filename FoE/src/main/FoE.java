@@ -68,6 +68,8 @@ public class FoE extends JavaPlugin implements Listener {
 	
 	public File						configFile						= new File("plugins/FoE/config.yml");
 	public YamlConfiguration		config							= YamlConfiguration.loadConfiguration(configFile);
+	public File						umrtiZpravyFile					= new File("plugins/FoE/umrtiZpravy.yml");
+	public YamlConfiguration		umrtiZpravy						= YamlConfiguration.loadConfiguration(umrtiZpravyFile);
 	public File						uzivFile;
 	public YamlConfiguration		uziv;
 	public HashMap<String, Long>	nahranyCas						= new HashMap<String, Long>();
@@ -260,7 +262,7 @@ public class FoE extends JavaPlugin implements Listener {
 		if (Status(config, "Rezervace.Povolit")) {
 			rezervacePovolit = true;
 		}
-		if (Status(config, "umrtiZpravy.Povolit")) {
+		if (Status(config, "Povolit")) {
 			umrtiZpravyPovolit = true;
 		}
 		if (Status(config, "whiteList.Povolit")) {
@@ -1217,62 +1219,113 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("clearChat.Povolit"))
 				config.set("clearChat.Povolit", "ano");
 			
-			if (!config.contains("umrtiZpravy.Povolit"))
-				config.set("umrtiZpravy.Povolit", "ano");
+			if (!config.contains("Povolit"))
+				config.set("Povolit", "ano");
 			
-			if (!config.contains("umrtiZpravy.Creeper"))
-				config.set("umrtiZpravy.Creeper", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.BLOCK_EXPLOSION"))
+				umrtiZpravy.set("Sebevrazda.BLOCK_EXPLOSION", "&4{JMENO} &8zabil výbuch.");
 			
-			if (!config.contains("umrtiZpravy.Zombie"))
-				config.set("umrtiZpravy.Zombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.DROWNING"))
+				umrtiZpravy.set("Sebevrazda.DROWNING", "&4{JMENO} &8se utopil.");
 			
-			if (!config.contains("umrtiZpravy.Skeleton"))
-				config.set("umrtiZpravy.Skeleton", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.FALL"))
+				umrtiZpravy.set("Sebevrazda.FALL", "&4{JMENO} &8spadl z výšky.");
 			
-			if (!config.contains("umrtiZpravy.Spider"))
-				config.set("umrtiZpravy.Spider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.FALLING_BLOCK"))
+				umrtiZpravy.set("Sebevrazda.FALLING_BLOCK", "&4{JMENO} &8zavalily bloky.");
 			
-			if (!config.contains("umrtiZpravy.Wither"))
-				config.set("umrtiZpravy.Wither", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.FIRE"))
+				umrtiZpravy.set("Sebevrazda.FIRE", "&4{JMENO} &8uhoøel.");
 			
-			if (!config.contains("umrtiZpravy.Wolf"))
-				config.set("umrtiZpravy.Wolf", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.LAVA"))
+				umrtiZpravy.set("Sebevrazda.LAVA", "&4{JMENO} &8spadl do lávy.");
 			
-			if (!config.contains("umrtiZpravy.Ghast"))
-				config.set("umrtiZpravy.Ghast", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.LIGHTNING"))
+				umrtiZpravy.set("Sebevrazda.LIGHTNING", "&4{JMENO} &8zabil blesk.");
 			
-			if (!config.contains("umrtiZpravy.Explosive"))
-				config.set("umrtiZpravy.Explosive", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.MAGIC"))
+				umrtiZpravy.set("Sebevrazda.MAGIC", "&4{JMENO} &8zabila magie.");
 			
-			if (!config.contains("umrtiZpravy.PigZombie"))
-				config.set("umrtiZpravy.PigZombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.MELTING"))
+				umrtiZpravy.set("Sebevrazda.MELTING", "&4{JMENO} &8se roztál.");
 			
-			if (!config.contains("umrtiZpravy.Slime"))
-				config.set("umrtiZpravy.Slime", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.POISON"))
+				umrtiZpravy.set("Sebevrazda.POISON", "&4{JMENO} &8se otrávil.");
 			
-			if (!config.contains("umrtiZpravy.SmallFireball"))
-				config.set("umrtiZpravy.SmallFireball", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.PROJECTILE"))
+				umrtiZpravy.set("Sebevrazda.PROJECTILE", "&4{JMENO} &8byl sestøelen.");
 			
-			if (!config.contains("umrtiZpravy.Witch"))
-				config.set("umrtiZpravy.Witch", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.STARVATION"))
+				umrtiZpravy.set("Sebevrazda.STARVATION", "&4{JMENO} &8umøel hlady.");
 			
-			if (!config.contains("umrtiZpravy.Enderman"))
-				config.set("umrtiZpravy.Enderman", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.SUFFOCATION"))
+				umrtiZpravy.set("Sebevrazda.SUFFOCATION", "&4{JMENO} &8se udusil.");
 			
-			if (!config.contains("umrtiZpravy.EnderDragon"))
-				config.set("umrtiZpravy.EnderDragon", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.SUICIDE"))
+				umrtiZpravy.set("Sebevrazda.SUICIDE", "&4{JMENO} &8spáchal sebevraždu.");
 			
-			if (!config.contains("umrtiZpravy.Blaze"))
-				config.set("umrtiZpravy.Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.VOID"))
+				umrtiZpravy.set("Sebevrazda.VOID", "&4{JMENO} &8spadl do nicoty.");
 			
-			if (!config.contains("umrtiZpravy.Player"))
-				config.set("umrtiZpravy.Player", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Sebevrazda.WITHER"))
+				umrtiZpravy.set("Sebevrazda.WITHER", "&4{JMENO} &8zemøel witherem.");
 			
-			if (!config.contains("umrtiZpravy.Silverfish"))
-				config.set("umrtiZpravy.Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Creeper"))
+				umrtiZpravy.set("Creeper", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!config.contains("umrtiZpravy.Giant"))
-				config.set("umrtiZpravy.Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Zombie"))
+				umrtiZpravy.set("Zombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Skeleton"))
+				umrtiZpravy.set("Skeleton", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Spider"))
+				umrtiZpravy.set("Spider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Wither"))
+				umrtiZpravy.set("Wither", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Wolf"))
+				umrtiZpravy.set("Wolf", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Ghast"))
+				umrtiZpravy.set("Ghast", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Explosive"))
+				umrtiZpravy.set("Explosive", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("PigZombie"))
+				umrtiZpravy.set("PigZombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Slime"))
+				umrtiZpravy.set("Slime", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("SmallFireball"))
+				umrtiZpravy.set("SmallFireball", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Witch"))
+				umrtiZpravy.set("Witch", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Enderman"))
+				umrtiZpravy.set("Enderman", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("EnderDragon"))
+				umrtiZpravy.set("EnderDragon", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Blaze"))
+				umrtiZpravy.set("Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Player"))
+				umrtiZpravy.set("Player", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Silverfish"))
+				umrtiZpravy.set("Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("Giant"))
+				umrtiZpravy.set("Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			
+			if (!umrtiZpravy.contains("CaveSpider"))
+				umrtiZpravy.set("CaveSpider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
 			if (!config.contains("whiteList.Povolit"))
 				config.set("whiteList.Povolit", "ano");
@@ -1280,6 +1333,7 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("whiteList.Zprava"))
 				config.set("whiteList.Zprava", "&4Nejste na Whitelistu!!");
 			
+			saveConfig(umrtiZpravy, umrtiZpravyFile);
 			saveConfig(config, configFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
