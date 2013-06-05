@@ -403,7 +403,7 @@ public class FoE extends JavaPlugin implements Listener {
 			Double Y = player.getLocation().getY();
 			Double Z = player.getLocation().getZ();
 			uzivatel(playerName);
-			uziv.set("Svet", player.getLocation().getWorld());
+			uziv.set("Svet", player.getLocation().getWorld().getName());
 			uziv.set("X", X);
 			uziv.set("Y", Y);
 			uziv.set("Z", Z);
