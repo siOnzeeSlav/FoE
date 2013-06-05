@@ -51,10 +51,10 @@ public class EntityDeath implements Listener {
 	public void onDeath(EntityDeathEvent event) {
 		try {
 			Entity entity = event.getEntity();
-			Player player = (Player) entity;
 			if (p.umrtiZpravyPovolit) {
 				if (entity != null) {
 					if (entity instanceof Player) {
+						Player player = (Player) entity;
 						String playerName = player.getName();
 						EntityDamageEvent EDevent = player.getLastDamageCause();
 						Entity killer = null;
