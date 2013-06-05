@@ -262,7 +262,7 @@ public class FoE extends JavaPlugin implements Listener {
 		if (Status(config, "Rezervace.Povolit")) {
 			rezervacePovolit = true;
 		}
-		if (Status(config, "Povolit")) {
+		if (Status(config, "umrtiZpravy.Povolit")) {
 			umrtiZpravyPovolit = true;
 		}
 		if (Status(config, "whiteList.Povolit")) {
