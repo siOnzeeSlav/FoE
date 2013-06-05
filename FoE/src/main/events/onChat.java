@@ -52,7 +52,8 @@ public class onChat implements Listener {
 						if (!allowedIPs.contains(message)) {
 							event.setCancelled(true);
 							zapsat(playerName + " - " + message);
-							Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("AntiReklama.IP.Akce"), playerName));
+							if (config.getString("AntiReklama.IP.Akce").length() != 0)
+								Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("AntiReklama.IP.Akce"), playerName));
 							Bukkit.broadcastMessage(p.nahradit(config.getString("AntiReklama.IP.Zprava"), playerName));
 						}
 					}
@@ -61,7 +62,8 @@ public class onChat implements Listener {
 						if (!allowedWEBs.contains(message)) {
 							event.setCancelled(true);
 							zapsat(playerName + " - " + message);
-							Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("AntiReklama.WEB.Akce"), playerName));
+							if (config.getString("AntiReklama.WEB.Akce").length() != 0)
+								Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("AntiReklama.WEB.Akce"), playerName));
 							Bukkit.broadcastMessage(p.nahradit(config.getString("AntiReklama.WEB.Zprava"), playerName));
 						}
 					}
@@ -78,7 +80,8 @@ public class onChat implements Listener {
 						message = message.replaceAll("(?i)" + l, p.nahradit(config.getString("Cenzura.Nahrada"), playerName));
 						player.sendMessage(p.nahradit(config.getString("Cenzura.Zprava"), playerName));
 						if (!config.getString("Cenzura.Akce").isEmpty()) {
-							Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("Cenzura.Akce"), playerName));
+							if (config.getString("Cenzura.Akce").length() != 0)
+								Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("Cenzura.Akce"), playerName));
 						}
 					}
 				}
