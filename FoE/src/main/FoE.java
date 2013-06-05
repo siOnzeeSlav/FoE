@@ -41,6 +41,7 @@ import main.events.EntityDeath;
 import main.events.onChat;
 import main.events.onHoldingsUpdate;
 import main.events.onInventoryClick;
+import main.events.onInventoryDrag;
 import main.events.onJoin;
 import main.events.onKick;
 import main.events.onPlayerDeath;
@@ -127,6 +128,8 @@ public class FoE extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new onChat(this), this);
 		System.out.println("Registruji event 'onInventoryClick'");
 		Bukkit.getPluginManager().registerEvents(new onInventoryClick(this), this);
+		System.out.println("Registruji event 'onInventoryDrag'");
+		Bukkit.getPluginManager().registerEvents(new onInventoryDrag(this), this);
 		System.out.println("Registruji event 'EntityDeath'");
 		Bukkit.getPluginManager().registerEvents(new EntityDeath(this), this);
 		System.out.println("Registruji event 'onPlayerDeath'");
@@ -382,6 +385,26 @@ public class FoE extends JavaPlugin implements Listener {
 					player.setScoreboard(board);
 				}
 			}
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
+	public void ulozitPozici(Player player) {
+		try {
+			String playerName = player.getName();
+			Double X = player.getLocation().getX();
+			Double Y = player.getLocation().getY();
+			Double Z = player.getLocation().getZ();
+			uzivatel(playerName);
+			uziv.set("Svet", player.getLocation().getWorld());
+			uziv.set("X", X);
+			uziv.set("Y", Y);
+			uziv.set("Z", Z);
+			saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
