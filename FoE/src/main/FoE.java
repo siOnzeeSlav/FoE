@@ -105,6 +105,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					guiPocetHracu					= false;
 	public boolean					guiIconomy						= false;
 	public boolean					antiSpamPovolit					= false;
+	public boolean					antiSpamDuplikacePovolit		= false;
 	public boolean					rezervacePovolit				= false;
 	public boolean					inventarPovolit					= false;
 	public boolean					managerBan						= false;
@@ -260,6 +261,8 @@ public class FoE extends JavaPlugin implements Listener {
 			AntiSpamCas = config.getInt("AntiSpam.PockatSekund");
 			antiSpamPovolit = true;
 		}
+		if (Status(config, "AntiSpam.Duplikace.Povolit"))
+			antiSpamDuplikacePovolit = true;
 		if (Status(config, "Rezervace.Povolit")) {
 			rezervacePovolit = true;
 		}
