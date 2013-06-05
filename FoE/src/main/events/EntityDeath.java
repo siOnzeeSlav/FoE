@@ -7,6 +7,7 @@ import java.io.Writer;
 import main.FoE;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EnderDragon;
@@ -31,6 +32,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EntityDeath implements Listener {
 	public FoE	p;
@@ -57,6 +59,8 @@ public class EntityDeath implements Listener {
 						if (killer.getType() != null) {
 							mobName = killer.getType().getName();
 						}
+						Player target = (Player) killer;
+						String targetName = target.getName();
 						if (killer instanceof Creeper) {
 							String message = p.config.getString("umrtiZpravy.Creeper");
 							Bukkit.broadcastMessage(replace(message, playerName, mobName));
@@ -109,7 +113,12 @@ public class EntityDeath implements Listener {
 							String message = p.config.getString("umrtiZpravy.Giant");
 							Bukkit.broadcastMessage(replace(message, playerName, mobName));
 						}
-						// Žádost #008.
+						if (killer instanceof Player) {
+							if (target.getItemInHand() == new ItemStack(Material.DIAMOND_SWORD)) {
+								Bukkit.broadcastMessage(replacePredmet(p.config.getString("umrtiZpravy.Predmet.DIAMOND_SWORD"), playerName, targetName));
+							}
+						}
+						// Zadost #008.
 					}
 				}
 			}
@@ -119,6 +128,22 @@ public class EntityDeath implements Listener {
 			e.printStackTrace(printWriter);
 			p.Error(writer.toString());
 		}
+	}
+	
+	public void checkConfig() {
+		if (!p.config.contains("umrtiZpravy.Predmet.DIAMOND_SWORD")) {
+			p.config.set("umrtiZpravy.Predmet.DIAMOND_SWORD", "&4{TARGET} &8byl zabit &4{JMENO} &8pøedmìtem &4diamantovým meèem&8.");
+		}
+	}
+	
+	public String replacePredmet(String message, String playerName, String targetName) {
+		if (message.matches(".*\\{JMENO}.*"))
+			message = message.replaceAll("\\{JMENO}", playerName);
+		if (message.matches(".*\\{TARGET}.*"))
+			message = message.replaceAll("\\{TARGET}", targetName);
+		
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
 	}
 	
 	public String replace(String message, String playerName, String mobName) {
