@@ -47,6 +47,7 @@ public class onInventoryClick implements Listener {
 						} else {
 							event.setCancelled(true);
 						}
+						
 					}
 				}
 			}
