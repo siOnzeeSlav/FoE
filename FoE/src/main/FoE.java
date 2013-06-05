@@ -1198,6 +1198,12 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("AntiSpam.PockatSekund"))
 				config.set("AntiSpam.PockatSekund", 3);
 			
+			if (!config.contains("AntiSpam.Duplikace.Povolit"))
+				config.set("AntiSpam.Duplikace.Povolit", "ano");
+			
+			if (!config.contains("AntiSpam.Duplikace.Zprava"))
+				config.set("AntiSpam.Duplikace.Zprava", "&4Nemùžete poslat 2x stejnou zprávu&8!");
+			
 			if (!config.contains("Rezervace.Povolit"))
 				config.set("Rezervace.Povolit", "ano");
 			
