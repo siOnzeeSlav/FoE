@@ -7,6 +7,7 @@ import java.io.Writer;
 import main.FoE;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,13 +29,21 @@ public class cmdTP implements CommandExecutor {
 					if (args.length == 0) {
 						sender.sendMessage(plugin.config.getString("Prikazy.Teleport") + " (jmenoHr·Ëe)");
 					} else {
+						Player player = (Player) sender;
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target != null) {
-							Player player = (Player) sender;
 							player.teleport(target);
 							sender.sendMessage(plugin.nahradit(plugin.config.getString("TP.Zprava.Uspesne"), target.getName()));
 						} else {
 							sender.sendMessage(plugin.nahradit(plugin.config.getString("TP.Zprava.Offline"), args[0]));
+							sender.sendMessage("Vyhledavam offline pozici.");
+							plugin.uzivatel(args[0]);
+							if (plugin.uziv.contains("X") && plugin.uziv.contains("Y") && plugin.uziv.contains("Z") && plugin.uziv.contains("Svet")) {
+								player.teleport(new Location(Bukkit.getWorld(plugin.uziv.getString("Svet")), plugin.uziv.getDouble("X"), plugin.uziv.getDouble("Y"), plugin.uziv.getDouble("Z")));
+								
+							} else {
+								sender.sendMessage("Bohuzel, hrac " + args[0] + " zde neni zaznamenan.");
+							}
 						}
 					}
 				} else {

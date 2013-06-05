@@ -31,6 +31,7 @@ public class onChat implements Listener {
 	public Pattern					ipPattern			= Pattern.compile("(\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,5})");
 	public Pattern					webpattern			= Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.net)|(\\.org)|(\\.co)|(\\.uk)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))|(\\.cz)|(\\.sk)|(\\.bis)");
 	public HashMap<String, Long>	messagePerSecond	= new HashMap<String, Long>();
+	public HashMap<String, String>	lastMessage			= new HashMap<String, String>();
 	
 	public onChat(FoE plugin) {
 		this.p = plugin;
@@ -124,6 +125,17 @@ public class onChat implements Listener {
 						messagePerSecond.put(playerName, System.currentTimeMillis());
 					}
 				}
+			}
+			if (p.antiSpamDuplikacePovolit) {
+				if (lastMessage.containsKey(playerName)) {
+					if (lastMessage.get(playerName) == message) {
+						player.sendMessage(p.nahraditBarvy(config.getString("AntiSpam.Duplikace.Zprava")));
+						event.setCancelled(true);
+					} else {
+						lastMessage.remove(playerName);
+					}
+				}
+				lastMessage.put(playerName, message);
 			}
 			if (p.capsLockPovolit) {
 				if (message.equals(message.toUpperCase()) && message.matches("[A-Z]")) {

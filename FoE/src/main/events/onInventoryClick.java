@@ -37,17 +37,8 @@ public class onInventoryClick implements Listener {
 					if (target != null) {
 						Inventory invt = target.getInventory();
 						Player player = (Player) event.getWhoClicked();
-						
 						if (player.hasPermission("FoE.Inventar.Upravovat")) {
 							if (event.getSlotType() == InventoryType.SlotType.OUTSIDE) {
-								
-								invt.removeItem(event.getCursor());
-								target.updateInventory();
-								player.updateInventory();
-								event.setCursor(new ItemStack(Material.AIR));
-							} else if (event.getSlotType() == InventoryType.SlotType.RESULT) {
-								Inventory pinv = player.getInventory();
-								pinv.addItem(event.getCursor());
 								invt.removeItem(event.getCursor());
 								target.updateInventory();
 								player.updateInventory();

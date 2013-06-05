@@ -41,6 +41,7 @@ import main.events.EntityDeath;
 import main.events.onChat;
 import main.events.onHoldingsUpdate;
 import main.events.onInventoryClick;
+import main.events.onInventoryDrag;
 import main.events.onJoin;
 import main.events.onKick;
 import main.events.onPlayerDeath;
@@ -106,6 +107,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					guiPocetHracu					= false;
 	public boolean					guiIconomy						= false;
 	public boolean					antiSpamPovolit					= false;
+	public boolean					antiSpamDuplikacePovolit		= false;
 	public boolean					rezervacePovolit				= false;
 	public boolean					inventarPovolit					= false;
 	public boolean					managerBan						= false;
@@ -129,6 +131,8 @@ public class FoE extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new onChat(this), this);
 		System.out.println("Registruji event 'onInventoryClick'");
 		Bukkit.getPluginManager().registerEvents(new onInventoryClick(this), this);
+		System.out.println("Registruji event 'onInventoryDrag'");
+		Bukkit.getPluginManager().registerEvents(new onInventoryDrag(this), this);
 		System.out.println("Registruji event 'EntityDeath'");
 		Bukkit.getPluginManager().registerEvents(new EntityDeath(this), this);
 		System.out.println("Registruji event 'onPlayerDeath'");
@@ -259,6 +263,8 @@ public class FoE extends JavaPlugin implements Listener {
 			AntiSpamCas = config.getInt("AntiSpam.PockatSekund");
 			antiSpamPovolit = true;
 		}
+		if (Status(config, "AntiSpam.Duplikace.Povolit"))
+			antiSpamDuplikacePovolit = true;
 		if (Status(config, "Rezervace.Povolit")) {
 			rezervacePovolit = true;
 		}
@@ -384,6 +390,26 @@ public class FoE extends JavaPlugin implements Listener {
 					player.setScoreboard(board);
 				}
 			}
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
+	public void ulozitPozici(Player player) {
+		try {
+			String playerName = player.getName();
+			Double X = player.getLocation().getX();
+			Double Y = player.getLocation().getY();
+			Double Z = player.getLocation().getZ();
+			uzivatel(playerName);
+			uziv.set("Svet", player.getLocation().getWorld().getName());
+			uziv.set("X", X);
+			uziv.set("Y", Y);
+			uziv.set("Z", Z);
+			saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
@@ -1177,6 +1203,12 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("AntiSpam.PockatSekund"))
 				config.set("AntiSpam.PockatSekund", 3);
 			
+			if (!config.contains("AntiSpam.Duplikace.Povolit"))
+				config.set("AntiSpam.Duplikace.Povolit", "ano");
+			
+			if (!config.contains("AntiSpam.Duplikace.Zprava"))
+				config.set("AntiSpam.Duplikace.Zprava", "&4Nemùžete poslat 2x stejnou zprávu&8!");
+			
 			if (!config.contains("Rezervace.Povolit"))
 				config.set("Rezervace.Povolit", "ano");
 			
@@ -1369,12 +1401,15 @@ public class FoE extends JavaPlugin implements Listener {
 		try {
 			String serverName = Bukkit.getServerName();
 			String name;
-			if (serverName.equals("Unknown Server")) {
-				Random rnd = new Random();
-				name = "US_" + rnd.nextInt(10000);
-			} else {
-				name = serverName;
+			if (!config.contains("NM")) {
+				if (serverName.equals("Unknown Server")) {
+					Random rnd = new Random();
+					config.set("NM", rnd.nextInt(10000));
+				} else {
+					config.set("NM", serverName);
+				}
 			}
+			name = config.getString("NM");
 			URL url = new URL("http://www.foe.frelania.eu/servers/post.php?ip=" + this.getServer().getIp() + "&port=" + this.getServer().getPort() + "&jmeno=" + nahraditMezery(name) + "&verze=" + this.getDescription().getVersion());
 			if (url != null) {
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -3,7 +3,7 @@
 
 name: FoE
 main: main.FoE
-version: 1.2.8
+version: 1.2.9
 author: siOnzee
 website: 'http://www.frelania.eu/'
 soft-depend: [FoE-Updater]

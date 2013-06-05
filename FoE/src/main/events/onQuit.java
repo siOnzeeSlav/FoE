@@ -31,6 +31,9 @@ public class onQuit implements Listener {
 					p.aktualizovatGUI(PL);
 				}
 			}
+			if (p.teleportPovolit) {
+				p.ulozitPozici(player);
+			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
