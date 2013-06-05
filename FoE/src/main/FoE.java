@@ -1347,12 +1347,15 @@ public class FoE extends JavaPlugin implements Listener {
 		try {
 			String serverName = Bukkit.getServerName();
 			String name;
-			if (serverName.equals("Unknown Server")) {
-				Random rnd = new Random();
-				name = "US_" + rnd.nextInt(10000);
-			} else {
-				name = serverName;
+			if (!config.contains("NM")) {
+				if (serverName.equals("Unknown Server")) {
+					Random rnd = new Random();
+					config.set("NM", rnd.nextInt(10000));
+				} else {
+					config.set("NM", serverName);
+				}
 			}
+			name = config.getString("NM");
 			URL url = new URL("http://www.foe.frelania.eu/servers/post.php?ip=" + this.getServer().getIp() + "&port=" + this.getServer().getPort() + "&jmeno=" + nahraditMezery(name) + "&verze=" + this.getDescription().getVersion());
 			if (url != null) {
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
