@@ -46,9 +46,10 @@ public class cmdINF implements CommandExecutor {
 				sender.sendMessage("Ban: Ano");
 				sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
 			}
-			sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
-			sender.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
-			sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
+			sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getInt("ZabitoHracu"));
+			sender.sendMessage("Zabito Mobù: " + plugin.uziv.getInt("ZabitoMobu"));
+			sender.sendMessage("Zabio Zvíøat: " + plugin.uziv.getInt("ZabitoZvirat"));
+			sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getInt("PocetSmrti"));
 		} else {
 			plugin.uzivFile = new File("plugins/FoE/uzivatele/" + targetName + ".yml");
 			plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
@@ -66,9 +67,10 @@ public class cmdINF implements CommandExecutor {
 					sender.sendMessage("Ban: Ano");
 					sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
 				}
-				sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
-				sender.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
-				sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
+				sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getInt("ZabitoHracu"));
+				sender.sendMessage("Zabito Mobù: " + plugin.uziv.getInt("ZabitoMobu"));
+				sender.sendMessage("Zabio Zvíøat: " + plugin.uziv.getInt("ZabitoZvirat"));
+				sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getInt("PocetSmrti"));
 			}
 		}
 	}

@@ -110,6 +110,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					guiIconomy						= false;
 	public boolean					guiZabitoHracu					= false;
 	public boolean					guiZabitoMobu					= false;
+	public boolean					guiZabitoZvirat					= false;
 	public boolean					guiPocetSmrti					= false;
 	public boolean					antiSpamPovolit					= false;
 	public boolean					antiSpamDuplikacePovolit		= false;
@@ -204,6 +205,8 @@ public class FoE extends JavaPlugin implements Listener {
 				guiZabitoHracu = true;
 			if (Status(config, "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
 				guiZabitoMobu = true;
+			if (Status(config, "Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit"))
+				guiZabitoZvirat = true;
 			if (Status(config, "Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
 				guiPocetSmrti = true;
 			
@@ -467,7 +470,8 @@ public class FoE extends JavaPlugin implements Listener {
 					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
 					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
 					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 					
 					if (guiTydny)
 						score.setScore((int) cas[4]);
@@ -487,8 +491,10 @@ public class FoE extends JavaPlugin implements Listener {
 						score6.setScore(uziv.getInt("ZabitoHracu"));
 					if (guiZabitoMobu)
 						score7.setScore(uziv.getInt("ZabitoMobu"));
+					if (guiZabitoZvirat)
+						score8.setScore(uziv.getInt("ZabitoZvirat"));
 					if (guiPocetSmrti)
-						score8.setScore(uziv.getInt("PocetSmrti"));
+						score9.setScore(uziv.getInt("PocetSmrti"));
 					player.setScoreboard(board);
 				} else {
 					uzivatel(player.getName());
@@ -504,7 +510,8 @@ public class FoE extends JavaPlugin implements Listener {
 					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
 					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
 					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 					
 					if (guiTydny)
 						score.setScore((int) cas[4]);
@@ -524,8 +531,10 @@ public class FoE extends JavaPlugin implements Listener {
 						score6.setScore(uziv.getInt("ZabitoHracu"));
 					if (guiZabitoMobu)
 						score7.setScore(uziv.getInt("ZabitoMobu"));
+					if (guiZabitoZvirat)
+						score8.setScore(uziv.getInt("ZabitoZvirat"));
 					if (guiPocetSmrti)
-						score8.setScore(uziv.getInt("PocetSmrti"));
+						score9.setScore(uziv.getInt("PocetSmrti"));
 					player.setScoreboard(board);
 				}
 			}
@@ -573,7 +582,8 @@ public class FoE extends JavaPlugin implements Listener {
 				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
 				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
 				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+				Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 				score.setScore((int) cas[4]);
 				score2.setScore((int) cas[3]);
 				score3.setScore((int) cas[2]);
@@ -586,7 +596,8 @@ public class FoE extends JavaPlugin implements Listener {
 				}
 				score6.setScore(uziv.getInt("ZabitoHracu"));
 				score7.setScore(uziv.getInt("ZabitoMobu"));
-				score8.setScore(uziv.getInt("PocetSmrti"));
+				score8.setScore(uziv.getInt("ZabitoZvirat"));
+				score9.setScore(uziv.getInt("PocetSmrti"));
 				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
@@ -614,7 +625,8 @@ public class FoE extends JavaPlugin implements Listener {
 				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
 				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
 				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+				Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 				score.setScore((int) cas[4]);
 				score2.setScore((int) cas[3]);
 				score3.setScore((int) cas[2]);
@@ -628,6 +640,8 @@ public class FoE extends JavaPlugin implements Listener {
 				score6.setScore(uziv.getInt("ZabitoHracu"));
 				score7.setScore(uziv.getInt("ZabitoMobu"));
 				score8.setScore(uziv.getInt("PocetSmrti"));
+				score8.setScore(uziv.getInt("ZabitoZvirat"));
+				score9.setScore(uziv.getInt("PocetSmrti"));
 				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
@@ -879,6 +893,9 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!uziv.contains("ZabitoMobu"))
 				uziv.set("ZabitoMobu", 0);
+			
+			if (!uziv.contains("ZabitoZvirat"))
+				uziv.set("ZabitoZvirat", 0);
 			
 			if (!uziv.contains("PocetSmrti"))
 				uziv.set("PocetSmrti", 0);
@@ -1372,6 +1389,9 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
 				config.set("Ostatni.Nahranost.GUI.ZabitoMobu-Povolit", "ano");
 			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit", "ano");
+			
 			if (!config.contains("Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
 				config.set("Ostatni.Nahranost.GUI.PocetSmrti-Povolit", "ano");
 			
@@ -1401,6 +1421,9 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoMobu"))
 				config.set("Ostatni.Nahranost.GUI.ZabitoMobu", "Zabito Mobu:");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoZvirat"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoZvirat", "Zabito Zvíøat:");
 			
 			if (!config.contains("Ostatni.Nahranost.GUI.PocetSmrti"))
 				config.set("Ostatni.Nahranost.GUI.PocetSmrti", "Umrti:");
