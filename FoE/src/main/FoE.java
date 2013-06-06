@@ -1279,7 +1279,7 @@ public class FoE extends JavaPlugin implements Listener {
 				config.set("AntiReklama.WEB.Zprava", "&4{JMENO}&8 byl banovan za reklamu na web!");
 			
 			if (!config.contains("AntiReklama.WEB.Akce"))
-				config.set("AntiReklama.WEB.Akce", "ban {JMENO} REKLAMA!");
+				config.set("AntiReklama.WEB.Akce", "");
 			
 			if (!config.contains("AntiReklama.WEB.Whitelist")) {
 				List<String> d = new ArrayList<String>();
@@ -1288,7 +1288,7 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			
 			if (!config.contains("AntiReklama.IP.Akce"))
-				config.set("AntiReklama.IP.Akce", "ipban {JMENO} REKLAMA!");
+				config.set("AntiReklama.IP.Akce", "");
 			
 			if (!config.contains("AntiReklama.IP.Zprava"))
 				config.set("AntiReklama.IP.Zprava", "&4{JMENO}&8 byl IPbanovan za reklamu!");
@@ -1309,7 +1309,7 @@ public class FoE extends JavaPlugin implements Listener {
 				config.set("Cenzura.Zprava", "{JMENO} nadávat se zde nesmí!");
 			
 			if (!config.contains("Cenzura.Akce"))
-				config.set("Cenzura.Akce", "kick {JMENO} Porušování pravidel: Nadávání.");
+				config.set("Cenzura.Akce", "");
 			
 			if (!config.contains("Cenzura.Slova")) {
 				List<String> a = new ArrayList<String>();

@@ -76,7 +76,7 @@ public class onChat implements Listener {
 			
 			if (p.cenzuraPovolit) {
 				for (String l : config.getStringList("Cenzura.Slova")) {
-					if (message.equalsIgnoreCase(l) && message.contains(l)) {
+					if (message.equalsIgnoreCase(l) || message.contains(l)) {
 						message = message.replaceAll("(?i)" + l, p.nahradit(config.getString("Cenzura.Nahrada"), playerName));
 						player.sendMessage(p.nahradit(config.getString("Cenzura.Zprava"), playerName));
 						if (!config.getString("Cenzura.Akce").isEmpty()) {
