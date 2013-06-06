@@ -56,14 +56,13 @@ public class EntityDeath implements Listener {
 				if (entity != null) {
 					if (entity instanceof Monster) {
 						Monster monster = (Monster) entity;
-						Entity killer = monster.getKiller();
-						if (killer == null)
-							return;
-						String killerName = killer.getType().getName();
-						p.uzivatel(killerName);
-						p.uziv.set("ZabitoMobu", p.uziv.getInt("ZabitoMobu") + 1);
-						p.saveConfig(p.uziv, p.uzivFile);
-						p.aktualizovatGUI(killerName);
+						if (monster.getKiller() instanceof Player) {
+							String killerName = monster.getKiller().getName();
+							p.uzivatel(killerName);
+							p.uziv.set("ZabitoMobu", p.uziv.getInt("ZabitoMobu") + 1);
+							p.saveConfig(p.uziv, p.uzivFile);
+							p.aktualizovatGUI(killerName);
+						}
 					}
 					if (entity instanceof Player) {
 						Player player = (Player) entity;
