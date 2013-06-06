@@ -21,22 +21,10 @@ public class cmdINF implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	
-	public void checkUser(String jmenoHrace) {
-		try {
-			plugin.uzivFile = new File("plugins/FoE/uzivatele/" + jmenoHrace + ".yml");
-			plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
-		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			plugin.Error(writer.toString());
-		}
-	}
-	
 	public void getInfo(Player sender, String targetName) {
 		Player target = Bukkit.getPlayer(targetName);
 		if (target != null) {
-			checkUser(targetName);
+			plugin.uzivatel(targetName);
 			sender.sendMessage("----- " + target.getDisplayName() + " -----");
 			long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(target.getName()) + plugin.uziv.getLong("Nahrano"));
 			sender.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
