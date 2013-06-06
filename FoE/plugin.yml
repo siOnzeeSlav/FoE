@@ -32,6 +32,7 @@ permissions:
             FoE.HELP.Videt: true
             FoE.Clear: true
             FoE.AutoZpravy.Bypass: true
+            FoE.Vtip: true
     FoE.Informace:
       description: FoE CMD
       default: true
@@ -95,6 +96,9 @@ permissions:
     FoE.AutoZpravy.Bypass:
       description: FoE CMD
       default: false
+    FoE.Vtip:
+      description: FoE CMD
+      default: true
 commands:
     FoE:
       description: FoE CMD
@@ -137,3 +141,6 @@ commands:
     clearcmd:
       description: FoE CMD
       permission: FoE.Clear
+    vtipcmd:
+      description: FoE CMD
+      permission: FoE.Vtip

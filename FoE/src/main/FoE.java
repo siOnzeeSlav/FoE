@@ -36,6 +36,7 @@ import main.commands.cmdINV;
 import main.commands.cmdKICK;
 import main.commands.cmdTP;
 import main.commands.cmdUNBAN;
+import main.commands.cmdVTIP;
 import main.commands.cmdZPRAVA;
 import main.events.EntityDeath;
 import main.events.onChat;
@@ -382,6 +383,10 @@ public class FoE extends JavaPlugin implements Listener {
 			whiteListPovolit = true;
 		}
 		if (Status(config, "Vtipy.Povolit")) {
+			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Vtip") + "'");
+			Bukkit.getServer().getPluginCommand("vtipcmd").setExecutor(new cmdVTIP(this));
+			if (debug)
+				Bukkit.broadcastMessage("vtipcmd byl zaregistrovan.");
 			if (debug)
 				Bukkit.broadcastMessage("Vtipy byly povoleny.");
 			vtipyPovolit = true;
@@ -1207,6 +1212,9 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("Prikazy.Clear"))
 				config.set("Prikazy.Clear", "/clear");
 			
+			if (!config.contains("Prikazy.Vtip"))
+				config.set("Prikazy.Vtip", "/Vtip");
+			
 			if (!config.contains("MySQL.Povolit"))
 				config.set("MySQL.Povolit", "ne");
 			
@@ -1908,6 +1916,12 @@ public class FoE extends JavaPlugin implements Listener {
 		if (clearChat) {
 			if (args[0].equals(config.getString("Prikazy.Clear"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "clearcmd " + vysledek);
+				event.setCancelled(true);
+			}
+		}
+		if (vtipyPovolit) {
+			if (args[0].equals(config.getString("Prikazy.Vtip"))) {
+				Bukkit.getServer().dispatchCommand(event.getPlayer(), "vtipcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
