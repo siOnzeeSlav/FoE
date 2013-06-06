@@ -1660,6 +1660,16 @@ public class FoE extends JavaPlugin implements Listener {
 		if (message.matches(".*\\{PREFIX}.*"))
 			message = message.replaceAll("\\{PREFIX}", config.getString("autoZpravy.Prefix"));
 		
+		if (message.matches(".*\\{CAS}.*")) {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			String time = sdf.format(date);
+			message = message.replaceAll("\\{CAS}", time);
+		}
+		
+		if (message.matches(".*\\{SVET}.*"))
+			message = message.replaceAll("\\{SVET}", Bukkit.getPlayer(playerName).getLocation().getWorld().getName());
+		
 		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		return message;
 	}
