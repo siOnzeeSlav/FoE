@@ -1651,6 +1651,17 @@ public class FoE extends JavaPlugin implements Listener {
 		return zprava;
 	}
 	
+	public String replaceAutoMessage(String message, String playerName) {
+		if (message.matches(".*\\{JMENO}.*"))
+			message = message.replaceAll("\\{JMENO}", playerName);
+		
+		if (message.matches(".*\\{PREFIX}.*"))
+			message = message.replaceAll("\\{PREFIX}", config.getString("autoZpravy.Prefix"));
+		
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
+	}
+	
 	public void minute5() {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
@@ -1666,7 +1677,7 @@ public class FoE extends JavaPlugin implements Listener {
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							if (!p.hasPermission("FoE.AutoZpravy.Bypass")) {
 								Random rnd = new Random();
-								p.sendMessage(config.getString("autoZpravy.Prefix") + list.get(rnd.nextInt(list.size())));
+								p.sendMessage(replaceAutoMessage(list.get(rnd.nextInt(list.size())), p.getName()));
 							}
 						}
 						startLoop5(autoZpravyInterval);
