@@ -43,15 +43,4 @@ public class cmdVTIP implements CommandExecutor {
 		}
 		return false;
 	}
-	
-	public String nahradit(String zprava, String hrac) {
-		if (zprava.matches(".*\\{JMENO}.*")) {
-			zprava = zprava.replaceAll("\\{JMENO}", hrac);
-		}
-		if (zprava.matches(".*\\{ZPRAVA}.*")) {
-			zprava = zprava.replaceAll("\\{ZPRAVA}", vysledek);
-		}
-		zprava = zprava.replaceAll("(&([a-fk-or0-9]))", "§$2");
-		return zprava;
-	}
 }
