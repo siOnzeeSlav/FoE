@@ -1528,62 +1528,59 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!umrtiZpravy.contains("Sebevrazda.WITHER"))
 				umrtiZpravy.set("Sebevrazda.WITHER", "&4{JMENO} &8zemøel witherem.");
 			
-			if (!umrtiZpravy.contains("Creeper"))
-				umrtiZpravy.set("Creeper", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Creeper"))
+				umrtiZpravy.set("Monsters.Creeper", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Zombie"))
-				umrtiZpravy.set("Zombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Zombie"))
+				umrtiZpravy.set("Monsters.Zombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Skeleton"))
-				umrtiZpravy.set("Skeleton", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Skeleton"))
+				umrtiZpravy.set("Monsters.Skeleton", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Spider"))
-				umrtiZpravy.set("Spider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Spider"))
+				umrtiZpravy.set("Monsters.Spider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Wither"))
-				umrtiZpravy.set("Wither", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Wither"))
+				umrtiZpravy.set("Monsters.Wither", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Wolf"))
-				umrtiZpravy.set("Wolf", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Wolf"))
+				umrtiZpravy.set("Monsters.Wolf", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Ghast"))
-				umrtiZpravy.set("Ghast", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Ghast"))
+				umrtiZpravy.set("Monsters.Ghast", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Explosive"))
-				umrtiZpravy.set("Explosive", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Explosive"))
+				umrtiZpravy.set("Monsters.Explosive", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("PigZombie"))
-				umrtiZpravy.set("PigZombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.PigZombie"))
+				umrtiZpravy.set("Monsters.PigZombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Slime"))
-				umrtiZpravy.set("Slime", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Slime"))
+				umrtiZpravy.set("Monsters.Slime", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("SmallFireball"))
-				umrtiZpravy.set("SmallFireball", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.SmallFireball"))
+				umrtiZpravy.set("Monsters.SmallFireball", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Witch"))
-				umrtiZpravy.set("Witch", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Witch"))
+				umrtiZpravy.set("Monsters.Witch", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Enderman"))
-				umrtiZpravy.set("Enderman", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Enderman"))
+				umrtiZpravy.set("Monsters.Enderman", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("EnderDragon"))
-				umrtiZpravy.set("EnderDragon", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.EnderDragon"))
+				umrtiZpravy.set("Monsters.EnderDragon", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Blaze"))
-				umrtiZpravy.set("Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Blaze"))
+				umrtiZpravy.set("Monsters.Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Player"))
-				umrtiZpravy.set("Player", "&4{JMENO} &8byl zabit &4{MOB}&8.");
-			
-			if (!umrtiZpravy.contains("Silverfish"))
+			if (!umrtiZpravy.contains("Monsters.Silverfish"))
 				umrtiZpravy.set("Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("Giant"))
-				umrtiZpravy.set("Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.Giant"))
+				umrtiZpravy.set("Monsters.Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
-			if (!umrtiZpravy.contains("CaveSpider"))
-				umrtiZpravy.set("CaveSpider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			if (!umrtiZpravy.contains("Monsters.CaveSpider"))
+				umrtiZpravy.set("Monsters.CaveSpider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
 			if (!config.contains("whiteList.Povolit"))
 				config.set("whiteList.Povolit", "ano");
