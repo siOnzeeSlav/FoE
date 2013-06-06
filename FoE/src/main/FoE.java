@@ -80,10 +80,12 @@ public class FoE extends JavaPlugin implements Listener {
 	public int						minutesLeft2					= 0;
 	public int						minutesLeft3					= 0;
 	public int						minutesLeft4					= 0;
+	public int						minutesLeft5					= 0;
 	public int						AntiSpamCas						= 0;
 	public int						vyhledavatAktualizaceCas		= 0;
 	public int						mysqlCas						= 0;
 	public int						vtipyInterval					= 0;
+	public int						autoZpravyInterval				= 0;
 	public boolean					Chat							= true;
 	public boolean					mysqlPovolit					= false;
 	public boolean					oznameniPovolit					= false;
@@ -116,6 +118,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					umrtiZpravyPovolit				= false;
 	public boolean					whiteListPovolit				= false;
 	public boolean					uvitaciZpravaPovolit			= false;
+	public boolean					autoZpravyPovolit				= false;
 	public boolean					debug							= false;
 	
 	@Override
@@ -246,6 +249,10 @@ public class FoE extends JavaPlugin implements Listener {
 			if (debug)
 				Bukkit.broadcastMessage("tpcmd byl zaregistrovan.");
 			teleportPovolit = true;
+		}
+		if (Status(config, "autoZpravy.Povolit")) {
+			autoZpravyPovolit = true;
+			autoZpravyInterval = config.getInt("autoZpravy.Interval");
 		}
 		if (Status(config, "Inventar.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Inventar") + "'");
@@ -1500,6 +1507,22 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("whiteList.Zprava"))
 				config.set("whiteList.Zprava", "&4Nejste na Whitelistu!!");
 			
+			if (!config.contains("autoZpravy.Povolit"))
+				config.set("autoZpravy.Povolit", "ano");
+			
+			if (!config.contains("autoZpravy.Interval"))
+				config.set("autoZpravy.Interval", 1);
+			
+			if (!config.contains("autoZpravy.Prefix"))
+				config.set("autoZpravy.Prefix", "&8[&4FoE&8]");
+			
+			if (!config.contains("autoZpravy.Zpravy")) {
+				List<String> e = new ArrayList<String>();
+				e.add("{PREFIX} {JMENO} víš že u nás na serveru mùžeš umøít hlady ?");
+				e.add("{PREFIX} kupte si u nás nìjakou vìc a podpoøte tím server.");
+				config.set("autoZpravy.Zpravy", e);
+			}
+			
 			saveConfig(umrtiZpravy, umrtiZpravyFile);
 			saveConfig(config, configFile);
 		} catch (Exception e) {
@@ -1626,6 +1649,41 @@ public class FoE extends JavaPlugin implements Listener {
 			Error(writer.toString());
 		}
 		return zprava;
+	}
+	
+	public void minute5() {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				minutesLeft5 -= 1;
+				if (minutesLeft5 > 0) {
+					minute5();
+				}
+				
+				if (minutesLeft5 == 0) {
+					try {
+						List<String> list = config.getStringList("autoZpravy.Zpravy");
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							if (!p.hasPermission("FoE.AutoZpravy.Bypass")) {
+								Random rnd = new Random();
+								p.sendMessage(config.getString("autoZpravy.Prefix") + list.get(rnd.nextInt(list.size())));
+							}
+						}
+						startLoop5(autoZpravyInterval);
+					} catch (Exception e) {
+						Writer writer = new StringWriter();
+						PrintWriter printWriter = new PrintWriter(writer);
+						e.printStackTrace(printWriter);
+						Error(writer.toString());
+					}
+				}
+			}
+		}, 1200L);
+	}
+	
+	public void startLoop5(int length) {
+		minutesLeft5 = length;
+		minute5();
 	}
 	
 	public void saveConfig(YamlConfiguration config, File configFile) {
