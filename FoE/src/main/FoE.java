@@ -1213,7 +1213,7 @@ public class FoE extends JavaPlugin implements Listener {
 				config.set("Prikazy.Clear", "/clear");
 			
 			if (!config.contains("Prikazy.Vtip"))
-				config.set("Prikazy.Vtip", "/Vtip");
+				config.set("Prikazy.Vtip", "/vtip");
 			
 			if (!config.contains("MySQL.Povolit"))
 				config.set("MySQL.Povolit", "ne");
@@ -1846,81 +1846,81 @@ public class FoE extends JavaPlugin implements Listener {
 		}
 		
 		if (adminChatPovolit) {
-			if (args[0].equals(config.getString("Prikazy.AdminChat"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.AdminChat"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "acmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (managerBan) {
-			if (args[0].equals(config.getString("Prikazy.Manager.Ban"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Ban"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "bancmd " + vysledek);
 				event.setCancelled(true);
 			}
-			if (args[0].equals(config.getString("Prikazy.Manager.Unban"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Unban"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "unbancmd " + vysledek);
 				event.setCancelled(true);
 			}
-			if (args[0].equals(config.getString("Prikazy.Manager.Kick"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Kick"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "kickcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (cenzuraPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Cenzura"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Cenzura"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "cenzuracmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (gramatikaPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Gramatika"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Gramatika"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "gramatikacmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (zpravaAdminum) {
-			if (args[0].equals(config.getString("Prikazy.Help"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Help"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "helpcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (vypnoutChatPovolit) {
-			if (args[0].equals(config.getString("Prikazy.VypnoutChat"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.VypnoutChat"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "chatcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (nahranostPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Nahranost"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Nahranost"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "infcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (inventarPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Inventar"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Inventar"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "invcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (teleportPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Teleport"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Teleport"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "tpcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (oznameniPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Oznameni"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Oznameni"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "zpravacmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (clearChat) {
-			if (args[0].equals(config.getString("Prikazy.Clear"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Clear"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "clearcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}
 		if (vtipyPovolit) {
-			if (args[0].equals(config.getString("Prikazy.Vtip"))) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Vtip"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "vtipcmd " + vysledek);
 				event.setCancelled(true);
 			}
