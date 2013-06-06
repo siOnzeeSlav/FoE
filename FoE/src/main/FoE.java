@@ -1574,7 +1574,7 @@ public class FoE extends JavaPlugin implements Listener {
 				umrtiZpravy.set("Monsters.Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Silverfish"))
-				umrtiZpravy.set("Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Giant"))
 				umrtiZpravy.set("Monsters.Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
