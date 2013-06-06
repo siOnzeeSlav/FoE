@@ -1369,7 +1369,7 @@ public class FoE extends JavaPlugin implements Listener {
 				config.set("Vtipy.Interval", 1);
 			
 			if (!config.contains("Vtipy.Format"))
-				config.set("Vtipy.Format", "\n&e{VTIP}&f\n");
+				config.set("Vtipy.Format", "&e{VTIP}&f");
 			
 			if (!config.contains("zpravaAdminum.Povolit"))
 				config.set("zpravaAdminum.Povolit", "ano");
