@@ -59,6 +59,9 @@ public class onJoin implements Listener {
 			if (p.kdyzHracSePripojiPovolit) {
 				event.setJoinMessage(p.nahradit(p.config.getString("KdyzHracSe.Pripoji.Zprava"), event.getPlayer().getName()));
 			}
+			if (p.uvitaciZpravaPovolit)
+				event.getPlayer().sendMessage(p.replaceWelcomeMessage(p.config.getString("uvitaciZprava.Zprava"), event.getPlayer().getName(), event.getPlayer().getLocation().getWorld().getName()));
+			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(p, new Runnable() {
 				@Override
 				public void run() {

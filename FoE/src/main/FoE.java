@@ -115,6 +115,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					clearChat						= false;
 	public boolean					umrtiZpravyPovolit				= false;
 	public boolean					whiteListPovolit				= false;
+	public boolean					uvitaciZpravaPovolit			= false;
 	
 	@Override
 	public void onEnable() {
@@ -247,6 +248,10 @@ public class FoE extends JavaPlugin implements Listener {
 		
 		if (Status(config, "KdyzHracSe.Odpoji.Povolit")) {
 			kdyzHracSeOdpojiPovolit = true;
+		}
+		
+		if (Status(config, "uvitaciZprava.Povolit")) {
+			uvitaciZpravaPovolit = true;
 		}
 		
 		if (Status(config, "MySQL.Povolit")) {
@@ -553,6 +558,24 @@ public class FoE extends JavaPlugin implements Listener {
 			return message = message.replaceAll("\\{VTIP}", vtipy.get(rnd.nextInt(vtipy.size())));
 		}
 		return "ERROR(nahraditVtip)";
+	}
+	
+	public String replaceWelcomeMessage(String message, String playerName, String worldName) {
+		if (message.matches(".*\\{JMENO}.*"))
+			message = message.replaceAll("\\{JMENO}", playerName);
+		
+		if (message.matches(".*\\{SVET}.*"))
+			message = message.replaceAll("\\{SVET}", worldName);
+		
+		if (message.matches(".*\\{CAS}.*")) {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			String time = sdf.format(date);
+			message = message.replaceAll("\\{CAS}", time);
+		}
+		
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
 	}
 	
 	public void startLoop4(int length) {
@@ -1043,6 +1066,14 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!config.contains("KdyzHracSe.Vyhodi.Zprava"))
 				config.set("KdyzHracSe.Vyhodi.Zprava", "&4{JMENO}&8 byl vyhozen!");
+			
+			if (!config.contains("uvitaciZprava.Povolit")) {
+				config.set("uvitaciZprava.Povolit", "ano");
+			}
+			
+			if (!config.contains("uvitaciZprava.Zprava")) {
+				config.set("uvitaciZprava.Zprava", "&4Vítej {JMENO}&8 doufáme že se ti u nás na serveru bude líbit.\nNacházíš se ve svìtì &4{SVET}&8 a èas je &4{CAS}&8.");
+			}
 			
 			if (!config.contains("Nahranost.Povolit"))
 				config.set("Nahranost.Povolit", "ano");
