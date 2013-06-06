@@ -41,7 +41,7 @@ public class EntityDeath implements Listener {
 	
 	public void addAnimal(String name) {
 		p.uzivatel(name);
-		p.uziv.set("ZabitoHracu", p.uziv.getInt("ZabitoZvirat") + 1);
+		p.uziv.set("ZabitoZvirat", p.uziv.getInt("ZabitoZvirat") + 1);
 		p.aktualizovatGUI(name);
 		p.saveConfig(p.uziv, p.uzivFile);
 		p.aktualizovatGUI(name);
