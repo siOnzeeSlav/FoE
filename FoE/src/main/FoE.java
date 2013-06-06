@@ -1386,8 +1386,8 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("clearChat.Povolit"))
 				config.set("clearChat.Povolit", "ano");
 			
-			if (!config.contains("Povolit"))
-				config.set("Povolit", "ano");
+			if (!config.contains("umrtiZpravy.Povolit"))
+				config.set("umrtiZpravy.Povolit", "ano");
 			
 			if (!umrtiZpravy.contains("Sebevrazda.BLOCK_EXPLOSION"))
 				umrtiZpravy.set("Sebevrazda.BLOCK_EXPLOSION", "&4{JMENO} &8zabil výbuch.");
