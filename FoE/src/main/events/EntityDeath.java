@@ -1075,6 +1075,9 @@ public class EntityDeath implements Listener {
 								case FIRE:
 									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
+								case FIRE_TICK:
+									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
+									break;
 								case LAVA:
 									Bukkit.broadcastMessage(replaceColorsAndPlayer(umrtiZpravy.getString("Sebevrazda." + EDevent.getCause()), playerName));
 									break;
