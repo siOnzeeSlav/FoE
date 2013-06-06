@@ -71,7 +71,7 @@ public class EntityDeath implements Listener {
 								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
 									String targetName = killer.getType().getName(); // Mob kterej zabil hrace
 									addDeath(targetName); // Pridam umrti hracovy
-									poslatZpravuMonster(killer.getType().name(), playerName); // Napisu kterej mob zabil hrace.
+									poslatZpravuMonster(targetName, playerName); // Napisu kterej mob zabil hrace.
 								} else if (killer instanceof Player) { // Jestli zabijak je hrac
 									Player target = (Player) killer; // Pretypuju zabijaka na hrace
 									if (target != null) { // Jestli zabijak neni null
@@ -104,12 +104,12 @@ public class EntityDeath implements Listener {
 		Bukkit.broadcastMessage(replaceColorsAndPlayer(p.umrtiZpravy.getString("Sebevrazda." + cause), playerName));
 	}
 	
-	public void poslatZpravuMonster(String monsterName, String playerName) {
-		if (!p.umrtiZpravy.contains("Monsters." + monsterName)) {
-			p.umrtiZpravy.set("Monsters." + monsterName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
+	public void poslatZpravuMonster(String targetName, String playerName) {
+		if (!p.umrtiZpravy.contains("Monsters." + targetName)) {
+			p.umrtiZpravy.set("Monsters." + targetName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			p.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
 		}
-		Bukkit.broadcastMessage(replace(p.config.getString("Monsters." + monsterName), playerName, monsterName));
+		Bukkit.broadcastMessage(replace(p.umrtiZpravy.getString("Monsters." + targetName), playerName, targetName));
 	}
 	
 	public void poslatZpravu(String itemName, String playerName, String targetName) {
