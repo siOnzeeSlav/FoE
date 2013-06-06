@@ -1471,7 +1471,7 @@ public class FoE extends JavaPlugin implements Listener {
 				umrtiZpravy.set("Sebevrazda.FIRE", "&4{JMENO} &8uhoøel.");
 			
 			if (!umrtiZpravy.contains("Sebevrazda.FIRE_TICK"))
-				umrtiZpravy.set("Sebevrazda.FIRE", "&4{JMENO} &8uhoøel.");
+				umrtiZpravy.set("Sebevrazda.FIRE_TICK", "&4{JMENO} &8uhoøel.");
 			
 			if (!umrtiZpravy.contains("Sebevrazda.LAVA"))
 				umrtiZpravy.set("Sebevrazda.LAVA", "&4{JMENO} &8spadl do lávy.");
