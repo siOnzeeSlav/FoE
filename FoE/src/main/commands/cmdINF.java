@@ -21,9 +21,19 @@ public class cmdINF implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	
+	public boolean checkPlayer(String playerName) {
+		Player p = Bukkit.getPlayer(playerName);
+		if (p != null) {
+			if (p.toString() == playerName) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void getInfo(Player sender, String targetName) {
 		Player target = Bukkit.getPlayer(targetName);
-		if (target != null) {
+		if (checkPlayer(target.getName())) {
 			plugin.uzivatel(targetName);
 			sender.sendMessage("----- " + target.getDisplayName() + " -----");
 			long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(target.getName()) + plugin.uziv.getLong("Nahrano"));
