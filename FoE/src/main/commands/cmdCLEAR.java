@@ -25,7 +25,11 @@ public class cmdCLEAR implements CommandExecutor {
 			try {
 				String jmenoHrace = odesilatel.getName();
 				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Clear"))) {
-					Bukkit.broadcastMessage("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+					int i = 0;
+					while (i < 24) {
+						i++;
+						Bukkit.broadcastMessage("");
+					}
 				} else {
 					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
