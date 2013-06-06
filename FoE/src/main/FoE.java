@@ -883,7 +883,7 @@ public class FoE extends JavaPlugin implements Listener {
 			uziv = YamlConfiguration.loadConfiguration(uzivFile);
 			
 			if (!uziv.contains("Nahranost"))
-				uziv.set("Nahranost", 0);
+				uziv.set("Nahrano", 0);
 			
 			if (!uziv.contains("isBanned"))
 				uziv.set("isBanned", false);
