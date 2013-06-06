@@ -42,13 +42,27 @@ public class onJoin implements Listener {
 			p.uzivatel(playerName);
 			if (!p.uziv.contains("IP"))
 				p.uziv.set("IP", player.getAddress().getHostName());
+			
 			p.uziv.set("lastIP", player.getAddress().getHostName());
+			
 			if (!p.uziv.contains("ZabitoHracu"))
 				p.uziv.set("ZabitoHracu", 0);
+			
+			if (p.debug)
+				Bukkit.broadcastMessage(playerName + " - ZabitoHracu - " + p.uziv.getInt("ZabitoHracu"));
+			
 			if (!p.uziv.contains("ZabitoMobu"))
 				p.uziv.set("ZabitoMobu", 0);
+			
+			if (p.debug)
+				Bukkit.broadcastMessage(playerName + " - ZabitoMobu - " + p.uziv.getInt("ZabitoMobu"));
+			
 			if (!p.uziv.contains("PocetSmrti"))
 				p.uziv.set("PocetSmrti", 0);
+			
+			if (p.debug)
+				Bukkit.broadcastMessage(playerName + " - PocetSmrti - " + p.uziv.getInt("PocetSmrti"));
+			
 			p.saveConfig(p.uziv, p.uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
