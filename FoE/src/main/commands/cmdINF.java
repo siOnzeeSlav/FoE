@@ -33,17 +33,18 @@ public class cmdINF implements CommandExecutor {
 						long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(jmenoHrace) + plugin.uziv.getLong("Nahrano"));
 						odesilatel.sendMessage("----- " + hrac.getDisplayName() + " -----");
 						odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-						if (plugin.uziv.contains("IP"))
-							odesilatel.sendMessage("IP: " + plugin.uziv.get("IP"));
-						if (plugin.uziv.contains("lastIP"))
-							odesilatel.sendMessage("lastIP: " + hrac.getAddress().getHostName());
+						odesilatel.sendMessage("IP: " + plugin.uziv.get("IP"));
+						odesilatel.sendMessage("lastIP: " + hrac.getAddress().getHostName());
 						if (plugin.uziv.contains("isBanned")) {
-							if (plugin.isBanned(args[0])) {
+							if (plugin.isBanned(jmenoHrace)) {
 								odesilatel.sendMessage("Ban: Ano");
 								odesilatel.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
 							} else
 								odesilatel.sendMessage("Ban: Ne");
 						}
+						odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
+						odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
+						odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
 					} else {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target != null && plugin.nahranyCas.containsKey(target.getName())) {
@@ -63,6 +64,9 @@ public class cmdINF implements CommandExecutor {
 									} else
 										odesilatel.sendMessage("Ban: Ne");
 								}
+								odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
+								odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
+								odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
 							} else {
 								odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
 							}
@@ -87,6 +91,9 @@ public class cmdINF implements CommandExecutor {
 										} else
 											odesilatel.sendMessage("Ban: Ne");
 									}
+									odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
+									odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
+									odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
 								} else {
 									odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
 								}
