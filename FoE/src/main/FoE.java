@@ -1529,58 +1529,58 @@ public class FoE extends JavaPlugin implements Listener {
 				umrtiZpravy.set("Sebevrazda.WITHER", "&4{JMENO} &8zemøel witherem.");
 			
 			if (!umrtiZpravy.contains("Monsters.Creeper"))
-				umrtiZpravy.set("Monsters.Creeper", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Creeper", "&4{JMENO} &8byl zabit &4sycakem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Zombie"))
-				umrtiZpravy.set("Monsters.Zombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Zombie", "&4{JMENO} &8byl zabit &4zombikem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Skeleton"))
-				umrtiZpravy.set("Monsters.Skeleton", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Skeleton", "&4{JMENO} &8byl zabit &4kostlivcem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Spider"))
-				umrtiZpravy.set("Monsters.Spider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Spider", "&4{JMENO} &8byl zabit &4pavoukem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Wither"))
-				umrtiZpravy.set("Monsters.Wither", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Wither", "&4{JMENO} &8byl zabit &4witherem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Wolf"))
-				umrtiZpravy.set("Monsters.Wolf", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Wolf", "&4{JMENO} &8byl zabit &4vlkem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Ghast"))
-				umrtiZpravy.set("Monsters.Ghast", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Ghast", "&4{JMENO} &8byl zabit &4ghastem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Explosive"))
-				umrtiZpravy.set("Monsters.Explosive", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Explosive", "&4{JMENO} &8byl zabit &4explozi&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.PigZombie"))
-				umrtiZpravy.set("Monsters.PigZombie", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.PigZombie", "&4{JMENO} &8byl zabit &4prasecim zombikem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Slime"))
-				umrtiZpravy.set("Monsters.Slime", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Slime", "&4{JMENO} &8byl zabit &4slizounem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.SmallFireball"))
-				umrtiZpravy.set("Monsters.SmallFireball", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.SmallFireball", "&4{JMENO} &8byl zabit &4ohnivou kouli&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Witch"))
-				umrtiZpravy.set("Monsters.Witch", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Witch", "&4{JMENO} &8byl zabit &4witchem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Enderman"))
-				umrtiZpravy.set("Monsters.Enderman", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Enderman", "&4{JMENO} &8byl zabit &4endrmenem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.EnderDragon"))
-				umrtiZpravy.set("Monsters.EnderDragon", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.EnderDragon", "&4{JMENO} &8byl zabit &4drakem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Blaze"))
-				umrtiZpravy.set("Monsters.Blaze", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Blaze", "&4{JMENO} &8byl zabit &4blazem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Silverfish"))
-				umrtiZpravy.set("Monsters.Silverfish", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Silverfish", "&4{JMENO} &8byl zabit &4silverfishem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.Giant"))
-				umrtiZpravy.set("Monsters.Giant", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.Giant", "&4{JMENO} &8byl zabit &4giantem&8.");
 			
 			if (!umrtiZpravy.contains("Monsters.CaveSpider"))
-				umrtiZpravy.set("Monsters.CaveSpider", "&4{JMENO} &8byl zabit &4{MOB}&8.");
+				umrtiZpravy.set("Monsters.CaveSpider", "&4{JMENO} &8byl zabit &4pavoukem&8.");
 			
 			if (!config.contains("whiteList.Povolit"))
 				config.set("whiteList.Povolit", "ano");
