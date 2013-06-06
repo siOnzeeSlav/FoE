@@ -253,6 +253,8 @@ public class FoE extends JavaPlugin implements Listener {
 		if (Status(config, "autoZpravy.Povolit")) {
 			autoZpravyPovolit = true;
 			autoZpravyInterval = config.getInt("autoZpravy.Interval");
+			startLoop5(autoZpravyInterval);
+			Bukkit.broadcastMessage("autoZpravy Interval = " + autoZpravyInterval);
 		}
 		if (Status(config, "Inventar.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Inventar") + "'");
