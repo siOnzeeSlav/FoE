@@ -35,7 +35,11 @@ public class cmdINV implements CommandExecutor {
 						Player player = (Player) sender;
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target != null) {
-							openInv(target, player);
+							if (target.getName() == player.getName()) {
+								player.sendMessage("Nemùeš otevøít svùj inventáø! Pouij tlaèítko E.");
+							} else {
+								openInv(target, player);
+							}
 						} else {
 							sender.sendMessage(args[0] + " je offline.");
 						}
