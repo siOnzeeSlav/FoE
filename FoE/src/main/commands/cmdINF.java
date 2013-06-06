@@ -21,87 +21,74 @@ public class cmdINF implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	
+	public void checkUser(String jmenoHrace) {
+		try {
+			plugin.uzivFile = new File("plugins/FoE/uzivatele/" + jmenoHrace + ".yml");
+			plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			plugin.Error(writer.toString());
+		}
+	}
+	
+	public void getInfo(Player sender, String targetName) {
+		Player target = Bukkit.getPlayer(targetName);
+		if (target != null) {
+			checkUser(targetName);
+			sender.sendMessage("----- " + target.getDisplayName() + " -----");
+			long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(target.getName()) + plugin.uziv.getLong("Nahrano"));
+			sender.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
+			if (sender.isOp())
+				sender.sendMessage("IP: " + plugin.uziv.get("IP"));
+			if (sender.isOp())
+				sender.sendMessage("lastIP: " + target.getAddress().getHostName());
+			if (plugin.isBanned(targetName)) {
+				sender.sendMessage("Ban: Ano");
+				sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
+			}
+			sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
+			sender.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
+			sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
+		} else {
+			plugin.uzivFile = new File("plugins/FoE/uzivatele/" + targetName + ".yml");
+			plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
+			if (!plugin.uzivFile.exists()) {
+				sender.sendMessage("Tento hráè neexistuje!");
+			} else {
+				sender.sendMessage("----- " + targetName + " -----");
+				long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(targetName) + plugin.uziv.getLong("Nahrano"));
+				sender.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
+				if (sender.isOp())
+					sender.sendMessage("IP: " + plugin.uziv.get("IP"));
+				if (sender.isOp())
+					sender.sendMessage("lastIP: " + plugin.uziv.get("lastIP"));
+				if (plugin.isBanned(targetName)) {
+					sender.sendMessage("Ban: Ano");
+					sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
+				}
+				sender.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
+				sender.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
+				sender.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
+			}
+		}
+	}
+	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("infcmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("infcmd")) {
 			try {
-				Player hrac = (Player) odesilatel;
-				String jmenoHrace = hrac.getName();
-				if (odesilatel.hasPermission("FoE.Informace")) {
-					if (args.length == 0) {
-						plugin.uzivatel(jmenoHrace);
-						long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(jmenoHrace) + plugin.uziv.getLong("Nahrano"));
-						odesilatel.sendMessage("----- " + hrac.getDisplayName() + " -----");
-						odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-						odesilatel.sendMessage("IP: " + plugin.uziv.get("IP"));
-						odesilatel.sendMessage("lastIP: " + hrac.getAddress().getHostName());
-						if (plugin.uziv.contains("isBanned")) {
-							if (plugin.isBanned(jmenoHrace)) {
-								odesilatel.sendMessage("Ban: Ano");
-								odesilatel.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
-							} else
-								odesilatel.sendMessage("Ban: Ne");
-						}
-						odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
-						odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
-						odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
-					} else {
-						Player target = Bukkit.getPlayer(args[0]);
-						if (target != null && plugin.nahranyCas.containsKey(target.getName())) {
-							plugin.uzivatel(target.getName());
-							long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(target.getName()) + plugin.uziv.getLong("Nahrano"));
-							odesilatel.sendMessage("----- " + target.getDisplayName() + " -----");
-							if (odesilatel.isOp()) {
-								odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-								if (plugin.uziv.contains("IP"))
-									odesilatel.sendMessage("IP: " + plugin.uziv.get("IP"));
-								if (plugin.uziv.contains("lastIP"))
-									odesilatel.sendMessage("lastIP: " + target.getAddress().getHostName());
-								if (plugin.uziv.contains("isBanned")) {
-									if (plugin.isBanned(args[0])) {
-										odesilatel.sendMessage("Ban: Ano");
-										odesilatel.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
-									} else
-										odesilatel.sendMessage("Ban: Ne");
-								}
-								odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
-								odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
-								odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
-							} else {
-								odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-							}
-						} else {
-							plugin.uzivFile = new File("plugins/FoE/uzivatele/" + args[0] + ".yml");
-							plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
-							if (!plugin.uzivFile.exists()) {
-								odesilatel.sendMessage("Tento hráè neexistuje!");
-							} else {
-								long[] cas = plugin.spravnyFormat(plugin.uziv.getLong("Nahrano"));
-								odesilatel.sendMessage("----- " + args[0] + " -----");
-								if (odesilatel.isOp()) {
-									odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-									if (plugin.uziv.contains("IP"))
-										odesilatel.sendMessage("IP: " + plugin.uziv.get("IP"));
-									if (plugin.uziv.contains("lastIP"))
-										odesilatel.sendMessage("lastIP: " + plugin.uziv.get("lastIP"));
-									if (plugin.uziv.contains("isBanned")) {
-										if (plugin.isBanned(args[0])) {
-											odesilatel.sendMessage("Ban: Ano");
-											odesilatel.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
-										} else
-											odesilatel.sendMessage("Ban: Ne");
-									}
-									odesilatel.sendMessage("Zabito Hráèù: " + plugin.uziv.getString("ZabitoHracu"));
-									odesilatel.sendMessage("Zabito Mobù: " + plugin.uziv.getString("ZabitoMobu"));
-									odesilatel.sendMessage("Pocet Úmrtí: " + plugin.uziv.getString("PocetSmrti"));
-								} else {
-									odesilatel.sendMessage("Nahráno: " + cas[4] + " týdnu " + cas[3] + " dnù " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
-								}
-							}
-						}
+				Player player = (Player) sender;
+				String playerName = player.getName();
+				if (sender.hasPermission("FoE.Informace")) {
+					if (args.length < 1) {
+						getInfo(player, playerName);
+					} else if (args.length > 0) {
+						getInfo(player, args[0]);
 					}
 				} else {
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
