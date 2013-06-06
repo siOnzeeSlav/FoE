@@ -111,9 +111,6 @@ public class onChat implements Listener {
 					}
 				}
 			}
-			if (p.guiPovolit) {
-				p.aktualizovatGUI(player);
-			}
 			if (p.antiSpamPovolit) {
 				if (!player.hasPermission("FoE.AntiSpam.Psat") && !player.isOp()) {
 					if (messagePerSecond.containsKey(playerName)) {
