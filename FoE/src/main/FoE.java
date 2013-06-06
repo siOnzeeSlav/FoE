@@ -128,7 +128,8 @@ public class FoE extends JavaPlugin implements Listener {
 	public void onEnable() {
 		kontrolaConfigu();
 		if (config.contains("debug")) {
-			debug = true;
+			if (config.getBoolean("debug"))
+				debug = true;
 		}
 		System.out.println("Registruji event 'onPlayerLogin'");
 		Bukkit.getPluginManager().registerEvents(new onPlayerLogin(this), this);
@@ -258,7 +259,8 @@ public class FoE extends JavaPlugin implements Listener {
 			autoZpravyPovolit = true;
 			autoZpravyInterval = config.getInt("autoZpravy.Interval");
 			startLoop5(autoZpravyInterval);
-			Bukkit.broadcastMessage("autoZpravy Interval = " + autoZpravyInterval);
+			if (debug)
+				Bukkit.broadcastMessage("autoZpravy Interval = " + autoZpravyInterval);
 		}
 		if (Status(config, "Inventar.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Inventar") + "'");
@@ -861,19 +863,39 @@ public class FoE extends JavaPlugin implements Listener {
 		return new long[] { sekundy, minuty, hodiny, dny, tydny };
 	}
 	
+	public void checkUser(String playerName) {
+		try {
+			uzivFile = new File("plugins/FoE/uzivatele/" + playerName + ".yml");
+			uziv = YamlConfiguration.loadConfiguration(uzivFile);
+			
+			if (!uziv.contains("Nahranost"))
+				uziv.set("Nahranost", 0);
+			
+			if (!uziv.contains("isBanned"))
+				uziv.set("isBanned", false);
+			
+			if (!uziv.contains("ZabitoHracu"))
+				uziv.set("ZabitoHracu", 0);
+			
+			if (!uziv.contains("ZabitoMobu"))
+				uziv.set("ZabitoMobu", 0);
+			
+			if (!uziv.contains("PocetSmrti"))
+				uziv.set("PocetSmrti", 0);
+			
+			saveConfig(uziv, uzivFile);
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
 	public void uzivatel(String jmenoHrace) {
 		try {
-			if (jmenoHrace.length() != 0) {
-				uzivFile = new File("plugins/FoE/uzivatele/" + jmenoHrace + ".yml");
-				uziv = YamlConfiguration.loadConfiguration(uzivFile);
-				if (!uzivFile.exists())
-					saveConfig(uziv, uzivFile);
-				if (!uziv.contains("Nahrano"))
-					uziv.set("Nahrano", 0);
-				if (!uziv.contains("isBanned"))
-					uziv.set("isBanned", false);
-				saveConfig(uziv, uzivFile);
-			}
+			uzivFile = new File("plugins/FoE/uzivatele/" + jmenoHrace + ".yml");
+			uziv = YamlConfiguration.loadConfiguration(uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
