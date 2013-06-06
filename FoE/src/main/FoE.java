@@ -108,6 +108,9 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					guiHodiny						= false;
 	public boolean					guiPocetHracu					= false;
 	public boolean					guiIconomy						= false;
+	public boolean					guiZabitoHracu					= false;
+	public boolean					guiZabitoMobu					= false;
+	public boolean					guiPocetSmrti					= false;
 	public boolean					antiSpamPovolit					= false;
 	public boolean					antiSpamDuplikacePovolit		= false;
 	public boolean					rezervacePovolit				= false;
@@ -184,24 +187,25 @@ public class FoE extends JavaPlugin implements Listener {
 			if (debug)
 				Bukkit.broadcastMessage("infcmd byl zaregistrovan.");
 			nahranostPovolit = true;
-			if (Status(config, "Nahranost.PrivitaciZprava.Povolit")) {
+			if (Status(config, "Nahranost.PrivitaciZprava.Povolit"))
 				nahranostPrivitaciZpravaPovolit = true;
-			}
-			if (Status(config, "Ostatni.Nahranost.GUI.Tydny-Povolit")) {
+			if (Status(config, "Ostatni.Nahranost.GUI.Tydny-Povolit"))
 				guiTydny = true;
-			}
-			if (Status(config, "Ostatni.Nahranost.GUI.Dny-Povolit")) {
+			if (Status(config, "Ostatni.Nahranost.GUI.Dny-Povolit"))
 				guiDny = true;
-			}
-			if (Status(config, "Ostatni.Nahranost.GUI.Hodiny-Povolit")) {
+			if (Status(config, "Ostatni.Nahranost.GUI.Hodiny-Povolit"))
 				guiHodiny = true;
-			}
-			if (Status(config, "Ostatni.Nahranost.GUI.PocetHracu-Povolit")) {
+			if (Status(config, "Ostatni.Nahranost.GUI.PocetHracu-Povolit"))
 				guiPocetHracu = true;
-			}
-			if (Status(config, "Ostatni.Nahranost.GUI.iConomy-Povolit")) {
+			if (Status(config, "Ostatni.Nahranost.GUI.iConomy-Povolit"))
 				guiIconomy = true;
-			}
+			if (Status(config, "Ostatni.Nahranost.GUI.ZabitoHracu-Povolit"))
+				guiZabitoHracu = true;
+			if (Status(config, "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
+				guiZabitoMobu = true;
+			if (Status(config, "Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
+				guiPocetSmrti = true;
+			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				registrovatHrace(p.getName());
 				if (debug)
@@ -459,6 +463,9 @@ public class FoE extends JavaPlugin implements Listener {
 					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
 					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
 					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
+					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 					
 					if (guiTydny)
 						score.setScore((int) cas[4]);
@@ -474,6 +481,12 @@ public class FoE extends JavaPlugin implements Listener {
 						int intMoney = money.intValue();
 						score5.setScore(intMoney);
 					}
+					if (guiZabitoHracu)
+						score6.setScore(uziv.getInt("ZabitoHracu"));
+					if (guiZabitoMobu)
+						score7.setScore(uziv.getInt("ZabitoMobu"));
+					if (guiPocetSmrti)
+						score8.setScore(uziv.getInt("PocetSmrti"));
 					player.setScoreboard(board);
 				} else {
 					uzivatel(player.getName());
@@ -487,6 +500,9 @@ public class FoE extends JavaPlugin implements Listener {
 					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
 					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
 					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
+					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 					
 					if (guiTydny)
 						score.setScore((int) cas[4]);
@@ -502,6 +518,12 @@ public class FoE extends JavaPlugin implements Listener {
 						int intMoney = money.intValue();
 						score5.setScore(intMoney);
 					}
+					if (guiZabitoHracu)
+						score6.setScore(uziv.getInt("ZabitoHracu"));
+					if (guiZabitoMobu)
+						score7.setScore(uziv.getInt("ZabitoMobu"));
+					if (guiPocetSmrti)
+						score8.setScore(uziv.getInt("PocetSmrti"));
 					player.setScoreboard(board);
 				}
 			}
@@ -547,6 +569,9 @@ public class FoE extends JavaPlugin implements Listener {
 				Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
 				Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
 				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
+				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 				score.setScore((int) cas[4]);
 				score2.setScore((int) cas[3]);
 				score3.setScore((int) cas[2]);
@@ -557,6 +582,10 @@ public class FoE extends JavaPlugin implements Listener {
 					int intMoney = money.intValue();
 					score5.setScore(intMoney);
 				}
+				score6.setScore(uziv.getInt("ZabitoHracu"));
+				score7.setScore(uziv.getInt("ZabitoMobu"));
+				score8.setScore(uziv.getInt("PocetSmrti"));
+				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -581,6 +610,9 @@ public class FoE extends JavaPlugin implements Listener {
 				Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
 				Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
 				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
+				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 				score.setScore((int) cas[4]);
 				score2.setScore((int) cas[3]);
 				score3.setScore((int) cas[2]);
@@ -591,6 +623,10 @@ public class FoE extends JavaPlugin implements Listener {
 					int intMoney = money.intValue();
 					score5.setScore(intMoney);
 				}
+				score6.setScore(uziv.getInt("ZabitoHracu"));
+				score7.setScore(uziv.getInt("ZabitoMobu"));
+				score8.setScore(uziv.getInt("PocetSmrti"));
+				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -683,6 +719,9 @@ public class FoE extends JavaPlugin implements Listener {
 			String time = sdf.format(date);
 			message = message.replaceAll("\\{CAS}", time);
 		}
+		
+		if (message.matches(".*\\[RADEK].*"))
+			message = message.replaceAll("\\[RADEK]", "\n");
 		
 		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		return message;
@@ -1182,7 +1221,7 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			
 			if (!config.contains("uvitaciZprava.Zprava")) {
-				config.set("uvitaciZprava.Zprava", "&4Vítej {JMENO}&8 doufáme že se ti u nás na serveru bude líbit.\nNacházíš se ve svìtì &4{SVET}&8 a èas je &4{CAS}&8.");
+				config.set("uvitaciZprava.Zprava", "&4Vítej {JMENO}&8 doufáme že se ti u nás na serveru bude líbit.");
 			}
 			
 			if (!config.contains("Nahranost.Povolit"))
@@ -1305,6 +1344,15 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("Ostatni.Nahranost.GUI.PocetHracu-Povolit"))
 				config.set("Ostatni.Nahranost.GUI.PocetHracu-Povolit", "ano");
 			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoHracu-Povolit"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoHracu-Povolit", "ano");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoMobu-Povolit", "ano");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
+				config.set("Ostatni.Nahranost.GUI.PocetSmrti-Povolit", "ano");
+			
 			if (!config.contains("Ostatni.Nahranost.GUI.iConomy-Povolit"))
 				config.set("Ostatni.Nahranost.GUI.iConomy-Povolit", "ne");
 			
@@ -1325,6 +1373,15 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!config.contains("Ostatni.Nahranost.GUI.iConomy"))
 				config.set("Ostatni.Nahranost.GUI.iConomy", "Penize:");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoHracu"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoHracu", "Zabito Hracu:");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.ZabitoMobu"))
+				config.set("Ostatni.Nahranost.GUI.ZabitoMobu", "Zabito Mobu:");
+			
+			if (!config.contains("Ostatni.Nahranost.GUI.PocetSmrti"))
+				config.set("Ostatni.Nahranost.GUI.PocetSmrti", "Umrti:");
 			
 			if (!config.contains("TP.Povolit"))
 				config.set("TP.Povolit", "ano");

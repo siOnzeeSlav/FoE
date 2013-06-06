@@ -40,10 +40,15 @@ public class onJoin implements Listener {
 				}
 			}
 			p.uzivatel(playerName);
-			if (!p.uziv.contains("IP")) {
+			if (!p.uziv.contains("IP"))
 				p.uziv.set("IP", player.getAddress().getHostName());
-			}
 			p.uziv.set("lastIP", player.getAddress().getHostName());
+			if (!p.uziv.contains("ZabitoHracu"))
+				p.uziv.set("ZabitoHracu", 0);
+			if (!p.uziv.contains("ZabitoMobu"))
+				p.uziv.set("ZabitoMobu", 0);
+			if (!p.uziv.contains("PocetSmrti"))
+				p.uziv.set("PocetSmrti", 0);
 			p.saveConfig(p.uziv, p.uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -56,11 +61,14 @@ public class onJoin implements Listener {
 	@EventHandler
 	public void Join(final PlayerJoinEvent event) {
 		try {
+			Player player = event.getPlayer();
+			String playerName = player.getName();
+			String worldName = player.getLocation().getWorld().getName();
 			if (p.kdyzHracSePripojiPovolit) {
 				event.setJoinMessage(p.nahradit(p.config.getString("KdyzHracSe.Pripoji.Zprava"), event.getPlayer().getName()));
 			}
 			if (p.uvitaciZpravaPovolit)
-				event.getPlayer().sendMessage(p.replaceWelcomeMessage(p.config.getString("uvitaciZprava.Zprava"), event.getPlayer().getName(), event.getPlayer().getLocation().getWorld().getName()));
+				event.getPlayer().sendMessage(p.replaceWelcomeMessage(p.config.getString("uvitaciZprava.Zprava"), playerName, worldName));
 			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(p, new Runnable() {
 				@Override

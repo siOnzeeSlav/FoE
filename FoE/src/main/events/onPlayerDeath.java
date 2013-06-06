@@ -18,7 +18,7 @@ public class onPlayerDeath implements Listener {
 	}
 	
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) {
+	public void onDeath(final PlayerDeathEvent event) {
 		try {
 			if (p.umrtiZpravyPovolit) {
 				event.setDeathMessage("");

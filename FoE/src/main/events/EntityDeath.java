@@ -20,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Explosive;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Silverfish;
@@ -53,9 +54,24 @@ public class EntityDeath implements Listener {
 			Entity entity = event.getEntity();
 			if (p.umrtiZpravyPovolit) {
 				if (entity != null) {
+					if (entity instanceof Monster) {
+						Monster monster = (Monster) entity;
+						Entity killer = monster.getKiller();
+						if (killer == null)
+							return;
+						String killerName = killer.getType().getName();
+						p.uzivatel(killerName);
+						p.uziv.set("ZabitoMobu", p.uziv.getInt("ZabitoMobu") + 1);
+						p.saveConfig(p.uziv, p.uzivFile);
+						p.aktualizovatGUI(killerName);
+					}
 					if (entity instanceof Player) {
 						Player player = (Player) entity;
 						String playerName = player.getName();
+						p.uzivatel(playerName);
+						p.uziv.set("PocetSmrti", p.uziv.getInt("PocetSmrti") + 1);
+						p.saveConfig(p.uziv, p.uzivFile);
+						p.aktualizovatGUI(player);
 						EntityDamageEvent EDevent = player.getLastDamageCause();
 						Entity killer = null;
 						if (EDevent instanceof EntityDamageByEntityEvent) {
@@ -64,6 +80,10 @@ public class EntityDeath implements Listener {
 						if (killer != null) {
 							if (killer.getType() != null) {
 								String targetName = killer.getType().getName();
+								p.uzivatel(targetName);
+								p.uziv.set("ZabitoHracu", p.uziv.getInt("ZabitoHracu") + 1);
+								p.saveConfig(p.uziv, p.uzivFile);
+								p.aktualizovatGUI(targetName);
 								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
 									if (killer instanceof Creeper) {
 										String message = umrtiZpravy.getString("Creeper");
@@ -122,6 +142,9 @@ public class EntityDeath implements Listener {
 									}
 								} else if (killer instanceof Player) {
 									Player target = (Player) killer;
+									p.uzivatel(targetName);
+									p.uziv.set("ZabitoHracu", p.uziv.getInt("ZabitoHracu") + 1);
+									p.saveConfig(p.uziv, p.uzivFile);
 									
 									switch (getItem(target)) {
 										case ACTIVATOR_RAIL:
