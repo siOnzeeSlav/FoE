@@ -26,7 +26,7 @@ public class cmdCLEAR implements CommandExecutor {
 				String jmenoHrace = odesilatel.getName();
 				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Clear"))) {
 					int i = 0;
-					while (i < 24) {
+					while (i < 100) {
 						i++;
 						Bukkit.broadcastMessage("");
 					}
