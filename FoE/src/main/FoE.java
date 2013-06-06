@@ -116,38 +116,70 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					umrtiZpravyPovolit				= false;
 	public boolean					whiteListPovolit				= false;
 	public boolean					uvitaciZpravaPovolit			= false;
+	public boolean					debug							= false;
 	
 	@Override
 	public void onEnable() {
 		kontrolaConfigu();
+		if (config.contains("debug")) {
+			debug = true;
+		}
 		System.out.println("Registruji event 'onPlayerLogin'");
 		Bukkit.getPluginManager().registerEvents(new onPlayerLogin(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onPlayerLogin byl zaregistrovan.");
 		System.out.println("Registruji event 'onJoin'");
 		Bukkit.getPluginManager().registerEvents(new onJoin(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onJoin byl zaregistrovan.");
 		System.out.println("Registruji event 'onQuit'");
 		Bukkit.getPluginManager().registerEvents(new onQuit(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onQuit byl zaregistrovan.");
 		System.out.println("Registruji event 'onKick'");
 		Bukkit.getPluginManager().registerEvents(new onKick(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onKick byl zaregistrovan.");
 		System.out.println("Registruji event 'onChat'");
 		Bukkit.getPluginManager().registerEvents(new onChat(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onChat byl zaregistrovan.");
 		System.out.println("Registruji event 'onInventoryClick'");
 		Bukkit.getPluginManager().registerEvents(new onInventoryClick(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onInventoryClick byl zaregistrovan.");
 		System.out.println("Registruji event 'onInventoryDrag'");
 		Bukkit.getPluginManager().registerEvents(new onInventoryDrag(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onInventoryDrag byl zaregistrovan.");
 		System.out.println("Registruji event 'EntityDeath'");
 		Bukkit.getPluginManager().registerEvents(new EntityDeath(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("EntityDeath byl zaregistrovan.");
 		System.out.println("Registruji event 'onPlayerDeath'");
 		Bukkit.getPluginManager().registerEvents(new onPlayerDeath(this), this);
+		if (debug)
+			Bukkit.broadcastMessage("onPlayerDeath byl zaregistrovan.");
 		Bukkit.getPluginManager().registerEvents(this, this);
+		if (debug)
+			Bukkit.broadcastMessage("Zdejsi eventy byly zaregistrovany.");
 		if (Status(config, "Ostatni.Nahranost.GUI.iConomy-Povolit")) {
 			System.out.println("Registruji event 'onHoldingsUpdate'");
 			Bukkit.getPluginManager().registerEvents(new onHoldingsUpdate(this), this);
+			if (debug)
+				Bukkit.broadcastMessage("onHoldinsUpdate byl zaregistrovan.");
 		}
 		Bukkit.getServer().getPluginCommand("FoE").setExecutor(new cmdFOE(this));
+		if (debug)
+			Bukkit.broadcastMessage("FoE byl zaregistrovan.");
 		vtipyInterval = config.getInt("Vtipy.Interval");
+		if (debug)
+			Bukkit.broadcastMessage("vtipyInterval = " + vtipyInterval);
 		if (Status(config, "Nahranost.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Nahranost") + "'");
 			Bukkit.getServer().getPluginCommand("infcmd").setExecutor(new cmdINF(this));
+			if (debug)
+				Bukkit.broadcastMessage("infcmd byl zaregistrovan.");
 			nahranostPovolit = true;
 			if (Status(config, "Nahranost.PrivitaciZprava.Povolit")) {
 				nahranostPrivitaciZpravaPovolit = true;
@@ -169,41 +201,57 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				registrovatHrace(p.getName());
+				if (debug)
+					Bukkit.broadcastMessage("Nahranost: Registruji hrace: " + p.getName());
 			}
 		}
 		if (Status(config, "Oznameni.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Oznameni") + "'");
 			Bukkit.getServer().getPluginCommand("zpravacmd").setExecutor(new cmdZPRAVA(this));
+			if (debug)
+				Bukkit.broadcastMessage("zpravacmd byl zaregistrovan.");
 			oznameniPovolit = true;
 		}
 		if (Status(config, "VypnoutChat.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.VypnoutChat") + "'");
 			Bukkit.getServer().getPluginCommand("chatcmd").setExecutor(new cmdCHAT(this));
+			if (debug)
+				Bukkit.broadcastMessage("chatcmd byl zaregistrovan.");
 			vypnoutChatPovolit = true;
 		}
 		if (Status(config, "Gramatika.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Gramatika") + "'");
 			Bukkit.getServer().getPluginCommand("gramatikacmd").setExecutor(new cmdGRAMATIKA(this));
+			if (debug)
+				Bukkit.broadcastMessage("gramatikacmd byl zaregistrovan.");
 			gramatikaPovolit = true;
 		}
 		if (Status(config, "Cenzura.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Cenzura") + "'");
 			Bukkit.getServer().getPluginCommand("cenzuracmd").setExecutor(new cmdCENZURA(this));
+			if (debug)
+				Bukkit.broadcastMessage("cenzuracmd byl zaregistrovan.");
 			cenzuraPovolit = true;
 		}
 		if (Status(config, "AdminChat.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.AdminChat") + "'");
 			Bukkit.getServer().getPluginCommand("acmd").setExecutor(new cmdA(this));
+			if (debug)
+				Bukkit.broadcastMessage("acmd byl zaregistrovan.");
 			adminChatPovolit = true;
 		}
 		if (Status(config, "TP.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Teleport") + "'");
 			Bukkit.getServer().getPluginCommand("tpcmd").setExecutor(new cmdTP(this));
+			if (debug)
+				Bukkit.broadcastMessage("tpcmd byl zaregistrovan.");
 			teleportPovolit = true;
 		}
 		if (Status(config, "Inventar.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Inventar") + "'");
 			Bukkit.getServer().getPluginCommand("invcmd").setExecutor(new cmdINV(this));
+			if (debug)
+				Bukkit.broadcastMessage("invcmd byl zaregistrovan.");
 			inventarPovolit = true;
 		}
 		if (Status(config, "capsLock.Povolit")) {
@@ -212,45 +260,69 @@ public class FoE extends JavaPlugin implements Listener {
 		if (Status(config, "Manager.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Ban") + "'");
 			Bukkit.getServer().getPluginCommand("bancmd").setExecutor(new cmdBAN(this));
+			if (debug)
+				Bukkit.broadcastMessage("bancmd byl zaregistrovan.");
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Unban") + "'");
 			Bukkit.getServer().getPluginCommand("unbancmd").setExecutor(new cmdUNBAN(this));
+			if (debug)
+				Bukkit.broadcastMessage("unbancmd byl zaregistrovan.");
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Kick") + "'");
 			Bukkit.getServer().getPluginCommand("kickcmd").setExecutor(new cmdKICK(this));
+			if (debug)
+				Bukkit.broadcastMessage("kickcmd byl zaregistrovan.");
 			managerBan = true;
 		}
 		if (Status(config, "clearChat.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Clear") + "'");
 			Bukkit.getServer().getPluginCommand("clearcmd").setExecutor(new cmdCLEAR(this));
+			if (debug)
+				Bukkit.broadcastMessage("clearcmd byl zaregistrovan.");
 			clearChat = true;
 		}
 		if (Status(config, "zpravaAdminum.Povolit")) {
 			zpravaAdminum = true;
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Help") + "'");
 			Bukkit.getServer().getPluginCommand("helpcmd").setExecutor(new cmdHELP(this));
+			if (debug)
+				Bukkit.broadcastMessage("helpcmd byl zaregistrovan.");
 		}
 		if (Status(config, "Ostatni.Upgrade")) {
 			Upgrade();
+			if (debug)
+				Bukkit.broadcastMessage("Upgrade byl proveden.");
 			config.set("Ostatni.Upgrade", "ne");
 			saveConfig(config, configFile);
 			zkontrolovatPluginy();
+			if (debug)
+				Bukkit.broadcastMessage("Pluginy byli odstraneny.");
 		}
 		if (Status(config, "AntiReklama.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Antireklama byla povolena.");
 			antiReklamaPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Pripoji.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Zprava kdyz se hrac pripoji byla povolena.");
 			kdyzHracSePripojiPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Vyhodi.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Zprava kdyz se hrac vyhodi byla povolena.");
 			kdyzHracSeVyhodiPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Odpoji.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Zprava kdyz se hrac odpoji byla povolena.");
 			kdyzHracSeOdpojiPovolit = true;
 		}
 		
 		if (Status(config, "uvitaciZprava.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Uvitaci zprava byla povolena.");
 			uvitaciZpravaPovolit = true;
 		}
 		
@@ -258,28 +330,42 @@ public class FoE extends JavaPlugin implements Listener {
 			mysql = new MySQL(this);
 			mysqlCas = config.getInt("MySQL.Cas");
 			mysql.open();
+			if (debug)
+				Bukkit.broadcastMessage("MySQL bylo povoleno.");
 			mysqlPovolit = true;
 		}
 		if (Status(config, "Ostatni.Nahranost.GUI.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("GUI bylo povoleno.");
 			guiPovolit = true;
 		}
 		
 		if (Status(config, "AntiSpam.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("AntiSpam byl povolen.");
 			AntiSpamCas = config.getInt("AntiSpam.PockatSekund");
 			antiSpamPovolit = true;
 		}
 		if (Status(config, "AntiSpam.Duplikace.Povolit"))
 			antiSpamDuplikacePovolit = true;
 		if (Status(config, "Rezervace.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Rezervace byla povolena.");
 			rezervacePovolit = true;
 		}
 		if (Status(config, "umrtiZpravy.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Umrtne zpravy byly povoleny.");
 			umrtiZpravyPovolit = true;
 		}
 		if (Status(config, "whiteList.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("WhiteListZprava byla povolena.");
 			whiteListPovolit = true;
 		}
 		if (Status(config, "Vtipy.Povolit")) {
+			if (debug)
+				Bukkit.broadcastMessage("Vtipy byly povoleny.");
 			vtipyPovolit = true;
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://www.foe.frelania.eu/vtipy.txt").openStream()));
@@ -305,14 +391,29 @@ public class FoE extends JavaPlugin implements Listener {
 		Plugin updater = Bukkit.getPluginManager().getPlugin("FoE-Updater");
 		if (updater != null) {
 			if (!updater.isEnabled()) {
+				if (debug)
+					Bukkit.broadcastMessage("Updater nebyl nalezen.");
 				if (Status(config, "VyhledavatAktualizace.Povolit")) {
 					vyhledavatAktualizaceCas = config.getInt("VyhledavatAktualizace.Cas");
 					zkontrolovatVerziPluginu();
 					startLoop2(vyhledavatAktualizaceCas);
 				}
+			} else {
+				if (debug)
+					Bukkit.broadcastMessage("Updater byl nalezen.");
+			}
+		} else {
+			if (Status(config, "VyhledavatAktualizace.Povolit")) {
+				vyhledavatAktualizaceCas = config.getInt("VyhledavatAktualizace.Cas");
+				zkontrolovatVerziPluginu();
+				startLoop2(vyhledavatAktualizaceCas);
 			}
 		}
 		statistiky();
+		if (debug)
+			Bukkit.broadcastMessage("Server byl pridan do statistik.");
+		if (debug)
+			Bukkit.broadcastMessage("[FoE] byl uspesne zapnut.");
 		System.out.println("[FoE] byl uspesne zapnut.");
 	}
 	
@@ -557,7 +658,7 @@ public class FoE extends JavaPlugin implements Listener {
 			message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 			return message = message.replaceAll("\\{VTIP}", vtipy.get(rnd.nextInt(vtipy.size())));
 		}
-		return "ERROR(nahraditVtip)";
+		return "ERROR(FORMAT:VTIP)";
 	}
 	
 	public String replaceWelcomeMessage(String message, String playerName, String worldName) {
