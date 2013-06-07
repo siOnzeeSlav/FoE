@@ -1675,8 +1675,10 @@ public class FoE extends JavaPlugin implements Listener {
 				if (serverName.equals("Unknown Server")) {
 					Random rnd = new Random();
 					config.set("NM", rnd.nextInt(10000));
+					saveConfig(config, configFile);
 				} else {
 					config.set("NM", serverName);
+					saveConfig(config, configFile);
 				}
 			}
 			name = config.getString("NM");
