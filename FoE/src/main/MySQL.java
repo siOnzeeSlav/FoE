@@ -30,6 +30,9 @@ public class MySQL {
 	
 	public ResultSet query(String query) {
 		try {
+			if (!isOpen()) {
+				sta = con.createStatement();
+			}
 			if (query.toLowerCase().startsWith("select")) {
 				return sta.executeQuery(query);
 			} else {
