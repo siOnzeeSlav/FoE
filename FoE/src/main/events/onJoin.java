@@ -35,7 +35,6 @@ public class onJoin implements Listener {
 				player.sendMessage("Tento server používá FoE v" + ChatColor.GOLD + p.getDescription().getVersion());
 			}
 			if (p.guiPovolit) {
-				p.vytvoritGUI(player);
 				for (Player PL : Bukkit.getOnlinePlayers()) {
 					p.aktualizovatGUI(PL);
 				}
