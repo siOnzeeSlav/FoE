@@ -130,6 +130,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					herniRezimy						= false;
 	public boolean					debug							= false;
 	public ConfigManager			cm								= new ConfigManager();
+	public BanManager				bm								= new BanManager();
 	
 	@Override
 	public void onEnable() {
@@ -477,18 +478,27 @@ public class FoE extends JavaPlugin implements Listener {
 	
 	public void MySQL_Warp(String warpName, String playerName, String typ) {
 		try {
-			if (warpName != null && playerName != null) {
+			if (warpName == null || playerName == null) {
+				if (debug)
+					Bukkit.broadcastMessage(warpName + " - " + playerName + " - " + typ + " - Nìco je null");
 				return;
 			}
 			if (typ == "AKTIVNI") {
+				if (debug)
+					Bukkit.broadcastMessage("TYP:AKTIVNI");
 				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
 				if (rs.next()) {
-					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'AKTIVNI' AND SET `datum` = '" + System.currentTimeMillis() + "' WHERE `warp` = '" + warpName + "'");
+					if (debug)
+						Bukkit.broadcastMessage("Aktualizuju FoE_Warpy" + warpName);
+					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'AKTIVNI', `datum` = '" + System.currentTimeMillis() + "' WHERE `warp` = '" + warpName + "'");
 				} else {
+					Bukkit.broadcastMessage("Vkládám FoE_Warpy" + warpName);
 					mysql.query("INSERT INTO `FoE_Warpy` (warp, autor, datum, typ) VALUES (" + "'" + warpName + "'," + " '" + playerName + "', '" + System.currentTimeMillis() + "', 'AKTIVNI')");
 				}
 			}
 			if (typ == "ODSTRANENO") {
+				if (debug)
+					Bukkit.broadcastMessage("TYP:ODSTRANENO");
 				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
 				if (rs.next()) {
 					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'ODSTRANENO' WHERE `warp` = '" + warpName + "'");
@@ -504,6 +514,8 @@ public class FoE extends JavaPlugin implements Listener {
 	
 	public void MySQL_Message(String playerName, String targetName, String message) {
 		try {
+			if (playerName == null || targetName == null || message == null)
+				return;
 			mysql.query("INSERT INTO `FoE_Zpravy` (hrac, prijemce, zprava, datum) VALUES ('" + playerName + "', '" + targetName + "', '" + message + "', '" + System.currentTimeMillis() + "')");
 		} catch (Exception e) {
 			Writer writer = new StringWriter();

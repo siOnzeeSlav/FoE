@@ -61,6 +61,8 @@ public class cmdWARP implements CommandExecutor {
 						warp.set(warpName + ".world", world);
 						warp.set(warpName + ".popis", description);
 						plugin.saveConfig(warp, warpFile);
+						if (plugin.debug)
+							Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
 						if (plugin.mysqlPovolit)
 							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
 						
@@ -80,6 +82,8 @@ public class cmdWARP implements CommandExecutor {
 					String playerName = sender.getName();
 					warp.set(warpName, null);
 					plugin.saveConfig(warp, warpFile);
+					if (plugin.debug)
+						Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
 					if (plugin.mysqlPovolit)
 						plugin.MySQL_Warp(warpName, playerName, "ODSTRANENO");
 					sender.sendMessage("Odstranil jsi warp " + warpName);
