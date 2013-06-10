@@ -1774,7 +1774,7 @@ public class FoE extends JavaPlugin implements Listener {
 					}
 				}
 			}
-		}, 1200L);
+		}, 20L);
 	}
 	
 	public void startLoop5(int length) {
