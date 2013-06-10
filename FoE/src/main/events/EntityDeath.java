@@ -130,6 +130,15 @@ public class EntityDeath implements Listener {
 	
 	public void poslatZpravuMonster(String targetName, String playerName) {
 		if (!p.umrtiZpravy.contains("Monsters." + targetName)) {
+			//List<String> mobMessagesList = cm.umrtiZpravy.getStringList("Monsters." + targetName);
+			//Random rnd = new Random();
+			//if(mobMessagesList.length > 0) {
+			//Bukkit.broadcastMessage(replace(cm.umrtiZpravy.getString(mobMessagesList.get(rnd.next(mobMessagesList.length))), playerName, targetName)
+			//} else {
+			// mobMessagesList.add("&4{JMENO} &8byl zabit &4{MOB}&8.");
+			//cm.umrtiZpravy.set("Monsters." + targetName, mobMessagesList);
+			//cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
+			// }
 			p.umrtiZpravy.set("Monsters." + targetName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
 			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
 		}
