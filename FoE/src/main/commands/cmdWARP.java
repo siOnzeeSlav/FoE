@@ -27,61 +27,64 @@ public class cmdWARP implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("warpcmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("warpcmd")) {
 			try {
-				Player player = (Player) odesilatel;
+				Player player = (Player) sender;
 				if (args.length == 0) {
-					odesilatel.sendMessage(plugin.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp..");
-					odesilatel.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
-					odesilatel.sendMessage(plugin.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
+					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp..");
+					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
+					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
 				} else if (args[0].equalsIgnoreCase("vytvorit")) {
-					if (!odesilatel.hasPermission("FoE.Warp.Vytvorit")) {
+					if (!sender.hasPermission("FoE.Warp.Vytvorit")) {
 						return true;
 					}
-					if (warp.contains(args[1])) {
-						odesilatel.sendMessage("Warp " + args[1] + " již existuje.");
-						return true;
-					}
-					if (args.length > 1) {
-						String playerName = odesilatel.getName();
+					if (args.length > 2) {
+						if (warp.contains(args[1])) {
+							sender.sendMessage("Warp " + args[1] + " již existuje.");
+							return true;
+						}
+						String playerName = sender.getName();
 						String warpName = args[1];
 						String description = "";
-						for (int i = 1; i < args.length; i++) {
-							description = (description + (i > 1 ? " " : " ") + args[i]);
+						for (int i = 2; i < args.length; i++) {
+							description = (description + (i > 1 ? "" : " ") + args[i]);
 						}
 						Location loc = player.getLocation();
 						Double X = loc.getX();
 						Double Y = loc.getY();
 						Double Z = loc.getZ();
 						String world = player.getWorld().getName();
-						warp.set(args[0] + ".X", X);
-						warp.set(args[0] + ".Y", Y);
-						warp.set(args[0] + ".Z", Z);
-						warp.set(args[0] + ".world", world);
-						warp.set(args[0] + ".popis", description);
+						warp.set(warpName + ".X", X);
+						warp.set(warpName + ".Y", Y);
+						warp.set(warpName + ".Z", Z);
+						warp.set(warpName + ".world", world);
+						warp.set(warpName + ".popis", description);
 						plugin.saveConfig(warp, warpFile);
 						if (plugin.mysqlPovolit)
 							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
+						
+						sender.sendMessage("Vytvoøil jsi warp " + warpName);
 					} else {
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
 					}
 				} else if (args[0].equalsIgnoreCase("odstranit")) {
-					if (!odesilatel.hasPermission("FoE.Warp.Odstranit")) {
+					if (!sender.hasPermission("FoE.Warp.Odstranit")) {
 						return true;
 					}
 					if (!warp.contains(args[1])) {
-						odesilatel.sendMessage("Warp " + args[1] + " neexistuje.");
+						sender.sendMessage("Warp " + args[1] + " neexistuje.");
 						return true;
 					}
 					String warpName = args[1];
-					String playerName = odesilatel.getName();
+					String playerName = sender.getName();
 					warp.set(warpName, null);
 					plugin.saveConfig(warp, warpFile);
 					if (plugin.mysqlPovolit)
 						plugin.MySQL_Warp(warpName, playerName, "ODSTRANENO");
+					sender.sendMessage("Odstranil jsi warp " + warpName);
 				} else if (warp.contains(args[0])) {
-					if (!odesilatel.hasPermission("FoE.Warp." + args[0]) && (!odesilatel.hasPermission("FoE.Warp.*"))) {
+					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
 						return true;
 					}
 					String warpName = args[0];
@@ -91,9 +94,9 @@ public class cmdWARP implements CommandExecutor {
 					World world = Bukkit.getWorld(warp.getString(warpName + ".world"));
 					String description = warp.getString(warpName + ".popis");
 					player.teleport(new Location(world, X, Y, Z));
-					odesilatel.sendMessage(description);
+					sender.sendMessage(description);
 				} else {
-					odesilatel.sendMessage("Warp " + args[0] + " neexistuje.");
+					sender.sendMessage("Warp " + args[0] + " neexistuje.");
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
