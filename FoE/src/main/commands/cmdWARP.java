@@ -32,7 +32,7 @@ public class cmdWARP implements CommandExecutor {
 			try {
 				Player player = (Player) sender;
 				if (args.length == 0) {
-					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp..");
+					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
 					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
 					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
 				} else if (args[0].equalsIgnoreCase("vytvorit")) {
@@ -64,7 +64,7 @@ public class cmdWARP implements CommandExecutor {
 						if (plugin.mysqlPovolit)
 							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
 						
-						sender.sendMessage("Vytvoøil jsi warp " + warpName);
+						sender.sendMessage("Vytvoøil jsi warp '" + warpName + "' s popiskem '" + description + "'.");
 					} else {
 						sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
 					}
@@ -83,6 +83,11 @@ public class cmdWARP implements CommandExecutor {
 					if (plugin.mysqlPovolit)
 						plugin.MySQL_Warp(warpName, playerName, "ODSTRANENO");
 					sender.sendMessage("Odstranil jsi warp " + warpName);
+				} else if (args[0].equalsIgnoreCase("list")) {
+					if (warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false).size() > 0)
+						sender.sendMessage("" + warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false));
+					else
+						sender.sendMessage("Nebyl nazelen žádný warp.");
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
 						return true;
