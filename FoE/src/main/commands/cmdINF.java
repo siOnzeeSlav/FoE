@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.BanManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -15,7 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class cmdINF implements CommandExecutor {
-	public FoE	plugin;
+	public FoE			plugin;
+	public BanManager	bm	= new BanManager();
 	
 	public cmdINF(FoE plugin) {
 		this.plugin = plugin;
@@ -33,7 +35,7 @@ public class cmdINF implements CommandExecutor {
 					sender.sendMessage("IP: " + plugin.uziv.get("IP"));
 				if (sender.isOp())
 					sender.sendMessage("lastIP: " + target.getAddress().getHostName());
-				if (plugin.isBanned(targetName)) {
+				if (bm.isBanned(targetName)) {
 					sender.sendMessage("Ban: Ano");
 					sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
 				}
@@ -62,7 +64,7 @@ public class cmdINF implements CommandExecutor {
 				sender.sendMessage("IP: " + plugin.uziv.get("IP"));
 			if (sender.isOp())
 				sender.sendMessage("lastIP: " + plugin.uziv.get("lastIP"));
-			if (plugin.isBanned(targetName)) {
+			if (bm.isBanned(targetName)) {
 				sender.sendMessage("Ban: Ano");
 				sender.sendMessage("Dùvod: " + plugin.uziv.getString("banReason"));
 			}

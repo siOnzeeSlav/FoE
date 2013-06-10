@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.BanManager;
 import main.FoE;
 
 import org.bukkit.command.Command;
@@ -11,7 +12,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdKICK implements CommandExecutor {
-	public FoE	plugin;
+	public FoE			plugin;
+	public BanManager	bm	= new BanManager();
 	
 	public cmdKICK(FoE plugin) {
 		this.plugin = plugin;
@@ -28,7 +30,7 @@ public class cmdKICK implements CommandExecutor {
 							for (int i = 1; i < args.length; i++) {
 								reason = (reason + (i > 1 ? " " : "") + args[i]);
 							}
-							plugin.kickPlayer(sender.getName(), args[0], reason);
+							bm.kickPlayer(sender.getName(), args[0], reason);
 						} else {
 							sender.sendMessage("Zadejte dùvod.");
 						}

@@ -14,8 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdMSG implements CommandExecutor {
-	public FoE		plugin;
-	public String	vysledek	= "";
+	public FoE	plugin;
 	
 	public cmdMSG(FoE plugin) {
 		this.plugin = plugin;

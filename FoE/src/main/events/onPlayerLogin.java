@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Random;
 
+import main.BanManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -16,7 +17,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class onPlayerLogin implements Listener {
-	public FoE	p;
+	public FoE			p;
+	public BanManager	bm	= new BanManager();
 	
 	public onPlayerLogin(FoE plugin) {
 		this.p = plugin;
@@ -33,7 +35,7 @@ public class onPlayerLogin implements Listener {
 			}
 			p.uzivatel(playerName);
 			if (p.managerBan) {
-				if (p.isBanned(playerName)) {
+				if (bm.isBanned(playerName)) {
 					event.disallow(Result.KICK_BANNED, p.nahraditBarvy(p.uziv.getString("banReason")));
 				}
 			}

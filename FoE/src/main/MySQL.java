@@ -21,11 +21,16 @@ public class MySQL {
 	public FoE					plugin;
 	public Connection			con;
 	public Statement			sta;
-	public File					configFile	= new File("plugins/FoE/config.yml");
-	public YamlConfiguration	config		= YamlConfiguration.loadConfiguration(configFile);
+	public File					configFile		= new File("plugins/FoE/config.yml");
+	public YamlConfiguration	config			= YamlConfiguration.loadConfiguration(configFile);
+	public boolean				MySQLPovolit	= false;
 	
 	public MySQL(FoE plugin) {
 		plugin = this.plugin;
+	}
+	
+	public boolean isMySQLAllowed() {
+		return MySQLPovolit;
 	}
 	
 	public ResultSet query(String query) {

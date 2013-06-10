@@ -90,6 +90,7 @@ public class cmdWARP implements CommandExecutor {
 						sender.sendMessage("Nebyl nazelen žádný warp.");
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
+						sender.sendMessage(plugin.nahraditBarvy(plugin.config.getString("Warp.NemaOpravneni")));
 						return true;
 					}
 					String warpName = args[0];
