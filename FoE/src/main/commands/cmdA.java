@@ -22,13 +22,13 @@ public class cmdA implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("acmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("acmd")) {
 			try {
-				String jmenoHrace = odesilatel.getName();
-				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.AdminChat.Psat"))) {
+				String jmenoHrace = sender.getName();
+				if ((sender.isOp()) || (sender.hasPermission("FoE.AdminChat.Psat"))) {
 					if (args.length == 0) {
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psaní do adminchatu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psaní do adminchatu.");
 					} else {
 						vysledek = "";
 						for (int i = 0; i < args.length; i++) {
@@ -36,11 +36,11 @@ public class cmdA implements CommandExecutor {
 						}
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							if ((p.hasPermission("FoE.AdminChat.Videt")) || (p.isOp()))
-								p.sendMessage(nahradit(plugin.config.getString("AdminChat.Zprava"), odesilatel.getName()));
+								p.sendMessage(nahradit(plugin.config.getString("AdminChat.Zprava"), sender.getName()));
 						}
 					}
 				} else {
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

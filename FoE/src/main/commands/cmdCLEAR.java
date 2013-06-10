@@ -20,18 +20,18 @@ public class cmdCLEAR implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("clearcmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("clearcmd")) {
 			try {
-				String jmenoHrace = odesilatel.getName();
-				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Clear"))) {
+				String jmenoHrace = sender.getName();
+				if ((sender.isOp()) || (sender.hasPermission("FoE.Clear"))) {
 					int i = 0;
 					while (i < 100) {
 						i++;
 						Bukkit.broadcastMessage("");
 					}
 				} else {
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

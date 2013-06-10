@@ -20,40 +20,40 @@ public class cmdCENZURA implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("cenzuracmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("cenzuracmd")) {
 			try {
-				String jmenoHrace = odesilatel.getName();
-				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Cenzura"))) {
+				String jmenoHrace = sender.getName();
+				if ((sender.isOp()) || (sender.hasPermission("FoE.Cenzura"))) {
 					if (args.length == 0) {
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " add [Slovo]  " + ChatColor.GOLD + "Pøídá sprosté slovo do listu.");
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " del [Slovo]  " + ChatColor.GOLD + "Odstraní sprosté slovo z listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " add [Slovo]  " + ChatColor.GOLD + "Pøídá sprosté slovo do listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " del [Slovo]  " + ChatColor.GOLD + "Odstraní sprosté slovo z listu.");
 					} else if (args[0].equalsIgnoreCase("add")) {
 						List<String> b = plugin.config.getStringList("Cenzura.Slova");
 						if (!b.contains(args[1])) {
 							b.add(args[1]);
 							plugin.config.set("Cenzura.Slova", b);
-							odesilatel.sendMessage(args[1] + " bylo pøidáno do cenzury");
+							sender.sendMessage(args[1] + " bylo pøidáno do cenzury");
 							plugin.saveConfig(plugin.config, plugin.configFile);
 						} else {
-							odesilatel.sendMessage(ChatColor.RED + "Toto slovo v cenzùøe již je!");
+							sender.sendMessage(ChatColor.RED + "Toto slovo v cenzùøe již je!");
 						}
 					} else if (args[0].equalsIgnoreCase("del")) {
 						List<String> b = plugin.config.getStringList("Cenzura.Slova");
 						if (b.contains(args[1])) {
 							b.remove(args[1]);
 							plugin.config.set("Cenzura.Slova", b);
-							odesilatel.sendMessage(args[1] + " bylo odstranìno z cenzury");
+							sender.sendMessage(args[1] + " bylo odstranìno z cenzury");
 							plugin.saveConfig(plugin.config, plugin.configFile);
 						} else {
-							odesilatel.sendMessage(ChatColor.RED + "Toto slovo není v cenzuøe!");
+							sender.sendMessage(ChatColor.RED + "Toto slovo není v cenzuøe!");
 						}
 					} else {
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " [Slovo]  " + ChatColor.GOLD + "Pøídá sprosté slovo do listu.");
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " [Slovo]  " + ChatColor.GOLD + "Odstraní sprosté slovo z listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " [Slovo]  " + ChatColor.GOLD + "Pøídá sprosté slovo do listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " [Slovo]  " + ChatColor.GOLD + "Odstraní sprosté slovo z listu.");
 					}
 				} else {
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

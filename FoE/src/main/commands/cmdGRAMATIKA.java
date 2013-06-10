@@ -21,15 +21,15 @@ public class cmdGRAMATIKA implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("gramatikacmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("gramatikacmd")) {
 			try {
-				String jmenoHrace = odesilatel.getName();
-				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Gramatika"))) {
+				String jmenoHrace = sender.getName();
+				if ((sender.isOp()) || (sender.hasPermission("FoE.Gramatika"))) {
 					if (args.length == 0) {
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " add cele [Slovo] [Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
-						odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo]  " + ChatColor.GOLD + "Odstraní slovo z listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " add cele [Slovo] [Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+						sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo]  " + ChatColor.GOLD + "Odstraní slovo z listu.");
 					} else if (args[0].equalsIgnoreCase("add")) {
 						String duvod = "";
 						for (int i = 4; i < args.length; i++) {
@@ -38,8 +38,8 @@ public class cmdGRAMATIKA implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("Vsude")) {
 							List<String> b = plugin.config.getStringList("Gramatika.Vsude");
 							if (args.length < 5) {
-								odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
-								odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+								sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+								sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
 							} else {
 								Iterator<String> it = b.iterator();
 								if (it.hasNext()) {
@@ -47,18 +47,18 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										b.add(args[2] + "," + args[3]);
 										plugin.config.set("Gramatika.Vsude", b);
 										plugin.config.set("Gramatika.Duvody." + args[2], duvod);
-										odesilatel.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do všude s dùvodem" + duvod);
+										sender.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do všude s dùvodem" + duvod);
 										plugin.saveConfig(plugin.config, plugin.configFile);
 									} else {
-										odesilatel.sendMessage(args[2] + " již je v seznamu!");
+										sender.sendMessage(args[2] + " již je v seznamu!");
 									}
 								}
 							}
 						} else if (args[1].equalsIgnoreCase("Cele")) {
 							List<String> b = plugin.config.getStringList("Gramatika.Cele");
 							if (args.length < 5) {
-								odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
-								odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+								sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
+								sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodnìní]  " + ChatColor.GOLD + "Pøídá slovo do listu.");
 							} else {
 								Iterator<String> it = b.iterator();
 								if (it.hasNext()) {
@@ -66,19 +66,19 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										b.add(args[2] + "," + args[3]);
 										plugin.config.set("Gramatika.Cele", b);
 										plugin.config.set("Gramatika.Duvody." + args[2], duvod);
-										odesilatel.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do cele s dùvodem" + duvod);
+										sender.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do cele s dùvodem" + duvod);
 										plugin.saveConfig(plugin.config, plugin.configFile);
 									} else {
-										odesilatel.sendMessage(args[2] + " již je v seznamu!");
+										sender.sendMessage(args[2] + " již je v seznamu!");
 									}
 								}
 							}
 						} else {
-							odesilatel.sendMessage("Doplòte parameter! ' Cele, Vsude '");
+							sender.sendMessage("Doplòte parameter! ' Cele, Vsude '");
 						}
 					} else if (args[0].equalsIgnoreCase("del")) {
 						if (args.length == 1) {
-							odesilatel.sendMessage("Doplòte slovo!");
+							sender.sendMessage("Doplòte slovo!");
 						} else {
 							List<String> e = plugin.config.getStringList("Gramatika.Vsude");
 							List<String> f = plugin.config.getStringList("Gramatika.Cele");
@@ -89,18 +89,18 @@ public class cmdGRAMATIKA implements CommandExecutor {
 									if (e.contains(args[1] + "," + args[2])) {
 										e.remove(args[1] + "," + args[2]);
 										plugin.config.set("Gramatika.Duvody." + args[1], null);
-										odesilatel.sendMessage("Odstranil jste " + args[1] + "," + args[2] + " z Všude");
+										sender.sendMessage("Odstranil jste " + args[1] + "," + args[2] + " z Všude");
 									}
 								}
 								if (it2.hasNext()) {
 									if (f.contains(args[1] + "," + args[2])) {
 										f.remove(args[1] + "," + args[2]);
 										plugin.config.set("Gramatika.Duvody." + args[1], null);
-										odesilatel.sendMessage("Odstranil jste " + args[1] + "," + args[2] + " z Celé");
+										sender.sendMessage("Odstranil jste " + args[1] + "," + args[2] + " z Celé");
 									}
 								}
 							} else {
-								odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo]  " + ChatColor.GOLD + "Odstraní slovo z listu.");
+								sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo]  " + ChatColor.GOLD + "Odstraní slovo z listu.");
 							}
 							plugin.config.set("Gramatika.Vsude", e);
 							plugin.config.set("Gramatika.Cele", f);
@@ -108,7 +108,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 						}
 					}
 				} else
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(writer);

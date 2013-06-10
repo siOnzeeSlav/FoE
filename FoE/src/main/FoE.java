@@ -127,6 +127,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					autoZpravyPovolit				= false;
 	public boolean					warpPovolit						= false;
 	public boolean					msgPovolit						= false;
+	public boolean					herniRezimy						= false;
 	public boolean					debug							= false;
 	public ConfigManager			cm								= new ConfigManager();
 	
@@ -441,6 +442,21 @@ public class FoE extends JavaPlugin implements Listener {
 					startLoop2(vyhledavatAktualizaceCas);
 				}
 			}
+			/*if (Status(config, "herniRezimy.Povolit")) {
+				herniRezimy = true;
+				if (debug)
+					Bukkit.broadcastMessage("herniRezimy byly povoleny.");
+				
+				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Creative") + "'");
+				Bukkit.getServer().getPluginCommand("creativecmd").setExecutor(new cmdCREATIVE(this));
+				if (debug)
+					Bukkit.broadcastMessage("creativecmd byl zaregistrovan.");
+				
+				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Survival") + "'");
+				Bukkit.getServer().getPluginCommand("survivalcmd").setExecutor(new cmdSURVIVAL(this));
+				if (debug)
+					Bukkit.broadcastMessage("survivalcmd byl zaregistrovan.");
+			}*/
 			if (Status(config, "MySQL.Povolit")) {
 				mysql = new MySQL(this);
 				mysqlCas = config.getInt("MySQL.Cas");
@@ -1324,5 +1340,13 @@ public class FoE extends JavaPlugin implements Listener {
 				event.setCancelled(true);
 			}
 		}
+		// Pøíprava na Žádost #017.
+		/*else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Creative"))) {
+			Bukkit.getServer().dispatchCommand(event.getPlayer(), "creativecmd " + vysledek);
+			event.setCancelled(true);
+			} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Survival"))) {
+			Bukkit.getServer().dispatchCommand(event.getPlayer(), "survivalcmd " + vysledek);
+			event.setCancelled(true);
+			}*/
 	}
 }

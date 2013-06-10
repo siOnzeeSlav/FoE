@@ -20,22 +20,22 @@ public class cmdZPRAVA implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if (prikaz.getName().equalsIgnoreCase("zpravacmd")) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("zpravacmd")) {
 			try {
 				String vysledek = "";
-				String jmenoHrace = odesilatel.getName();
-				if ((odesilatel.isOp()) || (odesilatel.hasPermission("FoE.Oznameni"))) {
+				String jmenoHrace = sender.getName();
+				if ((sender.isOp()) || (sender.hasPermission("FoE.Oznameni"))) {
 					for (int i = 0; i < args.length; i++) {
 						vysledek = vysledek + (i > 0 ? " " : "") + args[i];
 					}
 					if (vysledek.isEmpty()) {
-						odesilatel.sendMessage(ChatColor.RED + "Nemùžete odeslat prázdný text!");
+						sender.sendMessage(ChatColor.RED + "Nemùžete odeslat prázdný text!");
 					} else {
 						Bukkit.broadcastMessage(plugin.nahradit(plugin.config.getString("Oznameni.Prefix"), jmenoHrace) + " " + plugin.nahradit(plugin.config.getString("Oznameni.Suffix"), jmenoHrace) + vysledek);
 					}
 				} else {
-					odesilatel.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

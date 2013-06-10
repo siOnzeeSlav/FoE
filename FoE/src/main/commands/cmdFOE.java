@@ -22,25 +22,26 @@ public class cmdFOE implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender odesilatel, Command prikaz, String label, String[] args) {
-		if ((prikaz.getName().equalsIgnoreCase("FoE")) && (args.length == 0)) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if ((cmd.getName().equalsIgnoreCase("FoE")) && (args.length == 0)) {
 			try {
-				odesilatel.sendMessage("------ " + ChatColor.GOLD + plugin.getDescription().getVersion() + ChatColor.WHITE + " ------");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Psaní do adminchatu.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Manager.Ban") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Zakáže hráèovy pøístup na server.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Manager.Unban") + "  [HRAC] [DUVOD]  " + ChatColor.GOLD + "Povolí hráèovy pøístup na server.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Manager.Kick") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Vyhodí hráèe ze serveru.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " ADD [SLOVO]  " + ChatColor.GOLD + "Pøidá slovo do cenzury.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " DEL [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z cenzury.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " ADD [CELE nebo VSUDE] [SLOVO] [SLOVO] [DÙVOD]  " + ChatColor.GOLD + "Pøidá slovo do gramatiky.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " DEL [CELE nebo VSUDE] [SLOVO] [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z gramatiky.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Help") + " ZPRÁVA]  " + ChatColor.GOLD + "Napíše zprávu adminùm.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.VypnoutChat") + "   " + ChatColor.GOLD + "Vypne a Zapne chat.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Nahranost") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí jak dlouho hráè hraje na serveru.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Inventar") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí co má hráè v inventáøi.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Teleport") + " [HRÁÈ]  " + ChatColor.GOLD + "Teleportuje na hráèe který je online.");
-				odesilatel.sendMessage(plugin.config.getString("Prikazy.Oznameni") + " [TEXT]  " + ChatColor.GOLD + "Napíše oznámení s nastavením v configu.");
-				odesilatel.sendMessage("/foe mysqlupdate  " + ChatColor.GOLD + "Aktualizuje kompletnì databázi MySQL FoE.");
+				sender.sendMessage("------ " + ChatColor.GOLD + plugin.getDescription().getVersion() + ChatColor.WHITE + " ------");
+				sender.sendMessage(plugin.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Psaní do adminchatu.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Manager.Ban") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Zakáže hráèovy pøístup na server.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Manager.Unban") + "  [HRAC] [DUVOD]  " + ChatColor.GOLD + "Povolí hráèovy pøístup na server.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Manager.Kick") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Vyhodí hráèe ze serveru.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " ADD [SLOVO]  " + ChatColor.GOLD + "Pøidá slovo do cenzury.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Cenzura") + " DEL [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z cenzury.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " ADD [CELE nebo VSUDE] [SLOVO] [SLOVO] [DÙVOD]  " + ChatColor.GOLD + "Pøidá slovo do gramatiky.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Gramatika") + " DEL [CELE nebo VSUDE] [SLOVO] [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z gramatiky.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Help") + " ZPRÁVA]  " + ChatColor.GOLD + "Napíše zprávu adminùm.");
+				sender.sendMessage(plugin.config.getString("Prikazy.VypnoutChat") + "   " + ChatColor.GOLD + "Vypne a Zapne chat.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Nahranost") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí jak dlouho hráè hraje na serveru.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Inventar") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí co má hráè v inventáøi.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Teleport") + " [HRÁÈ]  " + ChatColor.GOLD + "Teleportuje na hráèe který je online.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Oznameni") + " [TEXT]  " + ChatColor.GOLD + "Napíše oznámení s nastavením v configu.");
+				sender.sendMessage(plugin.config.getString("Prikazy.Reload") + " [TEXT]  " + ChatColor.GOLD + "Znovunaète nastavení configu..");
+				sender.sendMessage("/foe mysqlupdate  " + ChatColor.GOLD + "Aktualizuje kompletnì databázi MySQL FoE.");
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(writer);
@@ -48,7 +49,7 @@ public class cmdFOE implements CommandExecutor {
 				plugin.Error(writer.toString());
 			}
 		}
-		if ((prikaz.getName().equalsIgnoreCase("FoE")) && args.length >= 1 && (args[0].equalsIgnoreCase("mysqlupdate")) && odesilatel.isOp()) {
+		if ((cmd.getName().equalsIgnoreCase("FoE")) && args.length >= 1 && (args[0].equalsIgnoreCase("mysqlupdate")) && sender.isOp()) {
 			try {
 				if (plugin.mysqlPovolit) {
 					if (plugin.mysql.isOpen()) {
@@ -66,10 +67,23 @@ public class cmdFOE implements CommandExecutor {
 							}
 						}
 					}
-					odesilatel.sendMessage(ChatColor.GREEN + "Databáze byla úspìšnì aktualizována.");
+					sender.sendMessage(ChatColor.GREEN + "Databáze byla úspìšnì aktualizována.");
 				} else {
-					odesilatel.sendMessage("MySQL není povoleno!");
+					sender.sendMessage("MySQL není povoleno!");
 				}
+			} catch (Exception e) {
+				Writer writer = new StringWriter();
+				PrintWriter printWriter = new PrintWriter(writer);
+				e.printStackTrace(printWriter);
+				plugin.Error(writer.toString());
+			}
+		}
+		
+		if ((cmd.getName().equalsIgnoreCase("FoE")) && args.length >= 1 && (args[0].equalsIgnoreCase("reload")) && sender.isOp()) {
+			try {
+				plugin.configFile = new File("");
+				plugin.config = YamlConfiguration.loadConfiguration(plugin.configFile);
+				
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(writer);
