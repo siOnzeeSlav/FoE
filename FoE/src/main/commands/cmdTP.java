@@ -27,7 +27,7 @@ public class cmdTP implements CommandExecutor {
 				String playerName = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Tp"))) {
 					if (args.length == 0) {
-						sender.sendMessage(plugin.config.getString("Prikazy.Teleport") + " (jmenoHr·Ëe)");
+						sender.sendMessage(plugin.config.getString("Prikazy.Teleport") + " [JMENO]");
 					} else {
 						Player player = (Player) sender;
 						Player target = Bukkit.getPlayer(args[0]);
@@ -36,13 +36,11 @@ public class cmdTP implements CommandExecutor {
 							sender.sendMessage(plugin.nahradit(plugin.config.getString("TP.Zprava.Uspesne"), target.getName()));
 						} else {
 							sender.sendMessage(plugin.nahradit(plugin.config.getString("TP.Zprava.Offline"), args[0]));
-							sender.sendMessage("Vyhledavam offline pozici.");
 							plugin.uzivatel(args[0]);
 							if (plugin.uziv.contains("X") && plugin.uziv.contains("Y") && plugin.uziv.contains("Z") && plugin.uziv.contains("Svet")) {
 								player.teleport(new Location(Bukkit.getWorld(plugin.uziv.getString("Svet")), plugin.uziv.getDouble("X"), plugin.uziv.getDouble("Y"), plugin.uziv.getDouble("Z")));
-								
 							} else {
-								sender.sendMessage("Bohuzel, hrac " + args[0] + " zde neni zaznamenan.");
+								sender.sendMessage(plugin.nahradit(plugin.config.getString("TP.Zprava.NeniZaznamenan"), args[0]));
 							}
 						}
 					}

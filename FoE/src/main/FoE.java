@@ -1489,7 +1489,10 @@ public class FoE extends JavaPlugin implements Listener {
 				config.set("TP.Zprava.Uspesne", "&4Úspìšnì &8jste se teleportoval k &4{JMENO}");
 			
 			if (!config.contains("TP.Zprava.Offline"))
-				config.set("TP.Zprava.Offline", "&4Hráè {JMENO} &8není online!");
+				config.set("TP.Zprava.Offline", "&4Hráè {JMENO} &8není online! Zkusíme najít jeho poslední pozici.");
+			
+			if (!config.contains("TP.Zprava.NeniZaznamenan"))
+				config.set("TP.Zprava.NeniZaznamenan", "&8Litujeme ale &4{JMENO}&8 není zde zaznamenán.");
 			
 			if (!config.contains("AntiSpam.Povolit"))
 				config.set("AntiSpam.Povolit", "ano");
