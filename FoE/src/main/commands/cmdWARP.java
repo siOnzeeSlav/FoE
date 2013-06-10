@@ -48,7 +48,7 @@ public class cmdWARP implements CommandExecutor {
 						String warpName = args[1];
 						String description = "";
 						for (int i = 2; i < args.length; i++) {
-							description = (description + (i > 1 ? "" : " ") + args[i]);
+							description = (description + (i > 1 ? " " : "") + args[i]);
 						}
 						Location loc = player.getLocation();
 						Double X = loc.getX();
