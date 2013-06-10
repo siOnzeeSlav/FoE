@@ -28,7 +28,7 @@ public class onQuit implements Listener {
 			}
 			if (p.guiPovolit) {
 				for (Player PL : Bukkit.getOnlinePlayers()) {
-					p.aktualizovatGUI(PL);
+					p.aktualizovatGUI(PL.getName());
 				}
 			}
 			if (p.teleportPovolit) {
