@@ -127,6 +127,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					autoZpravyPovolit				= false;
 	public boolean					warpPovolit						= false;
 	public boolean					msgPovolit						= false;
+	public boolean					kdyzSeServerVypinaPovolit		= false;
 	public boolean					debug							= false;
 	
 	@Override
@@ -354,6 +355,12 @@ public class FoE extends JavaPlugin implements Listener {
 			if (debug)
 				Bukkit.broadcastMessage("Zprava kdyz se hrac odpoji byla povolena.");
 			kdyzHracSeOdpojiPovolit = true;
+		}
+		
+		if (Status(config, "KdyzSeVypneServer.Povolit")) {
+			kdyzSeServerVypinaPovolit = true;
+			if (debug)
+				Bukkit.broadcastMessage("Kdyz se server vypne vlastni hlaska byla povolena.");
 		}
 		
 		if (Status(config, "uvitaciZprava.Povolit")) {
@@ -738,6 +745,8 @@ public class FoE extends JavaPlugin implements Listener {
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			odRegistrovatHrace(p.getName());
+			if (kdyzSeServerVypinaPovolit)
+				p.kickPlayer(config.getString("KdyzSeVypneServer.Zprava"));
 		}
 		Bukkit.getScheduler().cancelAllTasks();
 	}
@@ -1595,6 +1604,12 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!config.contains("Msg.Format"))
 				config.set("Msg.Format", "&8[&4{JMENO}&8 -> &4{TARGET}&8]&f {ZPRAVA}");
+			
+			if (!config.contains("KdyzSeVypneServer.Povolit"))
+				config.set("KdyzSeVypneServer.Povolit", "ano");
+			
+			if (!config.contains("KdyzSeVypneServer.Zprava"))
+				config.set("KdyzSeVypneServer.Zprava", "Server se vypina!");
 			
 			saveConfig(umrtiZpravy, umrtiZpravyFile);
 			saveConfig(config, configFile);
