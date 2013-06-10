@@ -1808,94 +1808,83 @@ public class FoE extends JavaPlugin implements Listener {
 			vysledek = (vysledek + (i > 1 ? " " : "") + args[i]);
 		}
 		
-		if (adminChatPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.AdminChat"))) {
+		if (args[0].equalsIgnoreCase(config.getString("Prikazy.AdminChat"))) {
+			if (adminChatPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "acmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (managerBan) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Ban"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Ban"))) {
+			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "bancmd " + vysledek);
 				event.setCancelled(true);
 			}
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Unban"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Unban"))) {
+			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "unbancmd " + vysledek);
 				event.setCancelled(true);
 			}
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Kick"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Kick"))) {
+			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "kickcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (cenzuraPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Cenzura"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Cenzura"))) {
+			if (cenzuraPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "cenzuracmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (gramatikaPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Gramatika"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Gramatika"))) {
+			if (gramatikaPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "gramatikacmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (zpravaAdminum) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Help"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Help"))) {
+			if (zpravaAdminum) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "helpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (vypnoutChatPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.VypnoutChat"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.VypnoutChat"))) {
+			if (vypnoutChatPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "chatcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (nahranostPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Nahranost"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Nahranost"))) {
+			if (nahranostPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "infcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (inventarPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Inventar"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Inventar"))) {
+			if (inventarPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "invcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (teleportPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Teleport"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Teleport"))) {
+			if (teleportPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "tpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (oznameniPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Oznameni"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Oznameni"))) {
+			if (oznameniPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "zpravacmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (clearChat) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Clear"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Clear"))) {
+			if (clearChat) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "clearcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (vtipyPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Vtip"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Vtip"))) {
+			if (vtipyPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "vtipcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (warpPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Warp"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Warp"))) {
+			if (warpPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "warpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		}
-		if (msgPovolit) {
-			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Msg"))) {
+		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Msg"))) {
+			if (msgPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "msgcmd " + vysledek);
 				event.setCancelled(true);
 			}
