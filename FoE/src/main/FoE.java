@@ -1976,5 +1976,11 @@ public class FoE extends JavaPlugin implements Listener {
 				event.setCancelled(true);
 			}
 		}
+		if (warpPovolit) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Warp"))) {
+				Bukkit.getServer().dispatchCommand(event.getPlayer(), "warpcmd " + vysledek);
+				event.setCancelled(true);
+			}
+		}
 	}
 }
