@@ -78,6 +78,7 @@ public class MySQL {
 			sta = con.createStatement();
 			int val = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Uzivatele (id INT AUTO_INCREMENT, hrac VARCHAR(32), nahranost BIGINT(20), PRIMARY KEY (id))");
 			int val2 = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Banlist (id INT AUTO_INCREMENT, hrac VARCHAR(32), admin VARCHAR(32), duvod text NOT NULL, datum BIGINT(20), typ VARCHAR(32), PRIMARY KEY (id))");
+			int val3 = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Warpy (id INT AUTO_INCREMENT, warp VARCHAR(32), autor VARCHAR(32), datum BIGINT(20), typ VARCHAR(32),  PRIMARY KEY (id))");
 			if (val == 0)
 				System.out.println("Tabulka 'Uzivatele' byla zkontrolovana.");
 			else
@@ -87,6 +88,11 @@ public class MySQL {
 				System.out.println("Tabulka 'Banlist' byla zkontrolovana.");
 			else
 				System.out.println("Tabulka 'Banlist' byla vytvorena.");
+			
+			if (val3 == 0)
+				System.out.println("Tabulka 'Warpy' byla zkontrolovana.");
+			else
+				System.out.println("Tabulka 'Warpy' byla vytvorena.");
 		} catch (SQLException e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);

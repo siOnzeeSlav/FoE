@@ -37,6 +37,7 @@ import main.commands.cmdKICK;
 import main.commands.cmdTP;
 import main.commands.cmdUNBAN;
 import main.commands.cmdVTIP;
+import main.commands.cmdWARP;
 import main.commands.cmdZPRAVA;
 import main.events.EntityDeath;
 import main.events.onChat;
@@ -124,6 +125,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					whiteListPovolit				= false;
 	public boolean					uvitaciZpravaPovolit			= false;
 	public boolean					autoZpravyPovolit				= false;
+	public boolean					warpPovolit						= false;
 	public boolean					debug							= false;
 	
 	@Override
@@ -244,6 +246,12 @@ public class FoE extends JavaPlugin implements Listener {
 			if (debug)
 				Bukkit.broadcastMessage("cenzuracmd byl zaregistrovan.");
 			cenzuraPovolit = true;
+		}
+		if (Status(config, "Warp.Povolit")) {
+			warpPovolit = true;
+			Bukkit.getServer().getPluginCommand("warpcmd").setExecutor(new cmdWARP(this));
+			if (debug)
+				Bukkit.broadcastMessage("warpcmd byl zaregistrovan.");
 		}
 		if (Status(config, "AdminChat.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.AdminChat") + "'");
@@ -440,7 +448,34 @@ public class FoE extends JavaPlugin implements Listener {
 		System.out.println("[FoE] byl uspesne zapnut.");
 	}
 	
-	public void aktualizovatMySQL(String playerName) {
+	public void MySQL_Warp(String warpName, String playerName, String typ) {
+		try {
+			if (warpName != null && playerName != null) {
+				return;
+			}
+			if (typ == "AKTIVNI") {
+				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
+				if (rs.next()) {
+					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'AKTIVNI' AND SET `datum` = '" + System.currentTimeMillis() + "' WHERE `warp` = '" + warpName + "'");
+				} else {
+					mysql.query("INSERT INTO `FoE_Warpy` (warp, autor, datum, typ) VALUES (" + "'" + warpName + "'," + " '" + playerName + "', '" + System.currentTimeMillis() + "', 'AKTIVNI')");
+				}
+			}
+			if (typ == "ODSTRANENO") {
+				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
+				if (rs.next()) {
+					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'ODSTRANENO' WHERE `warp` = '" + warpName + "'");
+				}
+			}
+		} catch (SQLException e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
+	public void MySQL_Nahranost(String playerName) {
 		try {
 			uzivatel(playerName);
 			Long nahranost = (System.currentTimeMillis() - nahranyCas.get(playerName)) + uziv.getLong("Nahrano");
@@ -456,6 +491,13 @@ public class FoE extends JavaPlugin implements Listener {
 			e.printStackTrace(printWriter);
 			Error(writer.toString());
 		}
+	}
+	
+	public void MySQL_Manager(String playerName, String targetName, String reason, String typ) {
+		if (playerName != null && targetName != null && reason != null && typ != null)
+			mysql.query("INSERT INTO `FoE_Banlist` (hrac, admin, duvod, datum, typ) VALUES (" + "'" + targetName + "'," + " '" + playerName + "'," + " '" + reason + "'," + " '" + System.currentTimeMillis() + "'," + " '" + typ + "')");
+		else
+			System.out.println("Nekde je chyba, null: " + playerName + "|" + targetName + "|" + reason + "|" + typ);
 	}
 	
 	public void aktualizovatGUI(String playerName) {
@@ -785,7 +827,7 @@ public class FoE extends JavaPlugin implements Listener {
 				uziv.set("Nahrano", vysledek);
 				saveConfig(uziv, uzivFile);
 				if (mysqlPovolit)
-					aktualizovatMySQL(jmenoHrace);
+					MySQL_Nahranost(jmenoHrace);
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -1093,7 +1135,7 @@ public class FoE extends JavaPlugin implements Listener {
 			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Kick.Zprava"), sender, playerName, reason));
 			pl.kickPlayer(reason);
 			if (mysqlPovolit)
-				aktualizovatMySQLBan(sender, playerName, reason, "KICK");
+				MySQL_Manager(sender, playerName, reason, "KICK");
 		} else {
 			Player s = Bukkit.getPlayer(sender);
 			s.sendMessage(playerName + " je již zabanován!");
@@ -1111,7 +1153,7 @@ public class FoE extends JavaPlugin implements Listener {
 				pl.kickPlayer(reason);
 			}
 			if (mysqlPovolit)
-				aktualizovatMySQLBan(sender, playerName, reason, "BAN");
+				MySQL_Manager(sender, playerName, reason, "BAN");
 			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Ban.Zprava"), sender, playerName, reason));
 		} else {
 			Player p = Bukkit.getPlayer(sender);
@@ -1125,7 +1167,7 @@ public class FoE extends JavaPlugin implements Listener {
 			uziv.set("isBanned", false);
 			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Unban.Zprava"), sender, playerName, reason));
 			if (mysqlPovolit)
-				aktualizovatMySQLBan(sender, playerName, reason, "UNBAN");
+				MySQL_Manager(sender, playerName, reason, "UNBAN");
 			saveConfig(uziv, uzivFile);
 		} else {
 			Player p = Bukkit.getPlayer(sender);
@@ -1149,13 +1191,6 @@ public class FoE extends JavaPlugin implements Listener {
 		} else {
 			return "Messsage = null";
 		}
-	}
-	
-	public void aktualizovatMySQLBan(String playerName, String targetName, String reason, String typ) {
-		if (playerName != null && targetName != null && reason != null && typ != null)
-			mysql.query("INSERT INTO `FoE_Banlist` (hrac, admin, duvod, datum, typ) VALUES (" + "'" + targetName + "'," + " '" + playerName + "'," + " '" + reason + "'," + " '" + System.currentTimeMillis() + "'," + " '" + typ + "')");
-		else
-			System.out.println("Nekde je chyba, null: " + playerName + "|" + targetName + "|" + reason + "|" + typ);
 	}
 	
 	public void deleteFolder(File folder) {
@@ -1222,6 +1257,9 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			if (!config.contains("Prikazy.Vtip"))
 				config.set("Prikazy.Vtip", "/vtip");
+			
+			if (!config.contains("Prikazy.Warp"))
+				config.set("Prikazy.Warp", "/warp");
 			
 			if (!config.contains("MySQL.Povolit"))
 				config.set("MySQL.Povolit", "ne");
@@ -1642,6 +1680,9 @@ public class FoE extends JavaPlugin implements Listener {
 				e.add("{PREFIX} kupte si u nás nìjakou vìc a podpoøte tím server.");
 				config.set("autoZpravy.Zpravy", e);
 			}
+			
+			if (!config.contains("Warp.Povolit"))
+				config.set("Warp.Povolit", "ano");
 			
 			saveConfig(umrtiZpravy, umrtiZpravyFile);
 			saveConfig(config, configFile);
