@@ -15,7 +15,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +33,7 @@ import main.commands.cmdHELP;
 import main.commands.cmdINF;
 import main.commands.cmdINV;
 import main.commands.cmdKICK;
+import main.commands.cmdMSG;
 import main.commands.cmdTP;
 import main.commands.cmdUNBAN;
 import main.commands.cmdVTIP;
@@ -126,6 +126,7 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					uvitaciZpravaPovolit			= false;
 	public boolean					autoZpravyPovolit				= false;
 	public boolean					warpPovolit						= false;
+	public boolean					msgPovolit						= false;
 	public boolean					debug							= false;
 	
 	@Override
@@ -240,6 +241,13 @@ public class FoE extends JavaPlugin implements Listener {
 				Bukkit.broadcastMessage("gramatikacmd byl zaregistrovan.");
 			gramatikaPovolit = true;
 		}
+		if (Status(config, "Msg.Povolit")) {
+			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Msg") + "'");
+			msgPovolit = true;
+			Bukkit.getServer().getPluginCommand("msgcmd").setExecutor(new cmdMSG(this));
+			if (debug)
+				Bukkit.broadcastMessage("cmdmsg byl zaregistrovan.");
+		}
 		if (Status(config, "Cenzura.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Cenzura") + "'");
 			Bukkit.getServer().getPluginCommand("cenzuracmd").setExecutor(new cmdCENZURA(this));
@@ -249,6 +257,7 @@ public class FoE extends JavaPlugin implements Listener {
 		}
 		if (Status(config, "Warp.Povolit")) {
 			warpPovolit = true;
+			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Warp") + "'");
 			Bukkit.getServer().getPluginCommand("warpcmd").setExecutor(new cmdWARP(this));
 			if (debug)
 				Bukkit.broadcastMessage("warpcmd byl zaregistrovan.");
@@ -467,7 +476,18 @@ public class FoE extends JavaPlugin implements Listener {
 					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'ODSTRANENO' WHERE `warp` = '" + warpName + "'");
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
+	public void MySQL_Message(String playerName, String targetName, String message) {
+		try {
+			mysql.query("INSERT INTO `FoE_Zpravy` (hrac, prijemce, zprava, datum) VALUES ('" + playerName + "', '" + targetName + "', '" + message + "', '" + System.currentTimeMillis() + "')");
+		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
 			e.printStackTrace(printWriter);
@@ -483,108 +503,7 @@ public class FoE extends JavaPlugin implements Listener {
 			if (rs.next()) {
 				mysql.query("UPDATE `FoE_Uzivatele` SET `nahranost` = '" + nahranost + "' WHERE `hrac` = '" + playerName + "'");
 			} else {
-				mysql.query("INSERT INTO `FoE_Uzivatele` (hrac,nahranost) VALUES ('" + playerName + "', '" + nahranost + "') ON DUPLICATE KEY UPDATE `nahranost` = VALUES(nahranost)");
-			}
-		} catch (SQLException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
-		}
-	}
-	
-	public void MySQL_Manager(String playerName, String targetName, String reason, String typ) {
-		if (playerName != null && targetName != null && reason != null && typ != null)
-			mysql.query("INSERT INTO `FoE_Banlist` (hrac, admin, duvod, datum, typ) VALUES (" + "'" + targetName + "'," + " '" + playerName + "'," + " '" + reason + "'," + " '" + System.currentTimeMillis() + "'," + " '" + typ + "')");
-		else
-			System.out.println("Nekde je chyba, null: " + playerName + "|" + targetName + "|" + reason + "|" + typ);
-	}
-	
-	public void aktualizovatGUI(String playerName) {
-		try {
-			Player player = Bukkit.getPlayer(playerName);
-			if (player != null) {
-				if (nahranyCas.containsKey(player.getName())) {
-					uzivatel(player.getName());
-					long[] cas = spravnyFormat((System.currentTimeMillis() - nahranyCas.get(player.getName())) + uziv.getLong("Nahrano"));
-					Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-					Objective objective = board.registerNewObjective(player.getName(), "dummy");
-					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-					objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), player.getName()));
-					Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
-					Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
-					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
-					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
-					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
-					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
-					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
-					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
-					
-					if (guiTydny)
-						score.setScore((int) cas[4]);
-					if (guiDny)
-						score2.setScore((int) cas[3]);
-					if (guiHodiny)
-						score3.setScore((int) cas[2]);
-					if (guiPocetHracu)
-						score4.setScore(Bukkit.getOnlinePlayers().length);
-					if (guiIconomy) {
-						Account account = new Accounts().get(player.getName());
-						Double money = account.getHoldings().getBalance();
-						int intMoney = money.intValue();
-						score5.setScore(intMoney);
-					}
-					if (guiZabitoHracu)
-						score6.setScore(uziv.getInt("ZabitoHracu"));
-					if (guiZabitoMobu)
-						score7.setScore(uziv.getInt("ZabitoMobu"));
-					if (guiZabitoZvirat)
-						score8.setScore(uziv.getInt("ZabitoZvirat"));
-					if (guiPocetSmrti)
-						score9.setScore(uziv.getInt("PocetSmrti"));
-					player.setScoreboard(board);
-				} else {
-					uzivatel(player.getName());
-					long[] cas = spravnyFormat(uziv.getLong("Nahrano"));
-					Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-					Objective objective = board.registerNewObjective(player.getName(), "dummy");
-					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-					objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), player.getName()));
-					Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
-					Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
-					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
-					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
-					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
-					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
-					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
-					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
-					
-					if (guiTydny)
-						score.setScore((int) cas[4]);
-					if (guiDny)
-						score2.setScore((int) cas[3]);
-					if (guiHodiny)
-						score3.setScore((int) cas[2]);
-					if (guiPocetHracu)
-						score4.setScore(Bukkit.getOnlinePlayers().length);
-					if (guiIconomy) {
-						Account account = new Accounts().get(player.getName());
-						Double money = account.getHoldings().getBalance();
-						int intMoney = money.intValue();
-						score5.setScore(intMoney);
-					}
-					if (guiZabitoHracu)
-						score6.setScore(uziv.getInt("ZabitoHracu"));
-					if (guiZabitoMobu)
-						score7.setScore(uziv.getInt("ZabitoMobu"));
-					if (guiZabitoZvirat)
-						score8.setScore(uziv.getInt("ZabitoZvirat"));
-					if (guiPocetSmrti)
-						score9.setScore(uziv.getInt("PocetSmrti"));
-					player.setScoreboard(board);
-				}
+				mysql.query("INSERT INTO `FoE_Uzivatele` (hrac,nahranost) VALUES ('" + playerName + "', '" + nahranost + "')");
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -594,90 +513,68 @@ public class FoE extends JavaPlugin implements Listener {
 		}
 	}
 	
-	public void aktualizovatGUI(Player player) {
+	public void MySQL_Manager(String playerName, String targetName, String reason, String typ) {
 		try {
+			if (playerName != null && targetName != null && reason != null && typ != null)
+				mysql.query("INSERT INTO `FoE_Banlist` (hrac, admin, duvod, datum, typ) VALUES (" + "'" + targetName + "'," + " '" + playerName + "'," + " '" + reason + "'," + " '" + System.currentTimeMillis() + "'," + " '" + typ + "')");
+			else
+				System.out.println("Nekde je chyba, null: " + playerName + "|" + targetName + "|" + reason + "|" + typ);
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			Error(writer.toString());
+		}
+	}
+	
+	public void aktualizovatGUI(String playerName) {
+		try {
+			Player player = Bukkit.getPlayer(playerName);
 			if (player != null) {
-				if (nahranyCas.containsKey(player.getName())) {
-					uzivatel(player.getName());
-					long[] cas = spravnyFormat((System.currentTimeMillis() - nahranyCas.get(player.getName())) + uziv.getLong("Nahrano"));
-					Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-					Objective objective = board.registerNewObjective(player.getName(), "dummy");
-					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-					objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), player.getName()));
-					Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
-					Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
-					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
-					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
-					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
-					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
-					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
-					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
-					
-					if (guiTydny)
-						score.setScore((int) cas[4]);
-					if (guiDny)
-						score2.setScore((int) cas[3]);
-					if (guiHodiny)
-						score3.setScore((int) cas[2]);
-					if (guiPocetHracu)
-						score4.setScore(Bukkit.getOnlinePlayers().length);
-					if (guiIconomy) {
-						Account account = new Accounts().get(player.getName());
-						Double money = account.getHoldings().getBalance();
-						int intMoney = money.intValue();
-						score5.setScore(intMoney);
-					}
-					if (guiZabitoHracu)
-						score6.setScore(uziv.getInt("ZabitoHracu"));
-					if (guiZabitoMobu)
-						score7.setScore(uziv.getInt("ZabitoMobu"));
-					if (guiZabitoZvirat)
-						score8.setScore(uziv.getInt("ZabitoZvirat"));
-					if (guiPocetSmrti)
-						score9.setScore(uziv.getInt("PocetSmrti"));
-					player.setScoreboard(board);
-				} else {
-					uzivatel(player.getName());
-					long[] cas = spravnyFormat(uziv.getLong("Nahrano"));
-					Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-					Objective objective = board.registerNewObjective(player.getName(), "dummy");
-					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-					objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), player.getName()));
-					Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
-					Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
-					Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
-					Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
-					Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
-					Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
-					Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-					Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
-					Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
-					
-					if (guiTydny)
-						score.setScore((int) cas[4]);
-					if (guiDny)
-						score2.setScore((int) cas[3]);
-					if (guiHodiny)
-						score3.setScore((int) cas[2]);
-					if (guiPocetHracu)
-						score4.setScore(Bukkit.getOnlinePlayers().length);
-					if (guiIconomy) {
-						Account account = new Accounts().get(player.getName());
-						Double money = account.getHoldings().getBalance();
-						int intMoney = money.intValue();
-						score5.setScore(intMoney);
-					}
-					if (guiZabitoHracu)
-						score6.setScore(uziv.getInt("ZabitoHracu"));
-					if (guiZabitoMobu)
-						score7.setScore(uziv.getInt("ZabitoMobu"));
-					if (guiZabitoZvirat)
-						score8.setScore(uziv.getInt("ZabitoZvirat"));
-					if (guiPocetSmrti)
-						score9.setScore(uziv.getInt("PocetSmrti"));
-					player.setScoreboard(board);
+				uzivatel(playerName);
+				long[] cas;
+				if (nahranyCas.containsKey(playerName))
+					cas = spravnyFormat((System.currentTimeMillis() - nahranyCas.get(playerName)) + uziv.getLong("Nahrano"));
+				else
+					cas = spravnyFormat(uziv.getLong("Nahrano"));
+				
+				Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+				Objective objective = board.registerNewObjective(playerName, "dummy");
+				objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+				objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), playerName));
+				Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
+				Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
+				Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
+				Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
+				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
+				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+				Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+				
+				if (guiTydny)
+					score.setScore((int) cas[4]);
+				if (guiDny)
+					score2.setScore((int) cas[3]);
+				if (guiHodiny)
+					score3.setScore((int) cas[2]);
+				if (guiPocetHracu)
+					score4.setScore(Bukkit.getOnlinePlayers().length);
+				if (guiIconomy) {
+					Account account = new Accounts().get(playerName);
+					Double money = account.getHoldings().getBalance();
+					int intMoney = money.intValue();
+					score5.setScore(intMoney);
 				}
+				if (guiZabitoHracu)
+					score6.setScore(uziv.getInt("ZabitoHracu"));
+				if (guiZabitoMobu)
+					score7.setScore(uziv.getInt("ZabitoMobu"));
+				if (guiZabitoZvirat)
+					score8.setScore(uziv.getInt("ZabitoZvirat"));
+				if (guiPocetSmrti)
+					score9.setScore(uziv.getInt("PocetSmrti"));
+				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
@@ -1261,6 +1158,9 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("Prikazy.Warp"))
 				config.set("Prikazy.Warp", "/warp");
 			
+			if (!config.contains("Prikazy.Msg"))
+				config.set("Prikazy.Msg", "/msg");
+			
 			if (!config.contains("MySQL.Povolit"))
 				config.set("MySQL.Povolit", "ne");
 			
@@ -1687,6 +1587,15 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!config.contains("Warp.Povolit"))
 				config.set("Warp.Povolit", "ano");
 			
+			if (!config.contains("Msg.Povolit"))
+				config.set("Msg.Povolit", "ano");
+			
+			if (!config.contains("Msg.Zprava.jeOffline"))
+				config.set("Msg.Zprava.jeOffline", "{JMENO} je offline.");
+			
+			if (!config.contains("Msg.Format"))
+				config.set("Msg.Format", "&8[&4{JMENO}&8 -> &4{TARGET}&8]&f {ZPRAVA}");
+			
 			saveConfig(umrtiZpravy, umrtiZpravyFile);
 			saveConfig(config, configFile);
 		} catch (Exception e) {
@@ -1982,6 +1891,12 @@ public class FoE extends JavaPlugin implements Listener {
 		if (warpPovolit) {
 			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Warp"))) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "warpcmd " + vysledek);
+				event.setCancelled(true);
+			}
+		}
+		if (msgPovolit) {
+			if (args[0].equalsIgnoreCase(config.getString("Prikazy.Msg"))) {
+				Bukkit.getServer().dispatchCommand(event.getPlayer(), "msgcmd " + vysledek);
 				event.setCancelled(true);
 			}
 		}

@@ -144,3 +144,8 @@ commands:
     vtipcmd:
       description: FoE CMD
       permission: FoE.Vtip
+    warpcmd:
+      description: FoE CMD
+    msgcmd:
+      description: FoE CMD
+      permission: FoE.Msg
