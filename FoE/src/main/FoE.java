@@ -334,27 +334,27 @@ public class FoE extends JavaPlugin implements Listener {
 				Bukkit.broadcastMessage("Pluginy byli odstraneny.");
 		}
 		if (Status(config, "AntiReklama.Povolit")) {
+			antiReklamaPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Antireklama byla povolena.");
-			antiReklamaPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Pripoji.Povolit")) {
+			kdyzHracSePripojiPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Zprava kdyz se hrac pripoji byla povolena.");
-			kdyzHracSePripojiPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Vyhodi.Povolit")) {
+			kdyzHracSeVyhodiPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Zprava kdyz se hrac vyhodi byla povolena.");
-			kdyzHracSeVyhodiPovolit = true;
 		}
 		
 		if (Status(config, "KdyzHracSe.Odpoji.Povolit")) {
+			kdyzHracSeOdpojiPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Zprava kdyz se hrac odpoji byla povolena.");
-			kdyzHracSeOdpojiPovolit = true;
 		}
 		
 		if (Status(config, "KdyzSeVypneServer.Povolit")) {
@@ -392,27 +392,25 @@ public class FoE extends JavaPlugin implements Listener {
 		if (Status(config, "AntiSpam.Duplikace.Povolit"))
 			antiSpamDuplikacePovolit = true;
 		if (Status(config, "Rezervace.Povolit")) {
+			rezervacePovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Rezervace byla povolena.");
-			rezervacePovolit = true;
 		}
 		if (Status(config, "umrtiZpravy.Povolit")) {
+			umrtiZpravyPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("Umrtne zpravy byly povoleny.");
-			umrtiZpravyPovolit = true;
 		}
 		if (Status(config, "whiteList.Povolit")) {
+			whiteListPovolit = true;
 			if (debug)
 				Bukkit.broadcastMessage("WhiteListZprava byla povolena.");
-			whiteListPovolit = true;
 		}
 		if (Status(config, "Vtipy.Povolit")) {
 			System.out.println("Registruji prikaz '" + config.getString("Prikazy.Vtip") + "'");
 			Bukkit.getServer().getPluginCommand("vtipcmd").setExecutor(new cmdVTIP(this));
 			if (debug)
 				Bukkit.broadcastMessage("vtipcmd byl zaregistrovan.");
-			if (debug)
-				Bukkit.broadcastMessage("Vtipy byly povoleny.");
 			vtipyPovolit = true;
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://www.foe.frelania.eu/vtipy.txt").openStream()));
@@ -434,6 +432,8 @@ public class FoE extends JavaPlugin implements Listener {
 				Error(writer.toString());
 			}
 			startLoop4(vtipyInterval);
+			if (debug)
+				Bukkit.broadcastMessage("Vtipy byly povoleny.");
 		}
 		Plugin updater = Bukkit.getPluginManager().getPlugin("FoE-Updater");
 		if (updater != null) {
