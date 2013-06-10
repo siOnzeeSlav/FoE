@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.ChatColor;
@@ -13,7 +14,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdCENZURA implements CommandExecutor {
-	public FoE	plugin;
+	public FoE				plugin;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdCENZURA(FoE plugin) {
 		this.plugin = plugin;
@@ -34,7 +36,7 @@ public class cmdCENZURA implements CommandExecutor {
 							b.add(args[1]);
 							plugin.config.set("Cenzura.Slova", b);
 							sender.sendMessage(args[1] + " bylo pøidáno do cenzury");
-							plugin.saveConfig(plugin.config, plugin.configFile);
+							cm.saveConfig(plugin.config, plugin.configFile);
 						} else {
 							sender.sendMessage(ChatColor.RED + "Toto slovo v cenzùøe již je!");
 						}
@@ -44,7 +46,7 @@ public class cmdCENZURA implements CommandExecutor {
 							b.remove(args[1]);
 							plugin.config.set("Cenzura.Slova", b);
 							sender.sendMessage(args[1] + " bylo odstranìno z cenzury");
-							plugin.saveConfig(plugin.config, plugin.configFile);
+							cm.saveConfig(plugin.config, plugin.configFile);
 						} else {
 							sender.sendMessage(ChatColor.RED + "Toto slovo není v cenzuøe!");
 						}

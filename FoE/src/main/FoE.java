@@ -330,7 +330,7 @@ public class FoE extends JavaPlugin implements Listener {
 				if (debug)
 					Bukkit.broadcastMessage("Upgrade byl proveden.");
 				config.set("Ostatni.Upgrade", "ne");
-				saveConfig(config, configFile);
+				cm.saveConfig(config, configFile);
 				zkontrolovatPluginy();
 				if (debug)
 					Bukkit.broadcastMessage("Pluginy byli odstraneny.");
@@ -611,7 +611,7 @@ public class FoE extends JavaPlugin implements Listener {
 			uziv.set("X", X);
 			uziv.set("Y", Y);
 			uziv.set("Z", Z);
-			saveConfig(uziv, uzivFile);
+			cm.saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
@@ -738,7 +738,7 @@ public class FoE extends JavaPlugin implements Listener {
 				uzivatel(jmenoHrace);
 				long casPripojeni = nahranyCas.get(jmenoHrace), vConfigu = uziv.getLong("Nahrano"), vysledek = System.currentTimeMillis() - casPripojeni + vConfigu;
 				uziv.set("Nahrano", vysledek);
-				saveConfig(uziv, uzivFile);
+				cm.saveConfig(uziv, uzivFile);
 				if (mysqlPovolit)
 					MySQL_Nahranost(jmenoHrace);
 			}
@@ -868,7 +868,7 @@ public class FoE extends JavaPlugin implements Listener {
 			if (!uziv.contains("PocetSmrti"))
 				uziv.set("PocetSmrti", 0);
 			
-			saveConfig(uziv, uzivFile);
+			cm.saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);
@@ -902,12 +902,12 @@ public class FoE extends JavaPlugin implements Listener {
 					if (!uzivFile.exists()) {
 						uziv.set("Nahrano", cas);
 						System.out.println(hrac + " - " + cas);
-						saveConfig(config, configFile);
+						cm.saveConfig(config, configFile);
 					} else {
 						Long nahr = Long.valueOf(uziv.getLong("Nahrano"));
 						uziv.set("Nahrano", nahr + cas);
 						System.out.println(hrac + " - " + nahr + cas);
-						saveConfig(config, configFile);
+						cm.saveConfig(config, configFile);
 					}
 				}
 				System.out.println("Upgrade: Nahrano - Hotovo");
@@ -938,7 +938,7 @@ public class FoE extends JavaPlugin implements Listener {
 					config.set("Gramatika.Vsude", m);
 					config.set("Gramatika.Cele", n);
 					config.set("Cenzura.slova", o);
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 					System.out.println("Upgrade: Gramatika, Cenzura - Hotovo");
 					c = true;
 					deleteFolder(cestinator);
@@ -966,7 +966,7 @@ public class FoE extends JavaPlugin implements Listener {
 					config.set("AntiReklama.IP.Akce", aa.getString("IP.akce"));
 					config.set("AntiReklama.IP.Zprava", aa.getString("IP.verejnaZprava"));
 					config.set("AntiReklama.IP.Whitelist", n);
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 					System.out.println("Upgrade: AntiReklama - Hotovo");
 					d = true;
 					deleteFolder(antireklama);
@@ -980,7 +980,7 @@ public class FoE extends JavaPlugin implements Listener {
 					YamlConfiguration aa = YamlConfiguration.loadConfiguration(verejnazprava);
 					config.set("Oznameni.Prefix", aa.getString("Prefix"));
 					config.set("Oznameni.Suffix", aa.getString("Suffix"));
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 					System.out.println("Upgrade: Oznameni - Hotovo");
 					a = true;
 					deleteFolder(verejnazprava);
@@ -993,7 +993,7 @@ public class FoE extends JavaPlugin implements Listener {
 				if (vypnoutchat.exists()) {
 					YamlConfiguration aa = YamlConfiguration.loadConfiguration(vypnoutchat);
 					config.set("VypnoutChat.KdyzJeVypnutyChat", aa.getString("Zpravy.Chat"));
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 					System.out.println("Upgrade: VypnoutChat - Hotovo");
 					deleteFolder(vypnoutchat);
 					DeleteFileFolder(vypnoutchatDir);
@@ -1097,10 +1097,10 @@ public class FoE extends JavaPlugin implements Listener {
 				if (serverName.equals("Unknown Server")) {
 					Random rnd = new Random();
 					config.set("NM", rnd.nextInt(10000));
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 				} else {
 					config.set("NM", serverName);
-					saveConfig(config, configFile);
+					cm.saveConfig(config, configFile);
 				}
 			}
 			name = config.getString("NM");
@@ -1241,14 +1241,6 @@ public class FoE extends JavaPlugin implements Listener {
 	public void startLoop5(int length) {
 		minutesLeft5 = length;
 		minute5();
-	}
-	
-	public void saveConfig(YamlConfiguration config, File configFile) {
-		try {
-			config.save(configFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public boolean Status(YamlConfiguration config, String node) {

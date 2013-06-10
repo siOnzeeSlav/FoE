@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public class cmdWARP implements CommandExecutor {
 	public FoE					plugin;
 	public File					warpFile	= new File("plugins/FoE/warps.yml");
 	public YamlConfiguration	warp		= YamlConfiguration.loadConfiguration(warpFile);
+	public ConfigManager		cm			= new ConfigManager();
 	
 	public cmdWARP(FoE plugin) {
 		this.plugin = plugin;
@@ -60,7 +62,7 @@ public class cmdWARP implements CommandExecutor {
 						warp.set(warpName + ".Z", Z);
 						warp.set(warpName + ".world", world);
 						warp.set(warpName + ".popis", description);
-						plugin.saveConfig(warp, warpFile);
+						cm.saveConfig(warp, warpFile);
 						if (plugin.debug)
 							Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
 						if (plugin.mysqlPovolit)
@@ -81,7 +83,7 @@ public class cmdWARP implements CommandExecutor {
 					String warpName = args[1];
 					String playerName = sender.getName();
 					warp.set(warpName, null);
-					plugin.saveConfig(warp, warpFile);
+					cm.saveConfig(warp, warpFile);
 					if (plugin.debug)
 						Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
 					if (plugin.mysqlPovolit)

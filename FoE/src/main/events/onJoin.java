@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -14,7 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class onJoin implements Listener {
-	public FoE	p;
+	public FoE				p;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public onJoin(FoE plugin) {
 		this.p = plugin;
@@ -43,7 +45,7 @@ public class onJoin implements Listener {
 			if (!p.uziv.contains("IP"))
 				p.uziv.set("IP", player.getAddress().getHostName());
 			p.uziv.set("lastIP", player.getAddress().getHostName());
-			p.saveConfig(p.uziv, p.uzivFile);
+			cm.saveConfig(p.uziv, p.uzivFile);
 		} catch (Exception e) {
 			Writer writer = new StringWriter();
 			PrintWriter printWriter = new PrintWriter(writer);

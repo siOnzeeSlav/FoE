@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -18,7 +19,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class EntityDeath implements Listener {
-	public FoE	p;
+	public FoE				p;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public EntityDeath(FoE plugin) {
 		this.p = plugin;
@@ -27,28 +29,28 @@ public class EntityDeath implements Listener {
 	public void addMob(String name) {
 		p.uzivatel(name);
 		p.uziv.set("ZabitoMobu", p.uziv.getInt("ZabitoMobu") + 1);
-		p.saveConfig(p.uziv, p.uzivFile);
+		cm.saveConfig(p.uziv, p.uzivFile);
 		p.aktualizovatGUI(name);
 	}
 	
 	public void addKill(String name) {
 		p.uzivatel(name);
 		p.uziv.set("ZabitoHracu", p.uziv.getInt("ZabitoHracu") + 1);
-		p.saveConfig(p.uziv, p.uzivFile);
+		cm.saveConfig(p.uziv, p.uzivFile);
 		p.aktualizovatGUI(name);
 	}
 	
 	public void addAnimal(String name) {
 		p.uzivatel(name);
 		p.uziv.set("ZabitoZvirat", p.uziv.getInt("ZabitoZvirat") + 1);
-		p.saveConfig(p.uziv, p.uzivFile);
+		cm.saveConfig(p.uziv, p.uzivFile);
 		p.aktualizovatGUI(name);
 	}
 	
 	public void addDeath(String name) {
 		p.uzivatel(name);
 		p.uziv.set("PocetSmrti", p.uziv.getInt("PocetSmrti") + 1);
-		p.saveConfig(p.uziv, p.uzivFile);
+		cm.saveConfig(p.uziv, p.uzivFile);
 		p.aktualizovatGUI(name);
 	}
 	
@@ -121,7 +123,7 @@ public class EntityDeath implements Listener {
 	public void poslatZpravuSebevrazda(String cause, String playerName) {
 		if (!p.umrtiZpravy.contains("Sebevrazda." + cause)) {
 			p.umrtiZpravy.set("Sebevrazda." + cause, "&4{JMENO} &8byl zabit &4" + cause + "&8.");
-			p.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
 		}
 		Bukkit.broadcastMessage(replaceColorsAndPlayer(p.umrtiZpravy.getString("Sebevrazda." + cause), playerName));
 	}
@@ -129,7 +131,7 @@ public class EntityDeath implements Listener {
 	public void poslatZpravuMonster(String targetName, String playerName) {
 		if (!p.umrtiZpravy.contains("Monsters." + targetName)) {
 			p.umrtiZpravy.set("Monsters." + targetName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
-			p.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
 		}
 		Bukkit.broadcastMessage(replace(p.umrtiZpravy.getString("Monsters." + targetName), playerName, targetName));
 	}
@@ -139,7 +141,7 @@ public class EntityDeath implements Listener {
 			Bukkit.broadcastMessage(itemName + " / " + playerName + " / " + targetName);
 		if (!p.umrtiZpravy.contains(itemName)) {
 			p.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s pøedmìtem &4{ITEM}&8.");
-			p.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
 		}
 		Bukkit.broadcastMessage(replacePredmet(p.umrtiZpravy.getString(itemName), playerName, targetName, itemName));
 	}

@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.ChatColor;
@@ -14,7 +15,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdGRAMATIKA implements CommandExecutor {
-	public FoE	plugin;
+	public FoE				plugin;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdGRAMATIKA(FoE plugin) {
 		this.plugin = plugin;
@@ -48,7 +50,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										plugin.config.set("Gramatika.Vsude", b);
 										plugin.config.set("Gramatika.Duvody." + args[2], duvod);
 										sender.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do všude s dùvodem" + duvod);
-										plugin.saveConfig(plugin.config, plugin.configFile);
+										cm.saveConfig(plugin.config, plugin.configFile);
 									} else {
 										sender.sendMessage(args[2] + " již je v seznamu!");
 									}
@@ -67,7 +69,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										plugin.config.set("Gramatika.Cele", b);
 										plugin.config.set("Gramatika.Duvody." + args[2], duvod);
 										sender.sendMessage(args[2] + "," + args[3] + " bylo pøidáno do cele s dùvodem" + duvod);
-										plugin.saveConfig(plugin.config, plugin.configFile);
+										cm.saveConfig(plugin.config, plugin.configFile);
 									} else {
 										sender.sendMessage(args[2] + " již je v seznamu!");
 									}
@@ -104,7 +106,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 							}
 							plugin.config.set("Gramatika.Vsude", e);
 							plugin.config.set("Gramatika.Cele", f);
-							plugin.saveConfig(plugin.config, plugin.configFile);
+							cm.saveConfig(plugin.config, plugin.configFile);
 						}
 					}
 				} else
