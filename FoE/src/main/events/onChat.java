@@ -28,7 +28,7 @@ public class onChat implements Listener {
 	public FoE						p;
 	public File						configFile			= new File("plugins/FoE/config.yml");
 	public YamlConfiguration		config				= YamlConfiguration.loadConfiguration(configFile);
-	public Pattern					ipPattern			= Pattern.compile("(\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,5})");
+	public Pattern					ipPattern			= Pattern.compile("(\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{1,3})[\\s.,:!\\-](\\d{5})");
 	public Pattern					webpattern			= Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.net)|(\\.org)|(\\.co)|(\\.uk)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))|(\\.cz)|(\\.sk)|(\\.bis)");
 	public HashMap<String, Long>	messagePerSecond	= new HashMap<String, Long>();
 	public HashMap<String, String>	lastMessage			= new HashMap<String, String>();
