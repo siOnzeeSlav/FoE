@@ -32,7 +32,7 @@ public class cmdZPRAVA implements CommandExecutor {
 						vysledek = vysledek + (i > 0 ? " " : "") + args[i];
 					}
 					if (vysledek.isEmpty()) {
-						sender.sendMessage(ChatColor.RED + "Nemùzete odeslat prazdny text!");
+						sender.sendMessage(ChatColor.RED + "Nemuzete odeslat prazdny text!");
 					} else {
 						Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("Oznameni.Prefix"), jmenoHrace) + " " + plugin.nahradit(cm.config.getString("Oznameni.Suffix"), jmenoHrace) + vysledek);
 					}

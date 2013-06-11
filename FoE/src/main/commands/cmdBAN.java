@@ -34,7 +34,7 @@ public class cmdBAN implements CommandExecutor {
 							}
 							bm.banPlayer(sender.getName(), args[0], reason);
 						} else {
-							sender.sendMessage("Zadejte dùvod.");
+							sender.sendMessage("Zadejte duvod.");
 						}
 					} else {
 						sender.sendMessage("Zadejte jmeno hrace.");

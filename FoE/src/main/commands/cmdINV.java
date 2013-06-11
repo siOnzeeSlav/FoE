@@ -36,7 +36,7 @@ public class cmdINV implements CommandExecutor {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target != null) {
 							if (target.getName() == player.getName()) {
-								player.sendMessage("Nemùzes otevrit svùj inventar! Pouzij tlacitko E.");
+								player.sendMessage("Nemuzes otevrit svuj inventar! Pouzij tlacitko E.");
 							} else {
 								openInv(target, player);
 							}

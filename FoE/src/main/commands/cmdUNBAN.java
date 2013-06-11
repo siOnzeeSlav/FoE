@@ -34,7 +34,7 @@ public class cmdUNBAN implements CommandExecutor {
 							}
 							bm.unbanPlayer(sender.getName(), args[0], reason);
 						} else {
-							sender.sendMessage("Zadejte dùvod.");
+							sender.sendMessage("Zadejte duvod.");
 						}
 					} else {
 						sender.sendMessage("Zadejte jmeno hrace.");

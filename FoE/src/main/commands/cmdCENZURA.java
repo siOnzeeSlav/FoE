@@ -38,7 +38,7 @@ public class cmdCENZURA implements CommandExecutor {
 							sender.sendMessage(args[1] + " bylo pridano do cenzury");
 							cm.saveConfig(cm.config, cm.configFile);
 						} else {
-							sender.sendMessage(ChatColor.RED + "Toto slovo v cenzùre jiz je!");
+							sender.sendMessage(ChatColor.RED + "Toto slovo v cenzure jiz je!");
 						}
 					} else if (args[0].equalsIgnoreCase("del")) {
 						List<String> b = cm.config.getStringList("Cenzura.Slova");

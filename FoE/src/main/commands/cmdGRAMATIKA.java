@@ -29,8 +29,8 @@ public class cmdGRAMATIKA implements CommandExecutor {
 				String jmenoHrace = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Gramatika"))) {
 					if (args.length == 0) {
-						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " add cele [Slovo] [Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
-						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " add cele [Slovo] [Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
 						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo] [Slovo]  " + ChatColor.GOLD + "Odstrani slovo z listu.");
 					} else if (args[0].equalsIgnoreCase("add")) {
 						String duvod = "";
@@ -40,8 +40,8 @@ public class cmdGRAMATIKA implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("Vsude")) {
 							List<String> b = cm.config.getStringList("Gramatika.Vsude");
 							if (args.length < 5) {
-								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
-								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
 							} else {
 								Iterator<String> it = b.iterator();
 								if (it.hasNext()) {
@@ -49,7 +49,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										b.add(args[2] + "," + args[3]);
 										cm.config.set("Gramatika.Vsude", b);
 										cm.config.set("Gramatika.Duvody." + args[2], duvod);
-										sender.sendMessage(args[2] + "," + args[3] + " bylo pridano do vsude s dùvodem" + duvod);
+										sender.sendMessage(args[2] + "," + args[3] + " bylo pridano do vsude s duvodem" + duvod);
 										cm.saveConfig(cm.config, cm.configFile);
 									} else {
 										sender.sendMessage(args[2] + " jiz je v seznamu!");
@@ -59,8 +59,8 @@ public class cmdGRAMATIKA implements CommandExecutor {
 						} else if (args[1].equalsIgnoreCase("Cele")) {
 							List<String> b = cm.config.getStringList("Gramatika.Cele");
 							if (args.length < 5) {
-								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
-								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Odùvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
+								sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " [Slovo],[Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
 							} else {
 								Iterator<String> it = b.iterator();
 								if (it.hasNext()) {
@@ -68,7 +68,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 										b.add(args[2] + "," + args[3]);
 										cm.config.set("Gramatika.Cele", b);
 										cm.config.set("Gramatika.Duvody." + args[2], duvod);
-										sender.sendMessage(args[2] + "," + args[3] + " bylo pridano do cele s dùvodem" + duvod);
+										sender.sendMessage(args[2] + "," + args[3] + " bylo pridano do cele s duvodem" + duvod);
 										cm.saveConfig(cm.config, cm.configFile);
 									} else {
 										sender.sendMessage(args[2] + " jiz je v seznamu!");

@@ -136,7 +136,7 @@ public class ConfigManager {
 			config.set("Nahranost.PrivitaciZprava.Povolit", "ano");
 		
 		if (!config.contains("Nahranost.Zprava"))
-			config.set("Nahranost.Zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnù, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
+			config.set("Nahranost.Zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnu, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
 		
 		if (!config.contains("AntiReklama.Povolit"))
 			config.set("AntiReklama.Povolit", "ano");
@@ -268,10 +268,10 @@ public class ConfigManager {
 			config.set("Ostatni.Nahranost.GUI.Nadpis", "&4F&8o&4E");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Tydny"))
-			config.set("Ostatni.Nahranost.GUI.Tydny", "Nahrano Tydnù:");
+			config.set("Ostatni.Nahranost.GUI.Tydny", "Nahrano Tydnu:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Dny"))
-			config.set("Ostatni.Nahranost.GUI.Dny", "Nahrano Dnù:");
+			config.set("Ostatni.Nahranost.GUI.Dny", "Nahrano Dnu:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Hodiny"))
 			config.set("Ostatni.Nahranost.GUI.Hodiny", "Nahrano Hodin:");
@@ -298,7 +298,7 @@ public class ConfigManager {
 			config.set("TP.Povolit", "ano");
 		
 		if (!config.contains("TP.Zprava.Uspesne"))
-			config.set("TP.Zprava.Uspesne", "&4Úspesne &8jste se teleportoval k &4{JMENO}");
+			config.set("TP.Zprava.Uspesne", "&4uspesne &8jste se teleportoval k &4{JMENO}");
 		
 		if (!config.contains("TP.Zprava.Offline"))
 			config.set("TP.Zprava.Offline", "&4Hrac {JMENO} &8neni online! Zkusime najit jeho posledni pozici.");
@@ -319,7 +319,7 @@ public class ConfigManager {
 			config.set("AntiSpam.Duplikace.Povolit", "ano");
 		
 		if (!config.contains("AntiSpam.Duplikace.Zprava"))
-			config.set("AntiSpam.Duplikace.Zprava", "&4Nemùzete poslat 2x stejnou zpravu&8!");
+			config.set("AntiSpam.Duplikace.Zprava", "&4Nemuzete poslat 2x stejnou zpravu&8!");
 		
 		if (!config.contains("Rezervace.Povolit"))
 			config.set("Rezervace.Povolit", "ano");
@@ -334,13 +334,13 @@ public class ConfigManager {
 			config.set("Manager.Povolit", "ano");
 		
 		if (!config.contains("Manager.Ban.Zprava"))
-			config.set("Manager.Ban.Zprava", "&4{TARGET} &8byl zabanovan &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
+			config.set("Manager.Ban.Zprava", "&4{TARGET} &8byl zabanovan &4{JMENO}&8 z duvodu &4{DUVOD}&8.");
 		
 		if (!config.contains("Manager.Unban.Zprava"))
-			config.set("Manager.Unban.Zprava", "&4{TARGET} &8byl unbanovan &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
+			config.set("Manager.Unban.Zprava", "&4{TARGET} &8byl unbanovan &4{JMENO}&8 z duvodu &4{DUVOD}&8.");
 		
 		if (!config.contains("Manager.Kick.Zprava"))
-			config.set("Manager.Kick.Zprava", "&4{TARGET} &8byl vyhozen &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
+			config.set("Manager.Kick.Zprava", "&4{TARGET} &8byl vyhozen &4{JMENO}&8 z duvodu &4{DUVOD}&8.");
 		
 		if (!config.contains("Vtipy.Povolit"))
 			config.set("Vtipy.Povolit", "ano");
@@ -491,7 +491,7 @@ public class ConfigManager {
 		
 		if (!config.contains("autoZpravy.Zpravy")) {
 			List<String> e = new ArrayList<String>();
-			e.add("{PREFIX} {JMENO} vis ze u nas na serveru mùzes umrit hlady ?");
+			e.add("{PREFIX} {JMENO} vis ze u nas na serveru muzes umrit hlady ?");
 			e.add("{PREFIX} kupte si u nas nejakou vec a podporte tim server.");
 			config.set("autoZpravy.Zpravy", e);
 		}
@@ -515,10 +515,10 @@ public class ConfigManager {
 			config.set("herniRezimy.Povolit", "ano");
 		
 		if (!config.contains("herniRezimy.Zpravy.Creative"))
-			config.set("herniRezimy.Zpravy.Creative", "&4{JMENO} &8zmenil svùj herni rezim na &4Creative&8.");
+			config.set("herniRezimy.Zpravy.Creative", "&4{JMENO} &8zmenil svuj herni rezim na &4Creative&8.");
 		
 		if (!config.contains("herniRezimy.Zpravy.Survival"))
-			config.set("herniRezimy.Zpravy.Survival", "&4{JMENO} &8zmenil svùj herni rezim na &4Survival&8.");
+			config.set("herniRezimy.Zpravy.Survival", "&4{JMENO} &8zmenil svuj herni rezim na &4Survival&8.");
 		
 		if (!config.contains("herniRezimy.Zpravy.MaCreative"))
 			config.set("herniRezimy.Zpravy.MaCreative", "&4Jiz&8 mas &4creative&8!");

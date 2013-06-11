@@ -89,7 +89,7 @@ public class EntityDeath implements Listener {
 								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
 									String targetName = killer.getType().getName(); // Mob kterej zabil hrace
 									if (p.debug)
-										Bukkit.broadcastMessage(playerName + " pridavam úmrti.");
+										Bukkit.broadcastMessage(playerName + " pridavam umrti.");
 									addDeath(playerName); // Pridam umrti hracovy
 									poslatZpravuMonster(targetName, playerName); // Napisu kterej mob zabil hrace.
 								} else if (killer instanceof Player) { // Jestli zabijak je hrac
@@ -100,7 +100,7 @@ public class EntityDeath implements Listener {
 											Bukkit.broadcastMessage(targetName + " pridavam zabito.");
 										addKill(targetName); // Pridam zabijakovy Kill
 										if (p.debug)
-											Bukkit.broadcastMessage(playerName + " pridavam úmrti.");
+											Bukkit.broadcastMessage(playerName + " pridavam umrti.");
 										addDeath(playerName); // Pridam mrtvemu umrti
 										poslatZpravu(getItemName(target), playerName, targetName); // Napisu zpravu ze zabijak zabil hrace s predmetem
 									}
