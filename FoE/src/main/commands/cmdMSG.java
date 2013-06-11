@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -14,7 +15,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdMSG implements CommandExecutor {
-	public FoE	plugin;
+	public FoE				plugin;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdMSG(FoE plugin) {
 		this.plugin = plugin;
@@ -29,20 +31,20 @@ public class cmdMSG implements CommandExecutor {
 				
 				Player target = Bukkit.getPlayer(args[0]);
 				if (target == null) {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Msg.Zprava.jeOffline"), args[0]));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Msg.Zprava.jeOffline"), args[0]));
 					return true;
 				}
 				String playerName = sender.getName();
 				if (args.length < 1) {
-					sender.sendMessage(plugin.config.getString("Prikazy.Msg") + " [JMENO] [TEXT]  " + ChatColor.GOLD + "Pro poslání soukromé zprávy.");
+					sender.sendMessage(cm.config.getString("Prikazy.Msg") + " [JMENO] [TEXT]  " + ChatColor.GOLD + "Pro poslání soukromé zprávy.");
 				} else if (args.length > 1) {
 					String message = "";
 					for (int i = 1; i < args.length; i++) {
 						message = (message + (i > 1 ? " " : "") + args[i]);
 					}
 					String targetName = target.getName();
-					sender.sendMessage(reFormat(plugin.config.getString("Msg.Format"), playerName, targetName, message));
-					target.sendMessage(reFormat(plugin.config.getString("Msg.Format"), playerName, targetName, message));
+					sender.sendMessage(reFormat(cm.config.getString("Msg.Format"), playerName, targetName, message));
+					target.sendMessage(reFormat(cm.config.getString("Msg.Format"), playerName, targetName, message));
 					if (plugin.mysqlPovolit)
 						plugin.MySQL_Message(playerName, targetName, message);
 				}

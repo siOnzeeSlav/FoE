@@ -34,9 +34,9 @@ public class cmdWARP implements CommandExecutor {
 			try {
 				Player player = (Player) sender;
 				if (args.length == 0) {
-					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
-					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
-					sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
 				} else if (args[0].equalsIgnoreCase("vytvorit")) {
 					if (!sender.hasPermission("FoE.Warp.Vytvorit")) {
 						return true;
@@ -70,7 +70,7 @@ public class cmdWARP implements CommandExecutor {
 						
 						sender.sendMessage("Vytvoøil jsi warp '" + warpName + "' s popiskem '" + description + "'.");
 					} else {
-						sender.sendMessage(plugin.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
+						sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
 					}
 				} else if (args[0].equalsIgnoreCase("odstranit")) {
 					if (!sender.hasPermission("FoE.Warp.Odstranit")) {
@@ -96,7 +96,7 @@ public class cmdWARP implements CommandExecutor {
 						sender.sendMessage("Nebyl nazelen žádný warp.");
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
-						sender.sendMessage(plugin.nahraditBarvy(plugin.config.getString("Warp.NemaOpravneni")));
+						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.NemaOpravneni")));
 						return true;
 					}
 					String warpName = args[0];

@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -14,8 +15,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdA implements CommandExecutor {
-	public FoE		plugin;
-	public String	vysledek	= "";
+	public FoE				plugin;
+	public String			vysledek	= "";
+	public ConfigManager	cm			= new ConfigManager();
 	
 	public cmdA(FoE plugin) {
 		this.plugin = plugin;
@@ -28,7 +30,7 @@ public class cmdA implements CommandExecutor {
 				String jmenoHrace = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.AdminChat.Psat"))) {
 					if (args.length == 0) {
-						sender.sendMessage(plugin.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psaní do adminchatu.");
+						sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psaní do adminchatu.");
 					} else {
 						vysledek = "";
 						for (int i = 0; i < args.length; i++) {
@@ -36,11 +38,11 @@ public class cmdA implements CommandExecutor {
 						}
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							if ((p.hasPermission("FoE.AdminChat.Videt")) || (p.isOp()))
-								p.sendMessage(nahradit(plugin.config.getString("AdminChat.Zprava"), sender.getName()));
+								p.sendMessage(nahradit(cm.config.getString("AdminChat.Zprava"), sender.getName()));
 						}
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

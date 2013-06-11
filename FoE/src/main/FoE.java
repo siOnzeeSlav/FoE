@@ -27,6 +27,7 @@ import main.commands.cmdBAN;
 import main.commands.cmdCENZURA;
 import main.commands.cmdCHAT;
 import main.commands.cmdCLEAR;
+import main.commands.cmdCREATIVE;
 import main.commands.cmdFOE;
 import main.commands.cmdGRAMATIKA;
 import main.commands.cmdHELP;
@@ -34,6 +35,7 @@ import main.commands.cmdINF;
 import main.commands.cmdINV;
 import main.commands.cmdKICK;
 import main.commands.cmdMSG;
+import main.commands.cmdSURVIVAL;
 import main.commands.cmdTP;
 import main.commands.cmdUNBAN;
 import main.commands.cmdVTIP;
@@ -69,10 +71,6 @@ import com.iCo6.system.Accounts;
 
 public class FoE extends JavaPlugin implements Listener {
 	
-	public File						configFile						= new File("plugins/FoE/config.yml");
-	public YamlConfiguration		config;
-	public File						umrtiZpravyFile					= new File("plugins/FoE/umrtiZpravy.yml");
-	public YamlConfiguration		umrtiZpravy						= YamlConfiguration.loadConfiguration(umrtiZpravyFile);
 	public File						uzivFile;
 	public YamlConfiguration		uziv;
 	public HashMap<String, Long>	nahranyCas						= new HashMap<String, Long>();
@@ -136,8 +134,8 @@ public class FoE extends JavaPlugin implements Listener {
 	public void onEnable() {
 		cm.checkConfig();
 		if (cm.loaded) {
-			config = YamlConfiguration.loadConfiguration(configFile);
-			if (config.getBoolean("debug"))
+			cm.config = YamlConfiguration.loadConfiguration(cm.configFile);
+			if (cm.config.getBoolean("debug"))
 				debug = true;
 			System.out.println("Registruji event 'onPlayerLogin'");
 			Bukkit.getPluginManager().registerEvents(new onPlayerLogin(this), this);
@@ -181,34 +179,34 @@ public class FoE extends JavaPlugin implements Listener {
 			Bukkit.getServer().getPluginCommand("FoE").setExecutor(new cmdFOE(this));
 			if (debug)
 				Bukkit.broadcastMessage("FoE byl zaregistrovan.");
-			vtipyInterval = config.getInt("Vtipy.Interval");
+			vtipyInterval = cm.config.getInt("Vtipy.Interval");
 			if (debug)
 				Bukkit.broadcastMessage("vtipyInterval = " + vtipyInterval);
-			if (Status(config, "Nahranost.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Nahranost") + "'");
+			if (Status(cm.config, "Nahranost.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Nahranost") + "'");
 				Bukkit.getServer().getPluginCommand("infcmd").setExecutor(new cmdINF(this));
 				if (debug)
 					Bukkit.broadcastMessage("infcmd byl zaregistrovan.");
 				nahranostPovolit = true;
-				if (Status(config, "Nahranost.PrivitaciZprava.Povolit"))
+				if (Status(cm.config, "Nahranost.PrivitaciZprava.Povolit"))
 					nahranostPrivitaciZpravaPovolit = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.Tydny-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.Tydny-Povolit"))
 					guiTydny = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.Dny-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.Dny-Povolit"))
 					guiDny = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.Hodiny-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.Hodiny-Povolit"))
 					guiHodiny = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.PocetHracu-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetHracu-Povolit"))
 					guiPocetHracu = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.iConomy-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-Povolit"))
 					guiIconomy = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.ZabitoHracu-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoHracu-Povolit"))
 					guiZabitoHracu = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
 					guiZabitoMobu = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit"))
 					guiZabitoZvirat = true;
-				if (Status(config, "Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
+				if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
 					guiPocetSmrti = true;
 				
 				for (Player p : Bukkit.getOnlinePlayers()) {
@@ -217,184 +215,184 @@ public class FoE extends JavaPlugin implements Listener {
 						Bukkit.broadcastMessage("Nahranost: Registruji hrace: " + p.getName());
 				}
 			}
-			if (Status(config, "Ostatni.Nahranost.GUI.iConomy-Povolit")) {
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-Povolit")) {
 				System.out.println("Registruji event 'onHoldingsUpdate'");
 				Bukkit.getPluginManager().registerEvents(new onHoldingsUpdate(this), this);
 				if (debug)
 					Bukkit.broadcastMessage("onHoldinsUpdate byl zaregistrovan.");
 			}
-			if (Status(config, "Oznameni.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Oznameni") + "'");
+			if (Status(cm.config, "Oznameni.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Oznameni") + "'");
 				Bukkit.getServer().getPluginCommand("zpravacmd").setExecutor(new cmdZPRAVA(this));
 				oznameniPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("zpravacmd byl zaregistrovan.");
 			}
-			if (Status(config, "VypnoutChat.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.VypnoutChat") + "'");
+			if (Status(cm.config, "VypnoutChat.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.VypnoutChat") + "'");
 				Bukkit.getServer().getPluginCommand("chatcmd").setExecutor(new cmdCHAT(this));
 				vypnoutChatPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("chatcmd byl zaregistrovan.");
 			}
-			if (Status(config, "Gramatika.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Gramatika") + "'");
+			if (Status(cm.config, "Gramatika.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Gramatika") + "'");
 				Bukkit.getServer().getPluginCommand("gramatikacmd").setExecutor(new cmdGRAMATIKA(this));
 				gramatikaPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("gramatikacmd byl zaregistrovan.");
 			}
-			if (Status(config, "Msg.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Msg") + "'");
+			if (Status(cm.config, "Msg.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Msg") + "'");
 				msgPovolit = true;
 				Bukkit.getServer().getPluginCommand("msgcmd").setExecutor(new cmdMSG(this));
 				if (debug)
 					Bukkit.broadcastMessage("cmdmsg byl zaregistrovan.");
 			}
-			if (Status(config, "Cenzura.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Cenzura") + "'");
+			if (Status(cm.config, "Cenzura.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Cenzura") + "'");
 				Bukkit.getServer().getPluginCommand("cenzuracmd").setExecutor(new cmdCENZURA(this));
 				cenzuraPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("cenzuracmd byl zaregistrovan.");
 			}
-			if (Status(config, "Warp.Povolit")) {
+			if (Status(cm.config, "Warp.Povolit")) {
 				warpPovolit = true;
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Warp") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Warp") + "'");
 				Bukkit.getServer().getPluginCommand("warpcmd").setExecutor(new cmdWARP(this));
 				if (debug)
 					Bukkit.broadcastMessage("warpcmd byl zaregistrovan.");
 			}
-			if (Status(config, "AdminChat.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.AdminChat") + "'");
+			if (Status(cm.config, "AdminChat.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.AdminChat") + "'");
 				Bukkit.getServer().getPluginCommand("acmd").setExecutor(new cmdA(this));
 				adminChatPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("acmd byl zaregistrovan.");
 			}
-			if (Status(config, "TP.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Teleport") + "'");
+			if (Status(cm.config, "TP.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Teleport") + "'");
 				Bukkit.getServer().getPluginCommand("tpcmd").setExecutor(new cmdTP(this));
 				if (debug)
 					Bukkit.broadcastMessage("tpcmd byl zaregistrovan.");
 				teleportPovolit = true;
 			}
-			if (Status(config, "autoZpravy.Povolit")) {
+			if (Status(cm.config, "autoZpravy.Povolit")) {
 				autoZpravyPovolit = true;
-				autoZpravyInterval = config.getInt("autoZpravy.Interval");
+				autoZpravyInterval = cm.config.getInt("autoZpravy.Interval");
 				startLoop5(autoZpravyInterval);
 				if (debug)
 					Bukkit.broadcastMessage("autoZpravy Interval = " + autoZpravyInterval);
 			}
-			if (Status(config, "Inventar.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Inventar") + "'");
+			if (Status(cm.config, "Inventar.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Inventar") + "'");
 				Bukkit.getServer().getPluginCommand("invcmd").setExecutor(new cmdINV(this));
 				if (debug)
 					Bukkit.broadcastMessage("invcmd byl zaregistrovan.");
 				inventarPovolit = true;
 			}
-			if (Status(config, "capsLock.Povolit")) {
+			if (Status(cm.config, "capsLock.Povolit")) {
 				capsLockPovolit = true;
 			}
-			if (Status(config, "Manager.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Ban") + "'");
+			if (Status(cm.config, "Manager.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Manager.Ban") + "'");
 				Bukkit.getServer().getPluginCommand("bancmd").setExecutor(new cmdBAN(this));
 				if (debug)
 					Bukkit.broadcastMessage("bancmd byl zaregistrovan.");
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Unban") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Manager.Unban") + "'");
 				Bukkit.getServer().getPluginCommand("unbancmd").setExecutor(new cmdUNBAN(this));
 				if (debug)
 					Bukkit.broadcastMessage("unbancmd byl zaregistrovan.");
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Manager.Kick") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Manager.Kick") + "'");
 				Bukkit.getServer().getPluginCommand("kickcmd").setExecutor(new cmdKICK(this));
 				if (debug)
 					Bukkit.broadcastMessage("kickcmd byl zaregistrovan.");
 				managerBan = true;
 			}
-			if (Status(config, "clearChat.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Clear") + "'");
+			if (Status(cm.config, "clearChat.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Clear") + "'");
 				Bukkit.getServer().getPluginCommand("clearcmd").setExecutor(new cmdCLEAR(this));
 				if (debug)
 					Bukkit.broadcastMessage("clearcmd byl zaregistrovan.");
 				clearChat = true;
 			}
-			if (Status(config, "zpravaAdminum.Povolit")) {
+			if (Status(cm.config, "zpravaAdminum.Povolit")) {
 				zpravaAdminum = true;
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Help") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Help") + "'");
 				Bukkit.getServer().getPluginCommand("helpcmd").setExecutor(new cmdHELP(this));
 				if (debug)
 					Bukkit.broadcastMessage("helpcmd byl zaregistrovan.");
 			}
-			if (Status(config, "Ostatni.Upgrade")) {
+			if (Status(cm.config, "Ostatni.Upgrade")) {
 				Upgrade();
 				if (debug)
 					Bukkit.broadcastMessage("Upgrade byl proveden.");
-				config.set("Ostatni.Upgrade", "ne");
-				cm.saveConfig(config, configFile);
+				cm.config.set("Ostatni.Upgrade", "ne");
+				cm.saveConfig(cm.config, cm.configFile);
 				zkontrolovatPluginy();
 				if (debug)
 					Bukkit.broadcastMessage("Pluginy byli odstraneny.");
 			}
-			if (Status(config, "AntiReklama.Povolit")) {
+			if (Status(cm.config, "AntiReklama.Povolit")) {
 				antiReklamaPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Antireklama byla povolena.");
 			}
 			
-			if (Status(config, "KdyzHracSe.Pripoji.Povolit")) {
+			if (Status(cm.config, "KdyzHracSe.Pripoji.Povolit")) {
 				kdyzHracSePripojiPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Zprava kdyz se hrac pripoji byla povolena.");
 			}
 			
-			if (Status(config, "KdyzHracSe.Vyhodi.Povolit")) {
+			if (Status(cm.config, "KdyzHracSe.Vyhodi.Povolit")) {
 				kdyzHracSeVyhodiPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Zprava kdyz se hrac vyhodi byla povolena.");
 			}
 			
-			if (Status(config, "KdyzHracSe.Odpoji.Povolit")) {
+			if (Status(cm.config, "KdyzHracSe.Odpoji.Povolit")) {
 				kdyzHracSeOdpojiPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Zprava kdyz se hrac odpoji byla povolena.");
 			}
 			
-			if (Status(config, "uvitaciZprava.Povolit")) {
+			if (Status(cm.config, "uvitaciZprava.Povolit")) {
 				if (debug)
 					Bukkit.broadcastMessage("Uvitaci zprava byla povolena.");
 				uvitaciZpravaPovolit = true;
 			}
-			if (Status(config, "Ostatni.Nahranost.GUI.Povolit")) {
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.Povolit")) {
 				if (debug)
 					Bukkit.broadcastMessage("GUI bylo povoleno.");
 				guiPovolit = true;
 			}
 			
-			if (Status(config, "AntiSpam.Povolit")) {
+			if (Status(cm.config, "AntiSpam.Povolit")) {
 				if (debug)
 					Bukkit.broadcastMessage("AntiSpam byl povolen.");
-				AntiSpamCas = config.getInt("AntiSpam.PockatSekund");
+				AntiSpamCas = cm.config.getInt("AntiSpam.PockatSekund");
 				antiSpamPovolit = true;
 			}
-			if (Status(config, "AntiSpam.Duplikace.Povolit"))
+			if (Status(cm.config, "AntiSpam.Duplikace.Povolit"))
 				antiSpamDuplikacePovolit = true;
-			if (Status(config, "Rezervace.Povolit")) {
+			if (Status(cm.config, "Rezervace.Povolit")) {
 				rezervacePovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Rezervace byla povolena.");
 			}
-			if (Status(config, "umrtiZpravy.Povolit")) {
+			if (Status(cm.config, "umrtiZpravy.Povolit")) {
 				umrtiZpravyPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("Umrtne zpravy byly povoleny.");
 			}
-			if (Status(config, "whiteList.Povolit")) {
+			if (Status(cm.config, "whiteList.Povolit")) {
 				whiteListPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("WhiteListZprava byla povolena.");
 			}
-			if (Status(config, "Vtipy.Povolit")) {
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Vtip") + "'");
+			if (Status(cm.config, "Vtipy.Povolit")) {
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Vtip") + "'");
 				Bukkit.getServer().getPluginCommand("vtipcmd").setExecutor(new cmdVTIP(this));
 				if (debug)
 					Bukkit.broadcastMessage("vtipcmd byl zaregistrovan.");
@@ -427,8 +425,8 @@ public class FoE extends JavaPlugin implements Listener {
 				if (!updater.isEnabled()) {
 					if (debug)
 						Bukkit.broadcastMessage("Updater nebyl nalezen.");
-					if (Status(config, "VyhledavatAktualizace.Povolit")) {
-						vyhledavatAktualizaceCas = config.getInt("VyhledavatAktualizace.Cas");
+					if (Status(cm.config, "VyhledavatAktualizace.Povolit")) {
+						vyhledavatAktualizaceCas = cm.config.getInt("VyhledavatAktualizace.Cas");
 						zkontrolovatVerziPluginu();
 						startLoop2(vyhledavatAktualizaceCas);
 					}
@@ -437,30 +435,30 @@ public class FoE extends JavaPlugin implements Listener {
 						Bukkit.broadcastMessage("Updater byl nalezen.");
 				}
 			} else {
-				if (Status(config, "VyhledavatAktualizace.Povolit")) {
-					vyhledavatAktualizaceCas = config.getInt("VyhledavatAktualizace.Cas");
+				if (Status(cm.config, "VyhledavatAktualizace.Povolit")) {
+					vyhledavatAktualizaceCas = cm.config.getInt("VyhledavatAktualizace.Cas");
 					zkontrolovatVerziPluginu();
 					startLoop2(vyhledavatAktualizaceCas);
 				}
 			}
-			/*if (Status(config, "herniRezimy.Povolit")) {
+			if (Status(cm.config, "herniRezimy.Povolit")) {
 				herniRezimy = true;
 				if (debug)
 					Bukkit.broadcastMessage("herniRezimy byly povoleny.");
 				
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Creative") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Creative") + "'");
 				Bukkit.getServer().getPluginCommand("creativecmd").setExecutor(new cmdCREATIVE(this));
 				if (debug)
 					Bukkit.broadcastMessage("creativecmd byl zaregistrovan.");
 				
-				System.out.println("Registruji prikaz '" + config.getString("Prikazy.Survival") + "'");
+				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Survival") + "'");
 				Bukkit.getServer().getPluginCommand("survivalcmd").setExecutor(new cmdSURVIVAL(this));
 				if (debug)
 					Bukkit.broadcastMessage("survivalcmd byl zaregistrovan.");
-			}*/
-			if (Status(config, "MySQL.Povolit")) {
+			}
+			if (Status(cm.config, "MySQL.Povolit")) {
 				mysql = new MySQL(this);
-				mysqlCas = config.getInt("MySQL.Cas");
+				mysqlCas = cm.config.getInt("MySQL.Cas");
 				mysql.open();
 				if (debug)
 					Bukkit.broadcastMessage("MySQL bylo povoleno.");
@@ -557,16 +555,16 @@ public class FoE extends JavaPlugin implements Listener {
 				Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 				Objective objective = board.registerNewObjective(playerName, "dummy");
 				objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-				objective.setDisplayName(nahradit(config.getString("Ostatni.Nahranost.GUI.Nadpis"), playerName));
-				Score score = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Tydny")));
-				Score score2 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Dny")));
-				Score score3 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.Hodiny")));
-				Score score4 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
-				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.iConomy")));
-				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
-				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
-				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
-				Score score9 = objective.getScore(Bukkit.getOfflinePlayer(config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
+				objective.setDisplayName(nahradit(cm.config.getString("Ostatni.Nahranost.GUI.Nadpis"), playerName));
+				Score score = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.Tydny")));
+				Score score2 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.Dny")));
+				Score score3 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.Hodiny")));
+				Score score4 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.PocetHracu")));
+				Score score5 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.iConomy")));
+				Score score6 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.ZabitoHracu")));
+				Score score7 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.ZabitoMobu")));
+				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.ZabitoZvirat")));
+				Score score9 = objective.getScore(Bukkit.getOfflinePlayer(cm.config.getString("Ostatni.Nahranost.GUI.PocetSmrti")));
 				
 				if (guiTydny)
 					score.setScore((int) cas[4]);
@@ -668,7 +666,7 @@ public class FoE extends JavaPlugin implements Listener {
 				
 				if (minutesLeft4 == 0) {
 					try {
-						Bukkit.broadcastMessage(nahraditVtip(config.getString("Vtipy.Format")));
+						Bukkit.broadcastMessage(nahraditVtip(cm.config.getString("Vtipy.Format")));
 						startLoop4(vtipyInterval);
 					} catch (Exception e) {
 						Writer writer = new StringWriter();
@@ -891,7 +889,7 @@ public class FoE extends JavaPlugin implements Listener {
 	
 	public void Upgrade() {
 		try {
-			File nahrano = new File("plugins/Nahrano/config.yml"), cestinator = new File("plugins/Cestinator/config.yml"), antireklama = new File("plugins/AntiReklama/config.yml"), verejnazprava = new File("plugins/VerejnaZprava/config.yml"), vypnoutchat = new File("plugins/VypnoutChat/config.yml");
+			File nahrano = new File("plugins/Nahrano/cm.config.yml"), cestinator = new File("plugins/Cestinator/cm.config.yml"), antireklama = new File("plugins/AntiReklama/cm.config.yml"), verejnazprava = new File("plugins/VerejnaZprava/cm.config.yml"), vypnoutchat = new File("plugins/VypnoutChat/cm.config.yml");
 			String nahranoDir = "plugins/Nahrano/", cestinatorDir = "plugins/Cestinator/", antireklamaDir = "plugins/AntiReklama/", verejnazpravaDir = "plugins/VerejnaZprava/", vypnoutchatDir = "plugins/VypnoutChat/";
 			Boolean b = false, c = false, d = false, a = false;
 			if (nahrano.exists()) {
@@ -902,12 +900,12 @@ public class FoE extends JavaPlugin implements Listener {
 					if (!uzivFile.exists()) {
 						uziv.set("Nahrano", cas);
 						System.out.println(hrac + " - " + cas);
-						cm.saveConfig(config, configFile);
+						cm.saveConfig(cm.config, cm.configFile);
 					} else {
 						Long nahr = Long.valueOf(uziv.getLong("Nahrano"));
 						uziv.set("Nahrano", nahr + cas);
 						System.out.println(hrac + " - " + nahr + cas);
-						cm.saveConfig(config, configFile);
+						cm.saveConfig(cm.config, cm.configFile);
 					}
 				}
 				System.out.println("Upgrade: Nahrano - Hotovo");
@@ -935,10 +933,10 @@ public class FoE extends JavaPlugin implements Listener {
 						o.add(l);
 						System.out.println(l);
 					}
-					config.set("Gramatika.Vsude", m);
-					config.set("Gramatika.Cele", n);
-					config.set("Cenzura.slova", o);
-					cm.saveConfig(config, configFile);
+					cm.config.set("Gramatika.Vsude", m);
+					cm.config.set("Gramatika.Cele", n);
+					cm.config.set("Cenzura.slova", o);
+					cm.saveConfig(cm.config, cm.configFile);
 					System.out.println("Upgrade: Gramatika, Cenzura - Hotovo");
 					c = true;
 					deleteFolder(cestinator);
@@ -960,13 +958,13 @@ public class FoE extends JavaPlugin implements Listener {
 						m.add(l);
 						System.out.println(l);
 					}
-					config.set("AntiReklama.WEB.Zprava", aa.getString("WEB.verejnaZprava"));
-					config.set("AntiReklama.WEB.Akce", aa.getString("WEB.akce"));
-					config.set("AntiReklama.WEB.Whitelist", m);
-					config.set("AntiReklama.IP.Akce", aa.getString("IP.akce"));
-					config.set("AntiReklama.IP.Zprava", aa.getString("IP.verejnaZprava"));
-					config.set("AntiReklama.IP.Whitelist", n);
-					cm.saveConfig(config, configFile);
+					cm.config.set("AntiReklama.WEB.Zprava", aa.getString("WEB.verejnaZprava"));
+					cm.config.set("AntiReklama.WEB.Akce", aa.getString("WEB.akce"));
+					cm.config.set("AntiReklama.WEB.Whitelist", m);
+					cm.config.set("AntiReklama.IP.Akce", aa.getString("IP.akce"));
+					cm.config.set("AntiReklama.IP.Zprava", aa.getString("IP.verejnaZprava"));
+					cm.config.set("AntiReklama.IP.Whitelist", n);
+					cm.saveConfig(cm.config, cm.configFile);
 					System.out.println("Upgrade: AntiReklama - Hotovo");
 					d = true;
 					deleteFolder(antireklama);
@@ -978,9 +976,9 @@ public class FoE extends JavaPlugin implements Listener {
 			if (d) {
 				if (verejnazprava.exists()) {
 					YamlConfiguration aa = YamlConfiguration.loadConfiguration(verejnazprava);
-					config.set("Oznameni.Prefix", aa.getString("Prefix"));
-					config.set("Oznameni.Suffix", aa.getString("Suffix"));
-					cm.saveConfig(config, configFile);
+					cm.config.set("Oznameni.Prefix", aa.getString("Prefix"));
+					cm.config.set("Oznameni.Suffix", aa.getString("Suffix"));
+					cm.saveConfig(cm.config, cm.configFile);
 					System.out.println("Upgrade: Oznameni - Hotovo");
 					a = true;
 					deleteFolder(verejnazprava);
@@ -992,8 +990,8 @@ public class FoE extends JavaPlugin implements Listener {
 			if (a) {
 				if (vypnoutchat.exists()) {
 					YamlConfiguration aa = YamlConfiguration.loadConfiguration(vypnoutchat);
-					config.set("VypnoutChat.KdyzJeVypnutyChat", aa.getString("Zpravy.Chat"));
-					cm.saveConfig(config, configFile);
+					cm.config.set("VypnoutChat.KdyzJeVypnutyChat", aa.getString("Zpravy.Chat"));
+					cm.saveConfig(cm.config, cm.configFile);
 					System.out.println("Upgrade: VypnoutChat - Hotovo");
 					deleteFolder(vypnoutchat);
 					DeleteFileFolder(vypnoutchatDir);
@@ -1056,17 +1054,6 @@ public class FoE extends JavaPlugin implements Listener {
 		}
 	}
 	
-	public void kontrolaConfigu() {
-		try {
-			
-		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
-		}
-	}
-	
 	public void helpMessageToLog(String playerName, String Message) {
 		try {
 			File u = new File("plugins/FoE/help.log");
@@ -1093,17 +1080,17 @@ public class FoE extends JavaPlugin implements Listener {
 		try {
 			String serverName = Bukkit.getServerName();
 			String name;
-			if (!config.contains("NM")) {
+			if (!cm.config.contains("NM")) {
 				if (serverName.equals("Unknown Server")) {
 					Random rnd = new Random();
-					config.set("NM", rnd.nextInt(10000));
-					cm.saveConfig(config, configFile);
+					cm.config.set("NM", rnd.nextInt(10000));
+					cm.saveConfig(cm.config, cm.configFile);
 				} else {
-					config.set("NM", serverName);
-					cm.saveConfig(config, configFile);
+					cm.config.set("NM", serverName);
+					cm.saveConfig(cm.config, cm.configFile);
 				}
 			}
-			name = config.getString("NM");
+			name = cm.config.getString("NM");
 			URL url = new URL("http://www.foe.frelania.eu/servers/post.php?ip=" + this.getServer().getIp() + "&port=" + this.getServer().getPort() + "&jmeno=" + nahraditMezery(name) + "&verze=" + this.getDescription().getVersion());
 			if (url != null) {
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -1192,7 +1179,7 @@ public class FoE extends JavaPlugin implements Listener {
 			message = message.replaceAll("\\{JMENO}", playerName);
 		
 		if (message.matches(".*\\{PREFIX}.*"))
-			message = message.replaceAll("\\{PREFIX}", config.getString("autoZpravy.Prefix"));
+			message = message.replaceAll("\\{PREFIX}", cm.config.getString("autoZpravy.Prefix"));
 		
 		if (message.matches(".*\\{CAS}.*")) {
 			Date date = new Date();
@@ -1219,7 +1206,7 @@ public class FoE extends JavaPlugin implements Listener {
 				
 				if (minutesLeft5 == 0) {
 					try {
-						List<String> list = config.getStringList("autoZpravy.Zpravy");
+						List<String> list = cm.config.getStringList("autoZpravy.Zpravy");
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							if (!p.hasPermission("FoE.AutoZpravy.Bypass")) {
 								Random rnd = new Random();
@@ -1247,10 +1234,10 @@ public class FoE extends JavaPlugin implements Listener {
 		if (node != null && config != null) {
 			if (debug)
 				System.out.println(node);
-			if (config.getString(node).equalsIgnoreCase("ano"))
+			if (cm.config.getString(node).equalsIgnoreCase("ano"))
 				return true;
 		} else {
-			System.out.println(node + " nebyl nalezen, aktualizujte config.");
+			System.out.println(node + " nebyl nalezen, aktualizujte cm.config.");
 		}
 		return false;
 	}
@@ -1263,94 +1250,96 @@ public class FoE extends JavaPlugin implements Listener {
 			vysledek = (vysledek + (i > 1 ? " " : "") + args[i]);
 		}
 		
-		if (args[0].equalsIgnoreCase(config.getString("Prikazy.AdminChat"))) {
+		if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.AdminChat"))) {
 			if (adminChatPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "acmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Ban"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Manager.Ban"))) {
 			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "bancmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Unban"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Manager.Unban"))) {
 			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "unbancmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Manager.Kick"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Manager.Kick"))) {
 			if (managerBan) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "kickcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Cenzura"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Cenzura"))) {
 			if (cenzuraPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "cenzuracmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Gramatika"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Gramatika"))) {
 			if (gramatikaPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "gramatikacmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Help"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Help"))) {
 			if (zpravaAdminum) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "helpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.VypnoutChat"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.VypnoutChat"))) {
 			if (vypnoutChatPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "chatcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Nahranost"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Nahranost"))) {
 			if (nahranostPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "infcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Inventar"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Inventar"))) {
 			if (inventarPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "invcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Teleport"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Teleport"))) {
 			if (teleportPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "tpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Oznameni"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Oznameni"))) {
 			if (oznameniPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "zpravacmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Clear"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Clear"))) {
 			if (clearChat) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "clearcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Vtip"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Vtip"))) {
 			if (vtipyPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "vtipcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Warp"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Warp"))) {
 			if (warpPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "warpcmd " + vysledek);
 				event.setCancelled(true);
 			}
-		} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Msg"))) {
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Msg"))) {
 			if (msgPovolit) {
 				Bukkit.getServer().dispatchCommand(event.getPlayer(), "msgcmd " + vysledek);
 				event.setCancelled(true);
 			}
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Creative"))) {
+			if (herniRezimy) {
+				Bukkit.getServer().dispatchCommand(event.getPlayer(), "creativecmd " + vysledek);
+				event.setCancelled(true);
+			}
+		} else if (args[0].equalsIgnoreCase(cm.config.getString("Prikazy.Survival"))) {
+			if (herniRezimy) {
+				Bukkit.getServer().dispatchCommand(event.getPlayer(), "survivalcmd " + vysledek);
+				event.setCancelled(true);
+			}
 		}
-		// Pøíprava na Žádost #017.
-		/*else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Creative"))) {
-			Bukkit.getServer().dispatchCommand(event.getPlayer(), "creativecmd " + vysledek);
-			event.setCancelled(true);
-			} else if (args[0].equalsIgnoreCase(config.getString("Prikazy.Survival"))) {
-			Bukkit.getServer().dispatchCommand(event.getPlayer(), "survivalcmd " + vysledek);
-			event.setCancelled(true);
-			}*/
 	}
 }

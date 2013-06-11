@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import main.BanManager;
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -16,8 +17,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class cmdINF implements CommandExecutor {
-	public FoE			plugin;
-	public BanManager	bm	= new BanManager();
+	public FoE				plugin;
+	public BanManager		bm	= new BanManager();
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdINF(FoE plugin) {
 		this.plugin = plugin;
@@ -88,7 +90,7 @@ public class cmdINF implements CommandExecutor {
 						getInfo(player, args[0]);
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

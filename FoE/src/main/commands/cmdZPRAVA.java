@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -13,7 +14,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdZPRAVA implements CommandExecutor {
-	public FoE	plugin;
+	public FoE				plugin;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdZPRAVA(FoE plugin) {
 		this.plugin = plugin;
@@ -32,10 +34,10 @@ public class cmdZPRAVA implements CommandExecutor {
 					if (vysledek.isEmpty()) {
 						sender.sendMessage(ChatColor.RED + "Nemùžete odeslat prázdný text!");
 					} else {
-						Bukkit.broadcastMessage(plugin.nahradit(plugin.config.getString("Oznameni.Prefix"), jmenoHrace) + " " + plugin.nahradit(plugin.config.getString("Oznameni.Suffix"), jmenoHrace) + vysledek);
+						Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("Oznameni.Prefix"), jmenoHrace) + " " + plugin.nahradit(cm.config.getString("Oznameni.Suffix"), jmenoHrace) + vysledek);
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

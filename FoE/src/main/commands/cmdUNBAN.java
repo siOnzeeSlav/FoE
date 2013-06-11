@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import main.BanManager;
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.command.Command;
@@ -12,8 +13,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdUNBAN implements CommandExecutor {
-	public FoE			plugin;
-	public BanManager	bm	= new BanManager();
+	public FoE				plugin;
+	public BanManager		bm	= new BanManager();
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdUNBAN(FoE plugin) {
 		this.plugin = plugin;
@@ -38,7 +40,7 @@ public class cmdUNBAN implements CommandExecutor {
 						sender.sendMessage("Zadejte jméno hráèe.");
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), sender.getName()));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), sender.getName()));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

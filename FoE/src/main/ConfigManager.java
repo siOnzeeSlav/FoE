@@ -67,11 +67,11 @@ public class ConfigManager {
 		if (!config.contains("Prikazy.Msg"))
 			config.set("Prikazy.Msg", "/msg");
 		
-		/*if (!config.contains("Prikazy.Creative"))
+		if (!config.contains("Prikazy.Creative"))
 			config.set("Prikazy.Creative", "/c");
 		
 		if (!config.contains("Prikazy.Survival"))
-			config.set("Prikazy.Survival", "/s");*/
+			config.set("Prikazy.Survival", "/s");
 		
 		if (!config.contains("MySQL.Povolit"))
 			config.set("MySQL.Povolit", "ne");
@@ -511,8 +511,20 @@ public class ConfigManager {
 		if (!config.contains("Msg.Format"))
 			config.set("Msg.Format", "&8[&4{JMENO}&8 -> &4{TARGET}&8]&f {ZPRAVA}");
 		
-		/*if (!config.contains("herniRezimy.Povolit"))
-			config.set("herniRezimy.Povolit", "ano");*/
+		if (!config.contains("herniRezimy.Povolit"))
+			config.set("herniRezimy.Povolit", "ano");
+		
+		if (!config.contains("herniRezimy.Zpravy.Creative"))
+			config.set("herniRezimy.Zpravy.Creative", "&4{JMENO} &8zmìnil svùj herní režim na &4Creative&8.");
+		
+		if (!config.contains("herniRezimy.Zpravy.Survival"))
+			config.set("herniRezimy.Zpravy.Survival", "&4{JMENO} &8zmìnil svùj herní režim na &4Survival&8.");
+		
+		if (!config.contains("herniRezimy.Zpravy.MaCreative"))
+			config.set("herniRezimy.Zpravy.MaCreative", "&4Již&8 máš &4creative&8!");
+		
+		if (!config.contains("herniRezimy.Zpravy.MaSurvival"))
+			config.set("herniRezimy.Zpravy.MaSurvival", "&4Již&8 máš &4survival&8!");
 		
 		saveConfig(umrtiZpravy, umrtiZpravyFile);
 		saveConfig(config, configFile);

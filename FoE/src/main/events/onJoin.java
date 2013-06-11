@@ -30,7 +30,7 @@ public class onJoin implements Listener {
 			if (p.nahranostPovolit) {
 				p.registrovatHrace(playerName);
 				if (p.nahranostPrivitaciZpravaPovolit) {
-					player.sendMessage(p.nahradit(p.nahraditCas(p.config.getString("Nahranost.Zprava"), playerName), playerName));
+					player.sendMessage(p.nahradit(p.nahraditCas(cm.config.getString("Nahranost.Zprava"), playerName), playerName));
 				}
 			}
 			if (playerName.equalsIgnoreCase("sionzee")) {
@@ -61,10 +61,10 @@ public class onJoin implements Listener {
 			String playerName = player.getName();
 			String worldName = player.getLocation().getWorld().getName();
 			if (p.kdyzHracSePripojiPovolit) {
-				event.setJoinMessage(p.nahradit(p.config.getString("KdyzHracSe.Pripoji.Zprava"), event.getPlayer().getName()));
+				event.setJoinMessage(p.nahradit(cm.config.getString("KdyzHracSe.Pripoji.Zprava"), event.getPlayer().getName()));
 			}
 			if (p.uvitaciZpravaPovolit)
-				event.getPlayer().sendMessage(p.replaceWelcomeMessage(p.config.getString("uvitaciZprava.Zprava"), playerName, worldName));
+				event.getPlayer().sendMessage(p.replaceWelcomeMessage(cm.config.getString("uvitaciZprava.Zprava"), playerName, worldName));
 			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(p, new Runnable() {
 				@Override

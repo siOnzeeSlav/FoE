@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -13,7 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class onQuit implements Listener {
-	public FoE	p;
+	public FoE				p;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public onQuit(FoE plugin) {
 		this.p = plugin;
@@ -46,7 +48,7 @@ public class onQuit implements Listener {
 	public void Quit(final PlayerQuitEvent event) {
 		try {
 			if (p.kdyzHracSeOdpojiPovolit)
-				event.setQuitMessage(p.nahradit(p.config.getString("KdyzHracSe.Odpoji.Zprava"), event.getPlayer().getName()));
+				event.setQuitMessage(p.nahradit(cm.config.getString("KdyzHracSe.Odpoji.Zprava"), event.getPlayer().getName()));
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(p, new Runnable() {
 				@Override
 				public void run() {

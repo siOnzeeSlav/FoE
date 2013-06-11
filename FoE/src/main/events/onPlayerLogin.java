@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.Random;
 
 import main.BanManager;
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -17,8 +18,9 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class onPlayerLogin implements Listener {
-	public FoE			p;
-	public BanManager	bm	= new BanManager();
+	public FoE				p;
+	public BanManager		bm	= new BanManager();
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public onPlayerLogin(FoE plugin) {
 		this.p = plugin;
@@ -30,7 +32,7 @@ public class onPlayerLogin implements Listener {
 		try {
 			if (p.whiteListPovolit) {
 				if (event.getResult() == Result.KICK_WHITELIST) {
-					event.disallow(Result.KICK_WHITELIST, p.nahraditBarvy(p.config.getString("whiteList.Zprava")));
+					event.disallow(Result.KICK_WHITELIST, p.nahraditBarvy(cm.config.getString("whiteList.Zprava")));
 				}
 			}
 			p.uzivatel(playerName);
@@ -44,7 +46,7 @@ public class onPlayerLogin implements Listener {
 				if (Bukkit.getOnlinePlayers().length == Bukkit.getServer().getMaxPlayers()) {
 					Player randomPlayer = Bukkit.getOnlinePlayers()[new Random().nextInt(Bukkit.getOnlinePlayers().length)];
 					while (!randomPlayer.hasPermission("FoE.Rezervace.VIP")) {
-						randomPlayer.kickPlayer(p.nahradit(p.config.getString("Rezervace.Zprava"), playerName));
+						randomPlayer.kickPlayer(p.nahradit(cm.config.getString("Rezervace.Zprava"), playerName));
 						break;
 					}
 				}

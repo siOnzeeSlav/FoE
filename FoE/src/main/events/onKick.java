@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -13,7 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 
 public class onKick implements Listener {
-	public FoE	p;
+	public FoE				p;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public onKick(FoE plugin) {
 		this.p = plugin;
@@ -48,7 +50,7 @@ public class onKick implements Listener {
 	public void Kick(final PlayerKickEvent event) {
 		try {
 			if (p.kdyzHracSeVyhodiPovolit)
-				event.setLeaveMessage(p.nahradit(p.config.getString("KdyzHracSe.Vyhodi.Zprava"), event.getPlayer().getName()));
+				event.setLeaveMessage(p.nahradit(cm.config.getString("KdyzHracSe.Vyhodi.Zprava"), event.getPlayer().getName()));
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(p, new Runnable() {
 				@Override
 				public void run() {

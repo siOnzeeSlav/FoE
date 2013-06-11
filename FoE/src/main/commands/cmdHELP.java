@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import main.ConfigManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -13,7 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdHELP implements CommandExecutor {
-	public FoE	plugin;
+	public FoE				plugin;
+	public ConfigManager	cm	= new ConfigManager();
 	
 	public cmdHELP(FoE plugin) {
 		this.plugin = plugin;
@@ -39,7 +41,7 @@ public class cmdHELP implements CommandExecutor {
 						sender.sendMessage("Zadejte text.");
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(plugin.config.getString("Ostatni.KdyzNemaOpravneni"), sender.getName()));
+					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), sender.getName()));
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

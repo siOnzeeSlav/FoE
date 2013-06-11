@@ -121,15 +121,15 @@ public class EntityDeath implements Listener {
 	}
 	
 	public void poslatZpravuSebevrazda(String cause, String playerName) {
-		if (!p.umrtiZpravy.contains("Sebevrazda." + cause)) {
-			p.umrtiZpravy.set("Sebevrazda." + cause, "&4{JMENO} &8byl zabit &4" + cause + "&8.");
-			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+		if (!cm.umrtiZpravy.contains("Sebevrazda." + cause)) {
+			cm.umrtiZpravy.set("Sebevrazda." + cause, "&4{JMENO} &8byl zabit &4" + cause + "&8.");
+			cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
 		}
-		Bukkit.broadcastMessage(replaceColorsAndPlayer(p.umrtiZpravy.getString("Sebevrazda." + cause), playerName));
+		Bukkit.broadcastMessage(replaceColorsAndPlayer(cm.umrtiZpravy.getString("Sebevrazda." + cause), playerName));
 	}
 	
 	public void poslatZpravuMonster(String targetName, String playerName) {
-		if (!p.umrtiZpravy.contains("Monsters." + targetName)) {
+		if (!cm.umrtiZpravy.contains("Monsters." + targetName)) {
 			//List<String> mobMessagesList = cm.umrtiZpravy.getStringList("Monsters." + targetName);
 			//Random rnd = new Random();
 			//if(mobMessagesList.length > 0) {
@@ -139,20 +139,20 @@ public class EntityDeath implements Listener {
 			//cm.umrtiZpravy.set("Monsters." + targetName, mobMessagesList);
 			//cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
 			// }
-			p.umrtiZpravy.set("Monsters." + targetName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
-			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+			cm.umrtiZpravy.set("Monsters." + targetName, "&4{JMENO} &8byl zabit &4{MOB}&8.");
+			cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
 		}
-		Bukkit.broadcastMessage(replace(p.umrtiZpravy.getString("Monsters." + targetName), playerName, targetName));
+		Bukkit.broadcastMessage(replace(cm.umrtiZpravy.getString("Monsters." + targetName), playerName, targetName));
 	}
 	
 	public void poslatZpravu(String itemName, String playerName, String targetName) {
 		if (p.debug)
 			Bukkit.broadcastMessage(itemName + " / " + playerName + " / " + targetName);
-		if (!p.umrtiZpravy.contains(itemName)) {
-			p.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s pøedmìtem &4{ITEM}&8.");
-			cm.saveConfig(p.umrtiZpravy, p.umrtiZpravyFile);
+		if (!cm.umrtiZpravy.contains(itemName)) {
+			cm.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s pøedmìtem &4{ITEM}&8.");
+			cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
 		}
-		Bukkit.broadcastMessage(replacePredmet(p.umrtiZpravy.getString(itemName), playerName, targetName, itemName));
+		Bukkit.broadcastMessage(replacePredmet(cm.umrtiZpravy.getString(itemName), playerName, targetName, itemName));
 	}
 	
 	public String replaceColorsAndPlayer(String message, String playerName) {
