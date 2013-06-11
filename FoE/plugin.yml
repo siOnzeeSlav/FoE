@@ -33,6 +33,8 @@ permissions:
             FoE.Clear: true
             FoE.AutoZpravy.Bypass: true
             FoE.Vtip: true
+            FoE.Creative: true
+            FoE.Survival: true
     FoE.Informace:
       description: FoE CMD
       default: true
@@ -99,6 +101,12 @@ permissions:
     FoE.Vtip:
       description: FoE CMD
       default: true
+    FoE.Creative:
+      description: FoE CMD
+      default: false
+    FoE.Survival:
+      description: FoE CMD
+      default: false
 commands:
     FoE:
       description: FoE CMD
@@ -149,3 +157,9 @@ commands:
     msgcmd:
       description: FoE CMD
       permission: FoE.Msg
+    creativecmd:
+      description: FoE CMD
+      permission: FoE.Creative
+    survivalcmd:
+      description: FoE CMD
+      permission: FoE.Survival
