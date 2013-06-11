@@ -27,7 +27,7 @@ public class cmdVTIP implements CommandExecutor {
 				String jmenoHrace = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Vtip"))) {
 					if (args.length == 0) {
-						sender.sendMessage(cm.config.getString("Prikazy.Vtip") + " [CISLO]  " + ChatColor.GOLD + "Pro zobrazení vtipu.");
+						sender.sendMessage(cm.config.getString("Prikazy.Vtip") + " [CISLO]  " + ChatColor.GOLD + "Pro zobrazeni vtipu.");
 					} else {
 						int cislo = Integer.valueOf(args[0]);
 						sender.sendMessage(plugin.vtipy.get(cislo));

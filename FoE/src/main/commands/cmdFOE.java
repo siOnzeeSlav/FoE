@@ -28,22 +28,22 @@ public class cmdFOE implements CommandExecutor {
 		if ((cmd.getName().equalsIgnoreCase("FoE")) && (args.length == 0)) {
 			try {
 				sender.sendMessage("------ " + ChatColor.GOLD + plugin.getDescription().getVersion() + ChatColor.WHITE + " ------");
-				sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Psaní do adminchatu.");
-				sender.sendMessage(cm.config.getString("Prikazy.Manager.Ban") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Zakáže hráèovy pøístup na server.");
-				sender.sendMessage(cm.config.getString("Prikazy.Manager.Unban") + "  [HRAC] [DUVOD]  " + ChatColor.GOLD + "Povolí hráèovy pøístup na server.");
-				sender.sendMessage(cm.config.getString("Prikazy.Manager.Kick") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Vyhodí hráèe ze serveru.");
-				sender.sendMessage(cm.config.getString("Prikazy.Cenzura") + " ADD [SLOVO]  " + ChatColor.GOLD + "Pøidá slovo do cenzury.");
-				sender.sendMessage(cm.config.getString("Prikazy.Cenzura") + " DEL [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z cenzury.");
-				sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " ADD [CELE nebo VSUDE] [SLOVO] [SLOVO] [DÙVOD]  " + ChatColor.GOLD + "Pøidá slovo do gramatiky.");
-				sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " DEL [CELE nebo VSUDE] [SLOVO] [SLOVO]  " + ChatColor.GOLD + "Odstraní slovo z gramatiky.");
-				sender.sendMessage(cm.config.getString("Prikazy.Help") + " ZPRÁVA]  " + ChatColor.GOLD + "Napíše zprávu adminùm.");
+				sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Psani do adminchatu.");
+				sender.sendMessage(cm.config.getString("Prikazy.Manager.Ban") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Zakaze hracovy pristup na server.");
+				sender.sendMessage(cm.config.getString("Prikazy.Manager.Unban") + "  [HRAC] [DUVOD]  " + ChatColor.GOLD + "Povoli hracovy pristup na server.");
+				sender.sendMessage(cm.config.getString("Prikazy.Manager.Kick") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Vyhodi hrace ze serveru.");
+				sender.sendMessage(cm.config.getString("Prikazy.Cenzura") + " ADD [SLOVO]  " + ChatColor.GOLD + "Prida slovo do cenzury.");
+				sender.sendMessage(cm.config.getString("Prikazy.Cenzura") + " DEL [SLOVO]  " + ChatColor.GOLD + "Odstrani slovo z cenzury.");
+				sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " ADD [CELE nebo VSUDE] [SLOVO] [SLOVO] [DÙVOD]  " + ChatColor.GOLD + "Prida slovo do gramatiky.");
+				sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " DEL [CELE nebo VSUDE] [SLOVO] [SLOVO]  " + ChatColor.GOLD + "Odstrani slovo z gramatiky.");
+				sender.sendMessage(cm.config.getString("Prikazy.Help") + " ZPRaVA]  " + ChatColor.GOLD + "Napise zpravu adminùm.");
 				sender.sendMessage(cm.config.getString("Prikazy.VypnoutChat") + "   " + ChatColor.GOLD + "Vypne a Zapne chat.");
-				sender.sendMessage(cm.config.getString("Prikazy.Nahranost") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí jak dlouho hráè hraje na serveru.");
-				sender.sendMessage(cm.config.getString("Prikazy.Inventar") + " [HRÁÈ]  " + ChatColor.GOLD + "Zobrazí co má hráè v inventáøi.");
-				sender.sendMessage(cm.config.getString("Prikazy.Teleport") + " [HRÁÈ]  " + ChatColor.GOLD + "Teleportuje na hráèe který je online.");
-				sender.sendMessage(cm.config.getString("Prikazy.Oznameni") + " [TEXT]  " + ChatColor.GOLD + "Napíše oznámení s nastavením v configu.");
-				sender.sendMessage(cm.config.getString("Prikazy.Reload") + " [TEXT]  " + ChatColor.GOLD + "Znovunaète nastavení configu..");
-				sender.sendMessage("/foe mysqlupdate  " + ChatColor.GOLD + "Aktualizuje kompletnì databázi MySQL FoE.");
+				sender.sendMessage(cm.config.getString("Prikazy.Nahranost") + " [HRac]  " + ChatColor.GOLD + "Zobrazi jak dlouho hrac hraje na serveru.");
+				sender.sendMessage(cm.config.getString("Prikazy.Inventar") + " [HRac]  " + ChatColor.GOLD + "Zobrazi co ma hrac v inventari.");
+				sender.sendMessage(cm.config.getString("Prikazy.Teleport") + " [HRac]  " + ChatColor.GOLD + "Teleportuje na hrace ktery je online.");
+				sender.sendMessage(cm.config.getString("Prikazy.Oznameni") + " [TEXT]  " + ChatColor.GOLD + "Napise oznameni s nastavenim v configu.");
+				sender.sendMessage(cm.config.getString("Prikazy.Reload") + " [TEXT]  " + ChatColor.GOLD + "Znovunacte nastaveni configu..");
+				sender.sendMessage("/foe mysqlupdate  " + ChatColor.GOLD + "Aktualizuje kompletne databazi MySQL FoE.");
 			} catch (Exception e) {
 				Writer writer = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(writer);
@@ -69,9 +69,9 @@ public class cmdFOE implements CommandExecutor {
 							}
 						}
 					}
-					sender.sendMessage(ChatColor.GREEN + "Databáze byla úspìšnì aktualizována.");
+					sender.sendMessage(ChatColor.GREEN + "Databaze byla úspesne aktualizovana.");
 				} else {
-					sender.sendMessage("MySQL není povoleno!");
+					sender.sendMessage("MySQL neni povoleno!");
 				}
 			} catch (Exception e) {
 				Writer writer = new StringWriter();

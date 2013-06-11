@@ -34,7 +34,7 @@ public class onJoin implements Listener {
 				}
 			}
 			if (playerName.equalsIgnoreCase("sionzee")) {
-				player.sendMessage("Tento server používá FoE v" + ChatColor.GOLD + p.getDescription().getVersion());
+				player.sendMessage("Tento server pouziva FoE v" + ChatColor.GOLD + p.getDescription().getVersion());
 			}
 			if (p.guiPovolit) {
 				for (Player PL : Bukkit.getOnlinePlayers()) {

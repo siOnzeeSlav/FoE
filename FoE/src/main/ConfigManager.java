@@ -107,7 +107,7 @@ public class ConfigManager {
 			config.set("KdyzHracSe.Pripoji.Povolit", "ano");
 		
 		if (!config.contains("KdyzHracSe.Pripoji.Zprava"))
-			config.set("KdyzHracSe.Pripoji.Zprava", "&4{JMENO}&8 se pøipojil do hry!");
+			config.set("KdyzHracSe.Pripoji.Zprava", "&4{JMENO}&8 se pripojil do hry!");
 		
 		if (!config.contains("KdyzHracSe.Odpoji.Povolit"))
 			config.set("KdyzHracSe.Odpoji.Povolit", "ano");
@@ -126,7 +126,7 @@ public class ConfigManager {
 		}
 		
 		if (!config.contains("uvitaciZprava.Zprava")) {
-			config.set("uvitaciZprava.Zprava", "&4Vítej {JMENO}&8 doufáme že se ti u nás na serveru bude líbit.");
+			config.set("uvitaciZprava.Zprava", "&4Vitej {JMENO}&8 doufame ze se ti u nas na serveru bude libit.");
 		}
 		
 		if (!config.contains("Nahranost.Povolit"))
@@ -172,7 +172,7 @@ public class ConfigManager {
 			config.set("Cenzura.Nahrada", "******");
 		
 		if (!config.contains("Cenzura.Zprava"))
-			config.set("Cenzura.Zprava", "{JMENO} nadávat se zde nesmí!");
+			config.set("Cenzura.Zprava", "{JMENO} nadavat se zde nesmi!");
 		
 		if (!config.contains("Cenzura.Akce"))
 			config.set("Cenzura.Akce", "");
@@ -189,7 +189,7 @@ public class ConfigManager {
 			config.set("Gramatika.Povolit", "ano");
 		
 		if (!config.contains("Gramatika.Duvody"))
-			config.set("Gramatika.Duvody.mislet", "&4Vyjmenované Slovo - Vždycky tvrdé Y! ' m&fY&4slet '");
+			config.set("Gramatika.Duvody.mislet", "&4Vyjmenovane Slovo - Vzdycky tvrde Y! ' m&fY&4slet '");
 		
 		if (!config.contains("Gramatika.Vsude")) {
 			List<String> b = new ArrayList<String>();
@@ -208,16 +208,16 @@ public class ConfigManager {
 			config.set("VypnoutChat.Povolit", "ano");
 		
 		if (!config.contains("VypnoutChat.KdyzJeVypnutyChat"))
-			config.set("VypnoutChat.KdyzJeVypnutyChat", "&4Chat je vypnutý, oprávnìní psát mají jen &8operátoøi&4!");
+			config.set("VypnoutChat.KdyzJeVypnutyChat", "&4Chat je vypnuty, opravneni psat maji jen &8operatori&4!");
 		
 		if (!config.contains("VypnoutChat.KdyzSeVypne"))
-			config.set("VypnoutChat.KdyzSeVypne", "&4{JMENO} &8zakázal chat!");
+			config.set("VypnoutChat.KdyzSeVypne", "&4{JMENO} &8zakazal chat!");
 		
 		if (!config.contains("VypnoutChat.KdyzSeZapne"))
 			config.set("VypnoutChat.KdyzSeZapne", "&4{JMENO} &8povolil chat!");
 		
 		if (!config.contains("Ostatni.KdyzNemaOpravneni"))
-			config.set("Ostatni.KdyzNemaOpravneni", "&4Na tuto akci nemáte &8oprávnìní&4!");
+			config.set("Ostatni.KdyzNemaOpravneni", "&4Na tuto akci nemate &8opravneni&4!");
 		
 		if (!config.contains("Ostatni.Upgrade"))
 			config.set("Ostatni.Upgrade", "ano");
@@ -268,13 +268,13 @@ public class ConfigManager {
 			config.set("Ostatni.Nahranost.GUI.Nadpis", "&4F&8o&4E");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Tydny"))
-			config.set("Ostatni.Nahranost.GUI.Tydny", "Nahráno Týdnù:");
+			config.set("Ostatni.Nahranost.GUI.Tydny", "Nahrano Tydnù:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Dny"))
-			config.set("Ostatni.Nahranost.GUI.Dny", "Nahráno Dnù:");
+			config.set("Ostatni.Nahranost.GUI.Dny", "Nahrano Dnù:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.Hodiny"))
-			config.set("Ostatni.Nahranost.GUI.Hodiny", "Nahráno Hodin:");
+			config.set("Ostatni.Nahranost.GUI.Hodiny", "Nahrano Hodin:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.PocetHracu"))
 			config.set("Ostatni.Nahranost.GUI.PocetHracu", "Online:");
@@ -289,7 +289,7 @@ public class ConfigManager {
 			config.set("Ostatni.Nahranost.GUI.ZabitoMobu", "Zabito Mobu:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.ZabitoZvirat"))
-			config.set("Ostatni.Nahranost.GUI.ZabitoZvirat", "Zabito Zvíøat:");
+			config.set("Ostatni.Nahranost.GUI.ZabitoZvirat", "Zabito Zvirat:");
 		
 		if (!config.contains("Ostatni.Nahranost.GUI.PocetSmrti"))
 			config.set("Ostatni.Nahranost.GUI.PocetSmrti", "Umrti:");
@@ -298,19 +298,19 @@ public class ConfigManager {
 			config.set("TP.Povolit", "ano");
 		
 		if (!config.contains("TP.Zprava.Uspesne"))
-			config.set("TP.Zprava.Uspesne", "&4Úspìšnì &8jste se teleportoval k &4{JMENO}");
+			config.set("TP.Zprava.Uspesne", "&4Úspesne &8jste se teleportoval k &4{JMENO}");
 		
 		if (!config.contains("TP.Zprava.Offline"))
-			config.set("TP.Zprava.Offline", "&4Hráè {JMENO} &8není online! Zkusíme najít jeho poslední pozici.");
+			config.set("TP.Zprava.Offline", "&4Hrac {JMENO} &8neni online! Zkusime najit jeho posledni pozici.");
 		
 		if (!config.contains("TP.Zprava.NeniZaznamenan"))
-			config.set("TP.Zprava.NeniZaznamenan", "&8Litujeme ale &4{JMENO}&8 není zde zaznamenán.");
+			config.set("TP.Zprava.NeniZaznamenan", "&8Litujeme ale &4{JMENO}&8 neni zde zaznamenan.");
 		
 		if (!config.contains("AntiSpam.Povolit"))
 			config.set("AntiSpam.Povolit", "ano");
 		
 		if (!config.contains("AntiSpam.Zprava"))
-			config.set("AntiSpam.Zprava", "&4{JMENO} &8Musíte poèkat &4{SEKUND} &8sekundy.");
+			config.set("AntiSpam.Zprava", "&4{JMENO} &8Musite pockat &4{SEKUND} &8sekundy.");
 		
 		if (!config.contains("AntiSpam.PockatSekund"))
 			config.set("AntiSpam.PockatSekund", 3);
@@ -319,13 +319,13 @@ public class ConfigManager {
 			config.set("AntiSpam.Duplikace.Povolit", "ano");
 		
 		if (!config.contains("AntiSpam.Duplikace.Zprava"))
-			config.set("AntiSpam.Duplikace.Zprava", "&4Nemùžete poslat 2x stejnou zprávu&8!");
+			config.set("AntiSpam.Duplikace.Zprava", "&4Nemùzete poslat 2x stejnou zpravu&8!");
 		
 		if (!config.contains("Rezervace.Povolit"))
 			config.set("Rezervace.Povolit", "ano");
 		
 		if (!config.contains("Rezervace.Zprava"))
-			config.set("Rezervace.Zprava", "&4{JMENO} &8se pøipojil a vy jste byl vyhozen ze hry.");
+			config.set("Rezervace.Zprava", "&4{JMENO} &8se pripojil a vy jste byl vyhozen ze hry.");
 		
 		if (!config.contains("Inventar.Povolit"))
 			config.set("Inventar.Povolit", "ano");
@@ -334,10 +334,10 @@ public class ConfigManager {
 			config.set("Manager.Povolit", "ano");
 		
 		if (!config.contains("Manager.Ban.Zprava"))
-			config.set("Manager.Ban.Zprava", "&4{TARGET} &8byl zabanován &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
+			config.set("Manager.Ban.Zprava", "&4{TARGET} &8byl zabanovan &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
 		
 		if (!config.contains("Manager.Unban.Zprava"))
-			config.set("Manager.Unban.Zprava", "&4{TARGET} &8byl unbanován &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
+			config.set("Manager.Unban.Zprava", "&4{TARGET} &8byl unbanovan &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
 		
 		if (!config.contains("Manager.Kick.Zprava"))
 			config.set("Manager.Kick.Zprava", "&4{TARGET} &8byl vyhozen &4{JMENO}&8 z dùvodu &4{DUVOD}&8.");
@@ -358,7 +358,7 @@ public class ConfigManager {
 			config.set("capsLock.Povolit", "ano");
 		
 		if (!config.contains("capsLock.Zprava"))
-			config.set("capsLock.Zprava", "&4Zachovej klidnou hlavu a piš malíma písmenkama.");
+			config.set("capsLock.Zprava", "&4Zachovej klidnou hlavu a pis malima pismenkama.");
 		
 		if (!config.contains("capsLock.Akce"))
 			config.set("capsLock.Akce", "");
@@ -370,25 +370,25 @@ public class ConfigManager {
 			config.set("umrtiZpravy.Povolit", "ano");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.BLOCK_EXPLOSION"))
-			umrtiZpravy.set("Sebevrazda.BLOCK_EXPLOSION", "&4{JMENO} &8zabil výbuch.");
+			umrtiZpravy.set("Sebevrazda.BLOCK_EXPLOSION", "&4{JMENO} &8zabil vybuch.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.DROWNING"))
 			umrtiZpravy.set("Sebevrazda.DROWNING", "&4{JMENO} &8se utopil.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.FALL"))
-			umrtiZpravy.set("Sebevrazda.FALL", "&4{JMENO} &8spadl z výšky.");
+			umrtiZpravy.set("Sebevrazda.FALL", "&4{JMENO} &8spadl z vysky.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.FALLING_BLOCK"))
 			umrtiZpravy.set("Sebevrazda.FALLING_BLOCK", "&4{JMENO} &8zavalily bloky.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.FIRE"))
-			umrtiZpravy.set("Sebevrazda.FIRE", "&4{JMENO} &8uhoøel.");
+			umrtiZpravy.set("Sebevrazda.FIRE", "&4{JMENO} &8uhorel.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.FIRE_TICK"))
-			umrtiZpravy.set("Sebevrazda.FIRE_TICK", "&4{JMENO} &8uhoøel.");
+			umrtiZpravy.set("Sebevrazda.FIRE_TICK", "&4{JMENO} &8uhorel.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.LAVA"))
-			umrtiZpravy.set("Sebevrazda.LAVA", "&4{JMENO} &8spadl do lávy.");
+			umrtiZpravy.set("Sebevrazda.LAVA", "&4{JMENO} &8spadl do lavy.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.LIGHTNING"))
 			umrtiZpravy.set("Sebevrazda.LIGHTNING", "&4{JMENO} &8zabil blesk.");
@@ -397,28 +397,28 @@ public class ConfigManager {
 			umrtiZpravy.set("Sebevrazda.MAGIC", "&4{JMENO} &8zabila magie.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.MELTING"))
-			umrtiZpravy.set("Sebevrazda.MELTING", "&4{JMENO} &8se roztál.");
+			umrtiZpravy.set("Sebevrazda.MELTING", "&4{JMENO} &8se roztal.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.POISON"))
-			umrtiZpravy.set("Sebevrazda.POISON", "&4{JMENO} &8se otrávil.");
+			umrtiZpravy.set("Sebevrazda.POISON", "&4{JMENO} &8se otravil.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.PROJECTILE"))
-			umrtiZpravy.set("Sebevrazda.PROJECTILE", "&4{JMENO} &8byl sestøelen.");
+			umrtiZpravy.set("Sebevrazda.PROJECTILE", "&4{JMENO} &8byl sestrelen.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.STARVATION"))
-			umrtiZpravy.set("Sebevrazda.STARVATION", "&4{JMENO} &8umøel hlady.");
+			umrtiZpravy.set("Sebevrazda.STARVATION", "&4{JMENO} &8umrel hlady.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.SUFFOCATION"))
 			umrtiZpravy.set("Sebevrazda.SUFFOCATION", "&4{JMENO} &8se udusil.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.SUICIDE"))
-			umrtiZpravy.set("Sebevrazda.SUICIDE", "&4{JMENO} &8spáchal sebevraždu.");
+			umrtiZpravy.set("Sebevrazda.SUICIDE", "&4{JMENO} &8spachal sebevrazdu.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.VOID"))
 			umrtiZpravy.set("Sebevrazda.VOID", "&4{JMENO} &8spadl do nicoty.");
 		
 		if (!umrtiZpravy.contains("Sebevrazda.WITHER"))
-			umrtiZpravy.set("Sebevrazda.WITHER", "&4{JMENO} &8zemøel witherem.");
+			umrtiZpravy.set("Sebevrazda.WITHER", "&4{JMENO} &8zemrel witherem.");
 		
 		if (!umrtiZpravy.contains("Monsters.Creeper"))
 			umrtiZpravy.set("Monsters.Creeper", "&4{JMENO} &8byl zabit &4sycakem&8.");
@@ -491,8 +491,8 @@ public class ConfigManager {
 		
 		if (!config.contains("autoZpravy.Zpravy")) {
 			List<String> e = new ArrayList<String>();
-			e.add("{PREFIX} {JMENO} víš že u nás na serveru mùžeš umøít hlady ?");
-			e.add("{PREFIX} kupte si u nás nìjakou vìc a podpoøte tím server.");
+			e.add("{PREFIX} {JMENO} vis ze u nas na serveru mùzes umrit hlady ?");
+			e.add("{PREFIX} kupte si u nas nejakou vec a podporte tim server.");
 			config.set("autoZpravy.Zpravy", e);
 		}
 		
@@ -500,7 +500,7 @@ public class ConfigManager {
 			config.set("Warp.Povolit", "ano");
 		
 		if (!config.contains("Warp.NemaOpravneni"))
-			config.set("Warp.NemaOpravneni", "Nemáte oprávnìní na tento warp!");
+			config.set("Warp.NemaOpravneni", "Nemate opravneni na tento warp!");
 		
 		if (!config.contains("Msg.Povolit"))
 			config.set("Msg.Povolit", "ano");
@@ -515,16 +515,16 @@ public class ConfigManager {
 			config.set("herniRezimy.Povolit", "ano");
 		
 		if (!config.contains("herniRezimy.Zpravy.Creative"))
-			config.set("herniRezimy.Zpravy.Creative", "&4{JMENO} &8zmìnil svùj herní režim na &4Creative&8.");
+			config.set("herniRezimy.Zpravy.Creative", "&4{JMENO} &8zmenil svùj herni rezim na &4Creative&8.");
 		
 		if (!config.contains("herniRezimy.Zpravy.Survival"))
-			config.set("herniRezimy.Zpravy.Survival", "&4{JMENO} &8zmìnil svùj herní režim na &4Survival&8.");
+			config.set("herniRezimy.Zpravy.Survival", "&4{JMENO} &8zmenil svùj herni rezim na &4Survival&8.");
 		
 		if (!config.contains("herniRezimy.Zpravy.MaCreative"))
-			config.set("herniRezimy.Zpravy.MaCreative", "&4Již&8 máš &4creative&8!");
+			config.set("herniRezimy.Zpravy.MaCreative", "&4Jiz&8 mas &4creative&8!");
 		
 		if (!config.contains("herniRezimy.Zpravy.MaSurvival"))
-			config.set("herniRezimy.Zpravy.MaSurvival", "&4Již&8 máš &4survival&8!");
+			config.set("herniRezimy.Zpravy.MaSurvival", "&4Jiz&8 mas &4survival&8!");
 		
 		saveConfig(umrtiZpravy, umrtiZpravyFile);
 		saveConfig(config, configFile);

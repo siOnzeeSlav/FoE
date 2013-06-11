@@ -37,7 +37,7 @@ public class cmdBAN implements CommandExecutor {
 							sender.sendMessage("Zadejte dùvod.");
 						}
 					} else {
-						sender.sendMessage("Zadejte jméno hráèe.");
+						sender.sendMessage("Zadejte jmeno hrace.");
 					}
 				} else {
 					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), sender.getName()));

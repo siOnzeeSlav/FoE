@@ -478,7 +478,7 @@ public class FoE extends JavaPlugin implements Listener {
 		try {
 			if (warpName == null || playerName == null) {
 				if (debug)
-					Bukkit.broadcastMessage(warpName + " - " + playerName + " - " + typ + " - Nìco je null");
+					Bukkit.broadcastMessage(warpName + " - " + playerName + " - " + typ + " - Neco je null");
 				return;
 			}
 			if (typ == "AKTIVNI") {
@@ -490,7 +490,7 @@ public class FoE extends JavaPlugin implements Listener {
 						Bukkit.broadcastMessage("Aktualizuju FoE_Warpy" + warpName);
 					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'AKTIVNI', `datum` = '" + System.currentTimeMillis() + "' WHERE `warp` = '" + warpName + "'");
 				} else {
-					Bukkit.broadcastMessage("Vkládám FoE_Warpy" + warpName);
+					Bukkit.broadcastMessage("Vkladam FoE_Warpy" + warpName);
 					mysql.query("INSERT INTO `FoE_Warpy` (warp, autor, datum, typ) VALUES (" + "'" + warpName + "'," + " '" + playerName + "', '" + System.currentTimeMillis() + "', 'AKTIVNI')");
 				}
 			}
@@ -1133,7 +1133,7 @@ public class FoE extends JavaPlugin implements Listener {
 				if (intNew > intNow) {
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (p.isOp()) {
-							p.sendMessage("FoE - Je dostupná nová verze " + ChatColor.RED + newVersion);
+							p.sendMessage("FoE - Je dostupna nova verze " + ChatColor.RED + newVersion);
 							p.sendMessage(nahraditBarvy(br2.readLine().split("\\n").toString()));
 						}
 					}

@@ -30,7 +30,7 @@ public class cmdA implements CommandExecutor {
 				String jmenoHrace = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.AdminChat.Psat"))) {
 					if (args.length == 0) {
-						sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psaní do adminchatu.");
+						sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psani do adminchatu.");
 					} else {
 						vysledek = "";
 						for (int i = 0; i < args.length; i++) {

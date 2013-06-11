@@ -144,7 +144,7 @@ public class onChat implements Listener {
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), p.nahradit(config.getString("capsLock.Akce"), playerName));
 					message = message.toLowerCase();
 				}
-				// Žádost #004.
+				// zadost #004.
 			}
 			event.setMessage(message);
 			

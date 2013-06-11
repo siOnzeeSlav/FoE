@@ -39,7 +39,7 @@ public class BanManager {
 				MySQL_Manager(sender, playerName, reason, "KICK");
 		} else {
 			Player s = Bukkit.getPlayer(sender);
-			s.sendMessage(playerName + " je již zabanován!");
+			s.sendMessage(playerName + " je jiz zabanovan!");
 		}
 	}
 	
@@ -59,7 +59,7 @@ public class BanManager {
 			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Ban.Zprava"), sender, playerName, reason));
 		} else {
 			Player p = Bukkit.getPlayer(sender);
-			p.sendMessage(playerName + " je již zabanován!");
+			p.sendMessage(playerName + " je jiz zabanovan!");
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class BanManager {
 			saveConfig(uziv, uzivFile);
 		} else {
 			Player p = Bukkit.getPlayer(sender);
-			p.sendMessage(playerName + " nemá ban!");
+			p.sendMessage(playerName + " nema ban!");
 		}
 	}
 	

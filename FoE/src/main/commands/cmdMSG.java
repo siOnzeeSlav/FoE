@@ -36,7 +36,7 @@ public class cmdMSG implements CommandExecutor {
 				}
 				String playerName = sender.getName();
 				if (args.length < 1) {
-					sender.sendMessage(cm.config.getString("Prikazy.Msg") + " [JMENO] [TEXT]  " + ChatColor.GOLD + "Pro poslání soukromé zprávy.");
+					sender.sendMessage(cm.config.getString("Prikazy.Msg") + " [JMENO] [TEXT]  " + ChatColor.GOLD + "Pro poslani soukrome zpravy.");
 				} else if (args.length > 1) {
 					String message = "";
 					for (int i = 1; i < args.length; i++) {

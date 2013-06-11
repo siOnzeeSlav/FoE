@@ -35,15 +35,15 @@ public class cmdWARP implements CommandExecutor {
 				Player player = (Player) sender;
 				if (args.length == 0) {
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
-					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
-					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstranìní warpu.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoreni warpu.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstraneni warpu.");
 				} else if (args[0].equalsIgnoreCase("vytvorit")) {
 					if (!sender.hasPermission("FoE.Warp.Vytvorit")) {
 						return true;
 					}
 					if (args.length > 2) {
 						if (warp.contains(args[1])) {
-							sender.sendMessage("Warp " + args[1] + " již existuje.");
+							sender.sendMessage("Warp " + args[1] + " jiz existuje.");
 							return true;
 						}
 						String playerName = sender.getName();
@@ -68,9 +68,9 @@ public class cmdWARP implements CommandExecutor {
 						if (plugin.mysqlPovolit)
 							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
 						
-						sender.sendMessage("Vytvoøil jsi warp '" + warpName + "' s popiskem '" + description + "'.");
+						sender.sendMessage("Vytvoril jsi warp '" + warpName + "' s popiskem '" + description + "'.");
 					} else {
-						sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoøení warpu.");
+						sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoreni warpu.");
 					}
 				} else if (args[0].equalsIgnoreCase("odstranit")) {
 					if (!sender.hasPermission("FoE.Warp.Odstranit")) {
@@ -93,7 +93,7 @@ public class cmdWARP implements CommandExecutor {
 					if (warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false).size() > 0)
 						sender.sendMessage("" + warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false));
 					else
-						sender.sendMessage("Nebyl nazelen žádný warp.");
+						sender.sendMessage("Nebyl nazelen zadny warp.");
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
 						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.NemaOpravneni")));

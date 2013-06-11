@@ -65,7 +65,7 @@ public class EntityDeath implements Listener {
 						if (monster.getKiller() instanceof Player) { // Ten kdo zabil monstra jestli je hrac
 							String killerName = monster.getKiller().getName(); // Ziskat toho kdo zabil monstra jmeno
 							if (p.debug)
-								Bukkit.broadcastMessage(killerName + " pøidávám zabitomob.");
+								Bukkit.broadcastMessage(killerName + " pridavam zabitomob.");
 							addMob(killerName); // Pridat jako mobkill
 						}
 					} else if (entity instanceof Animals) {
@@ -73,7 +73,7 @@ public class EntityDeath implements Listener {
 						if (animal.getKiller() instanceof Player) {
 							String killerName = animal.getKiller().getName(); // Ziskat toho kdo zabil zvire jmeno
 							if (p.debug)
-								Bukkit.broadcastMessage(killerName + " pøidávám zabitozvirat.");
+								Bukkit.broadcastMessage(killerName + " pridavam zabitozvirat.");
 							addAnimal(killerName); // Pridat jako zvirekill
 						}
 					} else if (entity instanceof Player) { // Je hrac
@@ -89,7 +89,7 @@ public class EntityDeath implements Listener {
 								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
 									String targetName = killer.getType().getName(); // Mob kterej zabil hrace
 									if (p.debug)
-										Bukkit.broadcastMessage(playerName + " pøidávám úmrtí.");
+										Bukkit.broadcastMessage(playerName + " pridavam úmrti.");
 									addDeath(playerName); // Pridam umrti hracovy
 									poslatZpravuMonster(targetName, playerName); // Napisu kterej mob zabil hrace.
 								} else if (killer instanceof Player) { // Jestli zabijak je hrac
@@ -97,10 +97,10 @@ public class EntityDeath implements Listener {
 									if (target != null) { // Jestli zabijak neni null
 										String targetName = target.getName(); // Vezmu zabijakovo jmeno
 										if (p.debug)
-											Bukkit.broadcastMessage(targetName + " pøidávám zabito.");
+											Bukkit.broadcastMessage(targetName + " pridavam zabito.");
 										addKill(targetName); // Pridam zabijakovy Kill
 										if (p.debug)
-											Bukkit.broadcastMessage(playerName + " pøidávám úmrtí.");
+											Bukkit.broadcastMessage(playerName + " pridavam úmrti.");
 										addDeath(playerName); // Pridam mrtvemu umrti
 										poslatZpravu(getItemName(target), playerName, targetName); // Napisu zpravu ze zabijak zabil hrace s predmetem
 									}
@@ -149,7 +149,7 @@ public class EntityDeath implements Listener {
 		if (p.debug)
 			Bukkit.broadcastMessage(itemName + " / " + playerName + " / " + targetName);
 		if (!cm.umrtiZpravy.contains(itemName)) {
-			cm.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s pøedmìtem &4{ITEM}&8.");
+			cm.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s predmetem &4{ITEM}&8.");
 			cm.saveConfig(cm.umrtiZpravy, cm.umrtiZpravyFile);
 		}
 		Bukkit.broadcastMessage(replacePredmet(cm.umrtiZpravy.getString(itemName), playerName, targetName, itemName));

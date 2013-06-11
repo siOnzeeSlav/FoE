@@ -36,7 +36,7 @@ public class cmdINV implements CommandExecutor {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target != null) {
 							if (target.getName() == player.getName()) {
-								player.sendMessage("Nemùeš otevøít svùj inventáø! Pouij tlaèítko E.");
+								player.sendMessage("Nemùzes otevrit svùj inventar! Pouzij tlacitko E.");
 							} else {
 								openInv(target, player);
 							}
@@ -44,7 +44,7 @@ public class cmdINV implements CommandExecutor {
 							sender.sendMessage(args[0] + " je offline.");
 						}
 					} else {
-						sender.sendMessage("Musíš zadat jméno hráèe.");
+						sender.sendMessage("Musis zadat jmeno hrace.");
 					}
 				}
 			} catch (Exception e) {
