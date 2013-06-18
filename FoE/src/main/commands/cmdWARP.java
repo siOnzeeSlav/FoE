@@ -1,11 +1,9 @@
 package main.commands;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -23,6 +21,7 @@ public class cmdWARP implements CommandExecutor {
 	public File					warpFile	= new File("plugins/FoE/warps.yml");
 	public YamlConfiguration	warp		= YamlConfiguration.loadConfiguration(warpFile);
 	public ConfigManager		cm			= new ConfigManager();
+	public ErrorManager			err			= new ErrorManager();
 	
 	public cmdWARP(FoE plugin) {
 		this.plugin = plugin;
@@ -37,13 +36,14 @@ public class cmdWARP implements CommandExecutor {
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoreni warpu.");
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " odstranit [JMENO]  " + ChatColor.GOLD + "Pro odstraneni warpu.");
+					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " list  " + ChatColor.GOLD + "Pro zobrazení všech warpù.");
 				} else if (args[0].equalsIgnoreCase("vytvorit")) {
 					if (!sender.hasPermission("FoE.Warp.Vytvorit")) {
 						return true;
 					}
 					if (args.length > 2) {
 						if (warp.contains(args[1])) {
-							sender.sendMessage("Warp " + args[1] + " jiz existuje.");
+							sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Existuje"), args[1]));
 							return true;
 						}
 						String playerName = sender.getName();
@@ -68,7 +68,7 @@ public class cmdWARP implements CommandExecutor {
 						if (plugin.mysqlPovolit)
 							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
 						
-						sender.sendMessage("Vytvoril jsi warp '" + warpName + "' s popiskem '" + description + "'.");
+						sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Vytvorit"), warpName, description));
 					} else {
 						sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoreni warpu.");
 					}
@@ -77,7 +77,7 @@ public class cmdWARP implements CommandExecutor {
 						return true;
 					}
 					if (!warp.contains(args[1])) {
-						sender.sendMessage("Warp " + args[1] + " neexistuje.");
+						sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Neexistuje"), args[0]));
 						return true;
 					}
 					String warpName = args[1];
@@ -88,12 +88,12 @@ public class cmdWARP implements CommandExecutor {
 						Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
 					if (plugin.mysqlPovolit)
 						plugin.MySQL_Warp(warpName, playerName, "ODSTRANENO");
-					sender.sendMessage("Odstranil jsi warp " + warpName);
+					sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Odstranit"), warpName));
 				} else if (args[0].equalsIgnoreCase("list")) {
 					if (warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false).size() > 0)
 						sender.sendMessage("" + warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false));
 					else
-						sender.sendMessage("Nebyl nazelen zadny warp.");
+						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.Zprava.Prazdno")));
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
 						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.NemaOpravneni")));
@@ -108,15 +108,31 @@ public class cmdWARP implements CommandExecutor {
 					player.teleport(new Location(world, X, Y, Z));
 					sender.sendMessage(description);
 				} else {
-					sender.sendMessage("Warp " + args[0] + " neexistuje.");
+					sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Neexistuje"), args[0]));
 				}
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		return false;
+	}
+	
+	public String replace(String message, String warp, String description) {
+		if (message.matches(".*\\{WARP}.*")) {
+			message = message.replaceAll("\\{WARP}", warp);
+		}
+		if (message.matches(".*\\{POPIS}.*")) {
+			message = message.replaceAll("\\{POPIS}", description);
+		}
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
+	}
+	
+	public String replace(String message, String warp) {
+		if (message.matches(".*\\{WARP}.*")) {
+			message = message.replaceAll("\\{WARP}", warp);
+		}
+		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return message;
 	}
 }

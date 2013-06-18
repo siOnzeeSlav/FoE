@@ -1,12 +1,10 @@
 package main.commands;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 
 import main.BanManager;
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -20,6 +18,7 @@ public class cmdINF implements CommandExecutor {
 	public FoE				plugin;
 	public BanManager		bm	= new BanManager();
 	public ConfigManager	cm	= new ConfigManager();
+	public ErrorManager		err	= new ErrorManager();
 	
 	public cmdINF(FoE plugin) {
 		this.plugin = plugin;
@@ -93,10 +92,7 @@ public class cmdINF implements CommandExecutor {
 					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		

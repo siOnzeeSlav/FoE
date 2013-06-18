@@ -1,12 +1,10 @@
 package main.events;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Random;
 
 import main.BanManager;
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -21,6 +19,7 @@ public class onPlayerLogin implements Listener {
 	public FoE				p;
 	public BanManager		bm	= new BanManager();
 	public ConfigManager	cm	= new ConfigManager();
+	public ErrorManager		err	= new ErrorManager();
 	
 	public onPlayerLogin(FoE plugin) {
 		this.p = plugin;
@@ -52,10 +51,7 @@ public class onPlayerLogin implements Listener {
 				}
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 	}
 }

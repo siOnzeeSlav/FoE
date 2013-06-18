@@ -1,9 +1,6 @@
 package main.commands;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -16,7 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class cmdINV implements CommandExecutor {
-	public FoE	plugin;
+	public FoE			plugin;
+	public ErrorManager	err	= new ErrorManager();
 	
 	public cmdINV(FoE plugin) {
 		this.plugin = plugin;
@@ -48,10 +46,7 @@ public class cmdINV implements CommandExecutor {
 					}
 				}
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		return false;

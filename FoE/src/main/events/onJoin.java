@@ -1,10 +1,7 @@
 package main.events;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -17,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class onJoin implements Listener {
 	public FoE				p;
 	public ConfigManager	cm	= new ConfigManager();
+	public ErrorManager		err	= new ErrorManager();
 	
 	public onJoin(FoE plugin) {
 		this.p = plugin;
@@ -47,10 +45,7 @@ public class onJoin implements Listener {
 			p.uziv.set("lastIP", player.getAddress().getHostName());
 			cm.saveConfig(p.uziv, p.uzivFile);
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -73,10 +68,7 @@ public class onJoin implements Listener {
 				}
 			});
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 	}
 }

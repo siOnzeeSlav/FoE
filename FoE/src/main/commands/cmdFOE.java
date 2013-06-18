@@ -1,12 +1,10 @@
 package main.commands;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.ResultSet;
 
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.ChatColor;
@@ -18,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class cmdFOE implements CommandExecutor {
 	public FoE				plugin;
 	public ConfigManager	cm	= new ConfigManager();
+	public ErrorManager		err	= new ErrorManager();
 	
 	public cmdFOE(FoE plugin) {
 		this.plugin = plugin;
@@ -42,13 +41,10 @@ public class cmdFOE implements CommandExecutor {
 				sender.sendMessage(cm.config.getString("Prikazy.Inventar") + " [HRac]  " + ChatColor.GOLD + "Zobrazi co ma hrac v inventari.");
 				sender.sendMessage(cm.config.getString("Prikazy.Teleport") + " [HRac]  " + ChatColor.GOLD + "Teleportuje na hrace ktery je online.");
 				sender.sendMessage(cm.config.getString("Prikazy.Oznameni") + " [TEXT]  " + ChatColor.GOLD + "Napise oznameni s nastavenim v configu.");
-				sender.sendMessage(cm.config.getString("Prikazy.Reload") + " [TEXT]  " + ChatColor.GOLD + "Znovunacte nastaveni configu..");
+				//sender.sendMessage(cm.config.getString("Prikazy.Reload") + " [TEXT]  " + ChatColor.GOLD + "Znovunacte nastaveni configu..");
 				sender.sendMessage("/foe mysqlupdate  " + ChatColor.GOLD + "Aktualizuje kompletne databazi MySQL FoE.");
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		if ((cmd.getName().equalsIgnoreCase("FoE")) && args.length >= 1 && (args[0].equalsIgnoreCase("mysqlupdate")) && sender.isOp()) {
@@ -74,10 +70,7 @@ public class cmdFOE implements CommandExecutor {
 					sender.sendMessage("MySQL neni povoleno!");
 				}
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		
@@ -87,10 +80,7 @@ public class cmdFOE implements CommandExecutor {
 				cm.config = YamlConfiguration.loadConfiguration(cm.configFile);
 				
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		

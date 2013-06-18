@@ -1,9 +1,6 @@
 package main.events;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -18,7 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class onInventoryClick implements Listener {
 	
-	public FoE	p;
+	public FoE			p;
+	public ErrorManager	err	= new ErrorManager();
 	
 	public onInventoryClick(FoE plugin) {
 		this.p = plugin;
@@ -53,10 +51,7 @@ public class onInventoryClick implements Listener {
 			}
 			
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 		
 	}

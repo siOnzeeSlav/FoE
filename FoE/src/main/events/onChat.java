@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +13,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -32,6 +31,7 @@ public class onChat implements Listener {
 	public Pattern					webpattern			= Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.net)|(\\.org)|(\\.co)|(\\.uk)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))|(\\.cz)|(\\.sk)|(\\.bis)");
 	public HashMap<String, Long>	messagePerSecond	= new HashMap<String, Long>();
 	public HashMap<String, String>	lastMessage			= new HashMap<String, String>();
+	public ErrorManager				err					= new ErrorManager();
 	
 	public onChat(FoE plugin) {
 		this.p = plugin;
@@ -149,10 +149,7 @@ public class onChat implements Listener {
 			event.setMessage(message);
 			
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	

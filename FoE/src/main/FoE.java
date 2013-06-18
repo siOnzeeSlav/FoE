@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,12 +33,12 @@ import main.commands.cmdINF;
 import main.commands.cmdINV;
 import main.commands.cmdKICK;
 import main.commands.cmdMSG;
+import main.commands.cmdOZNAMENI;
 import main.commands.cmdSURVIVAL;
 import main.commands.cmdTP;
 import main.commands.cmdUNBAN;
 import main.commands.cmdVTIP;
 import main.commands.cmdWARP;
-import main.commands.cmdZPRAVA;
 import main.events.EntityDeath;
 import main.events.onChat;
 import main.events.onHoldingsUpdate;
@@ -129,10 +127,13 @@ public class FoE extends JavaPlugin implements Listener {
 	public boolean					debug							= false;
 	public ConfigManager			cm								= new ConfigManager();
 	public BanManager				bm								= new BanManager();
+	public String					version							= this.getDescription().getVersion();
+	public ErrorManager				err								= new ErrorManager();
 	
 	@Override
 	public void onEnable() {
 		cm.checkConfig();
+		cm.version(version);
 		if (cm.loaded) {
 			cm.config = YamlConfiguration.loadConfiguration(cm.configFile);
 			if (cm.config.getBoolean("debug"))
@@ -223,7 +224,7 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			if (Status(cm.config, "Oznameni.Povolit")) {
 				System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Oznameni") + "'");
-				Bukkit.getServer().getPluginCommand("zpravacmd").setExecutor(new cmdZPRAVA(this));
+				Bukkit.getServer().getPluginCommand("zpravacmd").setExecutor(new cmdOZNAMENI(this));
 				oznameniPovolit = true;
 				if (debug)
 					Bukkit.broadcastMessage("zpravacmd byl zaregistrovan.");
@@ -411,10 +412,7 @@ public class FoE extends JavaPlugin implements Listener {
 						vtipy.add(vtip);
 					}
 				} catch (Exception e) {
-					Writer writer = new StringWriter();
-					PrintWriter printWriter = new PrintWriter(writer);
-					e.printStackTrace(printWriter);
-					Error(writer.toString());
+					err.postError(e);
 				}
 				startLoop4(vtipyInterval);
 				if (debug)
@@ -503,10 +501,7 @@ public class FoE extends JavaPlugin implements Listener {
 				}
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -516,10 +511,7 @@ public class FoE extends JavaPlugin implements Listener {
 				return;
 			mysql.query("INSERT INTO `FoE_Zpravy` (hrac, prijemce, zprava, datum) VALUES ('" + playerName + "', '" + targetName + "', '" + message + "', '" + System.currentTimeMillis() + "')");
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -534,10 +526,7 @@ public class FoE extends JavaPlugin implements Listener {
 				mysql.query("INSERT INTO `FoE_Uzivatele` (hrac,nahranost) VALUES ('" + playerName + "', '" + nahranost + "')");
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -591,10 +580,7 @@ public class FoE extends JavaPlugin implements Listener {
 				player.setScoreboard(board);
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -611,30 +597,7 @@ public class FoE extends JavaPlugin implements Listener {
 			uziv.set("Z", Z);
 			cm.saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
-		}
-	}
-	
-	public void Error(String message) {
-		try {
-			File u = new File("plugins/FoE/errors.log");
-			FileWriter fw = new FileWriter(u, true);
-			PrintWriter pw = new PrintWriter(fw);
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-			String time = sdf.format(date);
-			pw.println("================== " + time + " - FoE: " + getDescription().getVersion() + "\n" + "CB: " + Bukkit.getVersion() + "\n" + message + "\n==================\n");
-			pw.flush();
-			pw.close();
-			System.out.println("[FoE] ERROR!");
-			System.out.println("===========================");
-			System.out.println("Prekopirujte obsah souboru errors.log do prispevku.");
-			System.out.println("===========================");
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			err.postError(e);
 		}
 	}
 	
@@ -669,10 +632,7 @@ public class FoE extends JavaPlugin implements Listener {
 						Bukkit.broadcastMessage(nahraditVtip(cm.config.getString("Vtipy.Format")));
 						startLoop4(vtipyInterval);
 					} catch (Exception e) {
-						Writer writer = new StringWriter();
-						PrintWriter printWriter = new PrintWriter(writer);
-						e.printStackTrace(printWriter);
-						Error(writer.toString());
+						err.postError(e);
 					}
 				}
 			}
@@ -723,10 +683,7 @@ public class FoE extends JavaPlugin implements Listener {
 		try {
 			nahranyCas.put(jmenoHrace, System.currentTimeMillis());
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -741,10 +698,7 @@ public class FoE extends JavaPlugin implements Listener {
 					MySQL_Nahranost(jmenoHrace);
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -781,10 +735,7 @@ public class FoE extends JavaPlugin implements Listener {
 				vypnoutchatFile.delete();
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -868,10 +819,7 @@ public class FoE extends JavaPlugin implements Listener {
 			
 			cm.saveConfig(uziv, uzivFile);
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -880,10 +828,7 @@ public class FoE extends JavaPlugin implements Listener {
 			uzivFile = new File("plugins/FoE/uzivatele/" + jmenoHrace + ".yml");
 			uziv = YamlConfiguration.loadConfiguration(uzivFile);
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -998,10 +943,7 @@ public class FoE extends JavaPlugin implements Listener {
 				}
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -1047,10 +989,7 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			folder.delete();
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -1107,10 +1046,7 @@ public class FoE extends JavaPlugin implements Listener {
 				rd.close();
 			}
 		} catch (IOException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -1142,10 +1078,7 @@ public class FoE extends JavaPlugin implements Listener {
 				br.close();
 			}
 		} catch (IOException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -1166,10 +1099,7 @@ public class FoE extends JavaPlugin implements Listener {
 			}
 			zprava = zprava.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 		return zprava;
 	}
@@ -1215,10 +1145,7 @@ public class FoE extends JavaPlugin implements Listener {
 						}
 						startLoop5(autoZpravyInterval);
 					} catch (Exception e) {
-						Writer writer = new StringWriter();
-						PrintWriter printWriter = new PrintWriter(writer);
-						e.printStackTrace(printWriter);
-						Error(writer.toString());
+						err.postError(e);
 					}
 				}
 			}

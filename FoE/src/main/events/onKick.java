@@ -1,10 +1,7 @@
 package main.events;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -16,6 +13,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 public class onKick implements Listener {
 	public FoE				p;
 	public ConfigManager	cm	= new ConfigManager();
+	public ErrorManager		err	= new ErrorManager();
 	
 	public onKick(FoE plugin) {
 		this.p = plugin;
@@ -38,10 +36,7 @@ public class onKick implements Listener {
 				p.ulozitPozici(player);
 			}
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 		
 	}
@@ -58,10 +53,7 @@ public class onKick implements Listener {
 				}
 			});
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			p.Error(writer.toString());
+			err.postError(e);
 		}
 		
 	}

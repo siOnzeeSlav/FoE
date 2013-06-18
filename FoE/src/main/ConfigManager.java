@@ -15,6 +15,11 @@ public class ConfigManager {
 	public YamlConfiguration	umrtiZpravy		= YamlConfiguration.loadConfiguration(umrtiZpravyFile);
 	public boolean				loaded			= false;
 	
+	public void version(String ver) {
+		config.set("verze", ver);
+		saveConfig(config, configFile);
+	}
+	
 	public void checkConfig() {
 		if (!config.contains("debug"))
 			config.set("debug", false);
@@ -501,6 +506,21 @@ public class ConfigManager {
 		
 		if (!config.contains("Warp.NemaOpravneni"))
 			config.set("Warp.NemaOpravneni", "Nemate opravneni na tento warp!");
+		
+		if (!config.contains("Warp.Zprava.Vytvorit"))
+			config.set("Warp.Zprava.Vytvorit", "&4Vytvoril&8 jste warp s nazvem &4{WARP}&8 a popisem &4{POPIS}&8.");
+		
+		if (!config.contains("Warp.Zprava.Odstranit"))
+			config.set("Warp.Zprava.Odstranit", "&4Odstranil&8 jste warp &4{WARP}&8.");
+		
+		if (!config.contains("Warp.Zprava.Prazdno"))
+			config.set("Warp.Zprava.Prazdno", "&4Nebyl &8nalezen zadny &4warp&8.");
+		
+		if (!config.contains("Warp.Zprava.Neexistuje"))
+			config.set("Warp.Zprava.Neexistuje", "&4Warp&8 s nazvem&4 {WARP}&8 neexistuje.");
+		
+		if (!config.contains("Warp.Zprava.Existuje"))
+			config.set("Warp.Zprava.Existuje", "&4Warp&8 s nazvem&4 {WARP}&8 je jiz pouzit.");
 		
 		if (!config.contains("Msg.Povolit"))
 			config.set("Msg.Povolit", "ano");

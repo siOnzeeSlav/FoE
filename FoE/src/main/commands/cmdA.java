@@ -1,10 +1,7 @@
 package main.commands;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import main.ConfigManager;
+import main.ErrorManager;
 import main.FoE;
 
 import org.bukkit.Bukkit;
@@ -18,6 +15,7 @@ public class cmdA implements CommandExecutor {
 	public FoE				plugin;
 	public String			vysledek	= "";
 	public ConfigManager	cm			= new ConfigManager();
+	public ErrorManager		err			= new ErrorManager();
 	
 	public cmdA(FoE plugin) {
 		this.plugin = plugin;
@@ -45,10 +43,7 @@ public class cmdA implements CommandExecutor {
 					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
 				}
 			} catch (Exception e) {
-				Writer writer = new StringWriter();
-				PrintWriter printWriter = new PrintWriter(writer);
-				e.printStackTrace(printWriter);
-				plugin.Error(writer.toString());
+				err.postError(e);
 			}
 		}
 		return false;
