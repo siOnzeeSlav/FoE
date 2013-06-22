@@ -1,7 +1,6 @@
 package main.commands;
 
 import main.ErrorManager;
-import main.FoE;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,11 +12,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class cmdINV implements CommandExecutor {
-	public FoE			plugin;
-	public ErrorManager	err	= new ErrorManager();
+	public ErrorManager	err;
 	
-	public cmdINV(FoE plugin) {
-		this.plugin = plugin;
+	public cmdINV() {
+		err = new ErrorManager();
 	}
 	
 	@Override

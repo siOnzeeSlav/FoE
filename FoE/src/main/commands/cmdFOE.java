@@ -5,29 +5,33 @@ import java.sql.ResultSet;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.MySQL;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 public class cmdFOE implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public FeaturesManager	fm;
+	public MySQL			mysql;
 	
-	public cmdFOE(Plugin plugin) {
-		plugin = this.plugin;
+	public cmdFOE() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		fm = new FeaturesManager(cm);
+		mysql = new MySQL();
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if ((cmd.getName().equalsIgnoreCase("FoE")) && (args.length == 0)) {
 			try {
-				sender.sendMessage("------ " + ChatColor.GOLD + plugin.getDescription().getVersion() + ChatColor.WHITE + " ------");
+				sender.sendMessage("------ " + ChatColor.GOLD + fm.version + ChatColor.WHITE + " ------");
 				sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Psani do adminchatu.");
 				sender.sendMessage(cm.config.getString("Prikazy.Manager.Ban") + " [HRAC] [DUVOD]  " + ChatColor.GOLD + "Zakaze hracovy pristup na server.");
 				sender.sendMessage(cm.config.getString("Prikazy.Manager.Unban") + "  [HRAC] [DUVOD]  " + ChatColor.GOLD + "Povoli hracovy pristup na server.");
@@ -50,19 +54,19 @@ public class cmdFOE implements CommandExecutor {
 		}
 		if ((cmd.getName().equalsIgnoreCase("FoE")) && args.length >= 1 && (args[0].equalsIgnoreCase("mysqlupdate")) && sender.isOp()) {
 			try {
-				if (plugin.mysqlPovolit) {
-					if (plugin.mysql.isOpen()) {
+				if (fm.mysqlIsEnabled) {
+					if (mysql.isOpen()) {
 						File a = new File("plugins/FoE/uzivatele");
 						File[] soubory = a.listFiles();
 						for (File f : soubory) {
 							YamlConfiguration aa = YamlConfiguration.loadConfiguration(f);
 							String jmeno = odstranitYML(f.getName());
 							long nahranost = aa.getLong("Nahrano");
-							ResultSet rs = plugin.mysql.query("SELECT `hrac` FROM `FoE_Uzivatele` WHERE `hrac` = '" + jmeno + "'");
+							ResultSet rs = mysql.query("SELECT `hrac` FROM `FoE_Uzivatele` WHERE `hrac` = '" + jmeno + "'");
 							if (rs.next()) {
-								plugin.mysql.query("UPDATE `FoE_Uzivatele` SET `nahranost` = '" + nahranost + "' WHERE `hrac` = '" + jmeno + "'");
+								mysql.query("UPDATE `FoE_Uzivatele` SET `nahranost` = '" + nahranost + "' WHERE `hrac` = '" + jmeno + "'");
 							} else {
-								plugin.mysql.query("INSERT INTO `FoE_Uzivatele` (hrac,nahranost) VALUES ('" + jmeno + "', '" + nahranost + "') ON DUPLICATE KEY UPDATE `nahranost` = '" + nahranost + "'");
+								mysql.query("INSERT INTO `FoE_Uzivatele` (hrac,nahranost) VALUES ('" + jmeno + "', '" + nahranost + "') ON DUPLICATE KEY UPDATE `nahranost` = '" + nahranost + "'");
 							}
 						}
 					}

@@ -1,7 +1,6 @@
 package main;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -15,19 +14,22 @@ public class PlayerManager {
 	public HashMap<String, Long>	playedTime	= new HashMap<String, Long>();
 	public Player					player		= null;
 	public String					playerName	= null;
+	public ErrorManager				err;
 	
 	public PlayerManager(Player player) {
 		player = this.player;
 		playerName = player.getName();
+		err = new ErrorManager();
 	}
 	
 	public PlayerManager(String playerName) {
 		player = Bukkit.getPlayer(playerName);
 		playerName = player.getName();
+		err = new ErrorManager();
 	}
 	
 	public PlayerManager() {
-		
+		err = new ErrorManager();
 	}
 	
 	public void loadPlayer() {
@@ -35,8 +37,12 @@ public class PlayerManager {
 		uziv = YamlConfiguration.loadConfiguration(uzivFile);
 	}
 	
-	public void saveUser() throws IOException {
-		uziv.save(uzivFile);
+	public void saveUser() {
+		try {
+			uziv.save(uzivFile);
+		} catch (Exception e) {
+			err.postError(e);
+		}
 	}
 	
 	public Long getPlayerPlayedTime() {

@@ -38,7 +38,7 @@ public class SchedulerManager {
 				}
 				
 				if (minutesLeft2 == 0) {
-					zkontrolovatVerziPluginu();
+					fm.zkontrolovatVerziPluginu();
 					startLoop2(fm.vyhledavatAktualizaceCas);
 				}
 			}

@@ -2,7 +2,8 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.Replaces;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,28 +11,30 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdVTIP implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public FeaturesManager	fm;
 	
-	public cmdVTIP(FoE plugin) {
-		this.plugin = plugin;
+	public cmdVTIP() {
+		err = new ErrorManager();
+		cm = new ConfigManager();
+		fm = new FeaturesManager(cm);
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("vtipcmd")) {
 			try {
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Vtip"))) {
 					if (args.length == 0) {
 						sender.sendMessage(cm.config.getString("Prikazy.Vtip") + " [CISLO]  " + ChatColor.GOLD + "Pro zobrazeni vtipu.");
 					} else {
 						int cislo = Integer.valueOf(args[0]);
-						sender.sendMessage(plugin.vtipy.get(cislo));
+						sender.sendMessage(fm.jokes.get(cislo));
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(new Replaces(playerName).PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

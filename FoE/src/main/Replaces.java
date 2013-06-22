@@ -130,6 +130,11 @@ public class Replaces {
 		return message;
 	}
 	
+	public String removeDots(String fromWhat) {
+		fromWhat = fromWhat.replace(".", "");
+		return fromWhat;
+	}
+	
 	public String Spaces(String zCeho) {
 		return zCeho = zCeho.replaceAll(" ", "_");
 	}

@@ -1,50 +1,53 @@
 package main.commands;
 
-import java.io.File;
-
 import main.BanManager;
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.GUIManager;
+import main.PlayerManager;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class cmdINF implements CommandExecutor {
-	public FoE				plugin;
-	public BanManager		bm	= new BanManager();
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public BanManager		bm;
+	public PlayerManager	pm;
+	public GUIManager		gm;
 	
-	public cmdINF(Plugin plugin) {
-		plugin = this.plugin;
+	public cmdINF() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		bm = new BanManager();
 	}
 	
 	public void getInfo(Player sender, String targetName) {
 		Player target = Bukkit.getPlayer(targetName);
 		if (target != null) {
 			if (targetName == target.getName()) {
-				plugin.uzivatel(targetName);
+				pm = new PlayerManager(target);
+				pm.loadPlayer();
+				gm = new GUIManager(target);
 				sender.sendMessage("----- " + target.getDisplayName() + " -----");
-				long[] cas = plugin.spravnyFormat(System.currentTimeMillis() - plugin.nahranyCas.get(target.getName()) + plugin.uziv.getLong("Nahrano"));
+				long[] cas = gm.getCorrectFormat(System.currentTimeMillis() - pm.playedTime.get(target.getName()) + pm.getPlayerPlayedTime());
 				sender.sendMessage("Nahrano: " + cas[4] + " tydnu " + cas[3] + " dnu " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
 				if (sender.isOp())
-					sender.sendMessage("IP: " + plugin.uziv.get("IP"));
+					sender.sendMessage("IP: " + pm.uziv.get("IP"));
 				if (sender.isOp())
 					sender.sendMessage("lastIP: " + target.getAddress().getHostName());
 				if (bm.isBanned(targetName)) {
 					sender.sendMessage("Ban: Ano");
-					sender.sendMessage("Duvod: " + plugin.uziv.getString("banReason"));
+					sender.sendMessage("Duvod: " + pm.uziv.getString("banReason"));
 				}
-				sender.sendMessage("Zabito Hracu: " + plugin.uziv.getInt("ZabitoHracu"));
-				sender.sendMessage("Zabito Mobu: " + plugin.uziv.getInt("ZabitoMobu"));
-				sender.sendMessage("Zabio Zvirat: " + plugin.uziv.getInt("ZabitoZvirat"));
-				sender.sendMessage("Pocet umrti: " + plugin.uziv.getInt("PocetSmrti"));
+				sender.sendMessage("Zabito Hracu: " + pm.uziv.getInt("ZabitoHracu"));
+				sender.sendMessage("Zabito Mobu: " + pm.uziv.getInt("ZabitoMobu"));
+				sender.sendMessage("Zabio Zvirat: " + pm.uziv.getInt("ZabitoZvirat"));
+				sender.sendMessage("Pocet umrti: " + pm.uziv.getInt("PocetSmrti"));
 			} else {
 				getInfoOfflinePlayer(sender, targetName);
 			}
@@ -54,26 +57,27 @@ public class cmdINF implements CommandExecutor {
 	}
 	
 	public void getInfoOfflinePlayer(Player sender, String targetName) {
-		plugin.uzivFile = new File("plugins/FoE/uzivatele/" + targetName + ".yml");
-		plugin.uziv = YamlConfiguration.loadConfiguration(plugin.uzivFile);
-		if (!plugin.uzivFile.exists()) {
+		pm = new PlayerManager(targetName);
+		pm.loadPlayer();
+		gm = new GUIManager(targetName);
+		if (!pm.uzivFile.exists()) {
 			sender.sendMessage("Tento hrac neexistuje!");
 		} else {
 			sender.sendMessage("----- " + targetName + " -----");
-			long[] cas = plugin.spravnyFormat(plugin.uziv.getLong("Nahrano"));
+			long[] cas = gm.getCorrectFormat(pm.uziv.getLong("Nahrano"));
 			sender.sendMessage("Nahrano: " + cas[4] + " tydnu " + cas[3] + " dnu " + cas[2] + " hodin " + cas[1] + " minut " + cas[0] + " sekund");
 			if (sender.isOp())
-				sender.sendMessage("IP: " + plugin.uziv.get("IP"));
+				sender.sendMessage("IP: " + pm.uziv.get("IP"));
 			if (sender.isOp())
-				sender.sendMessage("lastIP: " + plugin.uziv.get("lastIP"));
+				sender.sendMessage("lastIP: " + pm.uziv.get("lastIP"));
 			if (bm.isBanned(targetName)) {
 				sender.sendMessage("Ban: Ano");
-				sender.sendMessage("Duvod: " + plugin.uziv.getString("banReason"));
+				sender.sendMessage("Duvod: " + pm.uziv.getString("banReason"));
 			}
-			sender.sendMessage("Zabito Hracu: " + plugin.uziv.getInt("ZabitoHracu"));
-			sender.sendMessage("Zabito Mobu: " + plugin.uziv.getInt("ZabitoMobu"));
-			sender.sendMessage("Zabio Zvirat: " + plugin.uziv.getInt("ZabitoZvirat"));
-			sender.sendMessage("Pocet umrti: " + plugin.uziv.getInt("PocetSmrti"));
+			sender.sendMessage("Zabito Hracu: " + pm.uziv.getInt("ZabitoHracu"));
+			sender.sendMessage("Zabito Mobu: " + pm.uziv.getInt("ZabitoMobu"));
+			sender.sendMessage("Zabio Zvirat: " + pm.uziv.getInt("ZabitoZvirat"));
+			sender.sendMessage("Pocet umrti: " + pm.uziv.getInt("PocetSmrti"));
 		}
 	}
 	
@@ -90,7 +94,7 @@ public class cmdINF implements CommandExecutor {
 						getInfo(player, args[0]);
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
+					sender.sendMessage(new Replaces(playerName).PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

@@ -2,7 +2,9 @@ package main.events;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.GUIManager;
+import main.PlayerManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Animals;
@@ -16,53 +18,67 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class EntityDeath implements Listener {
-	public FoE				p;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public PlayerManager	pm;
+	public GUIManager		gm;
+	public FeaturesManager	fm;
+	public boolean			debug;
 	
 	public EntityDeath() {
-		this.p = plugin;
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		fm = new FeaturesManager(cm);
+		debug = fm.debug;
 	}
 	
 	public void addMob(String name) {
-		p.uzivatel(name);
-		p.uziv.set("ZabitoMobu", p.uziv.getInt("ZabitoMobu") + 1);
-		cm.saveConfig(p.uziv, p.uzivFile);
-		p.aktualizovatGUI(name);
+		pm = new PlayerManager(name);
+		gm = new GUIManager(name);
+		pm.loadPlayer();
+		pm.uziv.set("ZabitoMobu", pm.getTotalKilledsMobs() + 1);
+		pm.saveUser();
+		gm.aktualizovatGUI();
 	}
 	
 	public void addKill(String name) {
-		p.uzivatel(name);
-		p.uziv.set("ZabitoHracu", p.uziv.getInt("ZabitoHracu") + 1);
-		cm.saveConfig(p.uziv, p.uzivFile);
-		p.aktualizovatGUI(name);
+		pm = new PlayerManager(name);
+		gm = new GUIManager(name);
+		pm.loadPlayer();
+		pm.uziv.set("ZabitoHracu", pm.getTotalKilledsPlayers() + 1);
+		pm.saveUser();
+		gm.aktualizovatGUI();
 	}
 	
 	public void addAnimal(String name) {
-		p.uzivatel(name);
-		p.uziv.set("ZabitoZvirat", p.uziv.getInt("ZabitoZvirat") + 1);
-		cm.saveConfig(p.uziv, p.uzivFile);
-		p.aktualizovatGUI(name);
+		pm = new PlayerManager(name);
+		gm = new GUIManager(name);
+		pm.loadPlayer();
+		pm.uziv.set("ZabitoZvirat", pm.getTotalKilledsAnimals() + 1);
+		pm.saveUser();
+		gm.aktualizovatGUI();
 	}
 	
 	public void addDeath(String name) {
-		p.uzivatel(name);
-		p.uziv.set("PocetSmrti", p.uziv.getInt("PocetSmrti") + 1);
-		cm.saveConfig(p.uziv, p.uzivFile);
-		p.aktualizovatGUI(name);
+		pm = new PlayerManager(name);
+		gm = new GUIManager(name);
+		pm.loadPlayer();
+		pm.uziv.set("PocetSmrti", pm.getTotalDeaths() + 1);
+		pm.saveUser();
+		gm.aktualizovatGUI();
 	}
 	
 	@EventHandler
 	public void onDeath(EntityDeathEvent event) {
 		try {
 			Entity entity = event.getEntity();
-			if (p.umrtiZpravyPovolit) {
+			if (fm.umrtiZpravyIsEnabled) {
 				if (entity != null) { // Entity neni null
 					if (entity instanceof Monster) { // Je monster
 						Monster monster = (Monster) entity; // Ziskam monstra
 						if (monster.getKiller() instanceof Player) { // Ten kdo zabil monstra jestli je hrac
 							String killerName = monster.getKiller().getName(); // Ziskat toho kdo zabil monstra jmeno
-							if (p.debug)
+							if (debug)
 								Bukkit.broadcastMessage(killerName + " pridavam zabitomob.");
 							addMob(killerName); // Pridat jako mobkill
 						}
@@ -70,7 +86,7 @@ public class EntityDeath implements Listener {
 						Animals animal = (Animals) entity;
 						if (animal.getKiller() instanceof Player) {
 							String killerName = animal.getKiller().getName(); // Ziskat toho kdo zabil zvire jmeno
-							if (p.debug)
+							if (debug)
 								Bukkit.broadcastMessage(killerName + " pridavam zabitozvirat.");
 							addAnimal(killerName); // Pridat jako zvirekill
 						}
@@ -86,7 +102,7 @@ public class EntityDeath implements Listener {
 							if (killer.getType() != null) { // Typ kterej zabil hrace jestli existuje
 								if (!(killer instanceof Animals) && (!(killer instanceof Player))) {
 									String targetName = killer.getType().getName(); // Mob kterej zabil hrace
-									if (p.debug)
+									if (debug)
 										Bukkit.broadcastMessage(playerName + " pridavam umrti.");
 									addDeath(playerName); // Pridam umrti hracovy
 									poslatZpravuMonster(targetName, playerName); // Napisu kterej mob zabil hrace.
@@ -94,10 +110,10 @@ public class EntityDeath implements Listener {
 									Player target = (Player) killer; // Pretypuju zabijaka na hrace
 									if (target != null) { // Jestli zabijak neni null
 										String targetName = target.getName(); // Vezmu zabijakovo jmeno
-										if (p.debug)
+										if (debug)
 											Bukkit.broadcastMessage(targetName + " pridavam zabito.");
 										addKill(targetName); // Pridam zabijakovy Kill
-										if (p.debug)
+										if (debug)
 											Bukkit.broadcastMessage(playerName + " pridavam umrti.");
 										addDeath(playerName); // Pridam mrtvemu umrti
 										poslatZpravu(getItemName(target), playerName, targetName); // Napisu zpravu ze zabijak zabil hrace s predmetem
@@ -141,7 +157,7 @@ public class EntityDeath implements Listener {
 	}
 	
 	public void poslatZpravu(String itemName, String playerName, String targetName) {
-		if (p.debug)
+		if (debug)
 			Bukkit.broadcastMessage(itemName + " / " + playerName + " / " + targetName);
 		if (!cm.umrtiZpravy.contains(itemName)) {
 			cm.umrtiZpravy.set(itemName, "&4{TARGET} &8byl zabit &4{JMENO} &8s predmetem &4{ITEM}&8.");

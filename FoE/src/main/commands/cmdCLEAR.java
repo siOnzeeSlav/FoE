@@ -2,7 +2,7 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,20 +10,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdCLEAR implements CommandExecutor {
-	public FoE				plugin;
-	public String			vysledek	= "";
-	public ConfigManager	cm			= new ConfigManager();
-	public ErrorManager		err			= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
 	
-	public cmdCLEAR(FoE plugin) {
-		this.plugin = plugin;
+	public cmdCLEAR() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("clearcmd")) {
 			try {
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Clear"))) {
 					int i = 0;
 					while (i < 100) {
@@ -31,7 +30,7 @@ public class cmdCLEAR implements CommandExecutor {
 						Bukkit.broadcastMessage("");
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(new Replaces(playerName).PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

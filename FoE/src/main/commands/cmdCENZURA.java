@@ -4,7 +4,6 @@ import java.util.List;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
 import main.Replaces;
 
 import org.bukkit.ChatColor;
@@ -13,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdCENZURA implements CommandExecutor {
-	public FoE				plugin;
 	public ConfigManager	cm;
 	public ErrorManager		err;
 	

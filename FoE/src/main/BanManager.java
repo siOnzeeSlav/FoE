@@ -11,14 +11,16 @@ public class BanManager {
 	
 	public File					uzivFile;
 	public YamlConfiguration	uziv;
-	public File					configFile	= new File("plugins/FoE/config.yml");
-	public YamlConfiguration	config		= YamlConfiguration.loadConfiguration(configFile);
-	public FoE					plugin;
+	public ConfigManager		cm;
 	public MySQL				mysql;
-	public ErrorManager			err			= new ErrorManager();
+	public ErrorManager			err;
+	public FeaturesManager		fm;
 	
 	public BanManager() {
 		mysql = new MySQL();
+		err = new ErrorManager();
+		cm = new ConfigManager();
+		fm = new FeaturesManager(cm);
 	}
 	
 	public boolean isBanned(String playerName) {
@@ -32,9 +34,9 @@ public class BanManager {
 	public void kickPlayer(String sender, String playerName, String reason) {
 		Player pl = Bukkit.getPlayer(playerName);
 		if (pl != null) {
-			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Kick.Zprava"), sender, playerName, reason));
+			Bukkit.broadcastMessage(replaceNicknamesInBan(cm.config.getString("Manager.Kick.Zprava"), sender, playerName, reason));
 			pl.kickPlayer(reason);
-			if (mysql.isMySQLAllowed())
+			if (fm.mysqlIsEnabled)
 				MySQL_Manager(sender, playerName, reason, "KICK");
 		} else {
 			Player s = Bukkit.getPlayer(sender);
@@ -53,9 +55,9 @@ public class BanManager {
 			if (pl != null) {
 				pl.kickPlayer(reason);
 			}
-			if (mysql.isMySQLAllowed())
+			if (fm.mysqlIsEnabled)
 				MySQL_Manager(sender, playerName, reason, "BAN");
-			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Ban.Zprava"), sender, playerName, reason));
+			Bukkit.broadcastMessage(replaceNicknamesInBan(cm.config.getString("Manager.Ban.Zprava"), sender, playerName, reason));
 		} else {
 			Player p = Bukkit.getPlayer(sender);
 			p.sendMessage(playerName + " je jiz zabanovan!");
@@ -67,8 +69,8 @@ public class BanManager {
 			uzivFile = new File("plugins/FoE/uzivatele/" + playerName + ".yml");
 			uziv = YamlConfiguration.loadConfiguration(uzivFile);
 			uziv.set("isBanned", false);
-			Bukkit.broadcastMessage(replaceNicknamesInBan(config.getString("Manager.Unban.Zprava"), sender, playerName, reason));
-			if (mysql.isMySQLAllowed())
+			Bukkit.broadcastMessage(replaceNicknamesInBan(cm.config.getString("Manager.Unban.Zprava"), sender, playerName, reason));
+			if (fm.mysqlIsEnabled)
 				MySQL_Manager(sender, playerName, reason, "UNBAN");
 			saveConfig(uziv, uzivFile);
 		} else {
