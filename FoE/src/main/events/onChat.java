@@ -33,7 +33,7 @@ public class onChat implements Listener {
 	public HashMap<String, String>	lastMessage			= new HashMap<String, String>();
 	public ErrorManager				err					= new ErrorManager();
 	
-	public onChat(FoE plugin) {
+	public onChat() {
 		this.p = plugin;
 	}
 	

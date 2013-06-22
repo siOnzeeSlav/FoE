@@ -15,7 +15,7 @@ public class onKick implements Listener {
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public onKick(FoE plugin) {
+	public onKick() {
 		this.p = plugin;
 	}
 	

@@ -2,7 +2,7 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,20 +11,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdOZNAMENI implements CommandExecutor {
-	public FoE				plugin;
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
-	
-	public cmdOZNAMENI(FoE plugin) {
-		this.plugin = plugin;
-	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("zpravacmd")) {
 			try {
 				String vysledek = "";
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
+				Replaces replace = new Replaces(playerName);
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Oznameni"))) {
 					for (int i = 0; i < args.length; i++) {
 						vysledek = vysledek + (i > 0 ? " " : "") + args[i];
@@ -32,10 +28,10 @@ public class cmdOZNAMENI implements CommandExecutor {
 					if (vysledek.isEmpty()) {
 						sender.sendMessage(ChatColor.RED + "Nemuzete odeslat prazdny text!");
 					} else {
-						Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("Oznameni.Prefix"), jmenoHrace) + " " + plugin.nahradit(cm.config.getString("Oznameni.Suffix"), jmenoHrace) + vysledek);
+						Bukkit.broadcastMessage(replace.PlayerName(cm.config.getString("Oznameni.Prefix"), playerName) + " " + replace.PlayerName(cm.config.getString("Oznameni.Suffix"), playerName) + vysledek);
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

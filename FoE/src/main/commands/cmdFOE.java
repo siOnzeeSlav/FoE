@@ -12,14 +12,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 public class cmdFOE implements CommandExecutor {
 	public FoE				plugin;
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public cmdFOE(FoE plugin) {
-		this.plugin = plugin;
+	public cmdFOE(Plugin plugin) {
+		plugin = this.plugin;
 	}
 	
 	@Override

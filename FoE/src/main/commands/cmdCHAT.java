@@ -2,7 +2,8 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,29 +11,33 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdCHAT implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public FeaturesManager	fm;
+	public Replaces			replace;
 	
-	public cmdCHAT(FoE plugin) {
-		this.plugin = plugin;
+	public cmdCHAT() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		fm = new FeaturesManager(cm);
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("chatcmd")) {
 			try {
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
+				replace = new Replaces(playerName);
 				if ((sender.isOp()) || (sender.hasPermission("FoE.VypnoutChat"))) {
-					if (plugin.Chat) {
-						plugin.Chat = false;
-						Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("VypnoutChat.KdyzSeVypne"), jmenoHrace));
+					if (fm.Chat) {
+						fm.Chat = false;
+						Bukkit.broadcastMessage(replace.PlayerName(cm.config.getString("VypnoutChat.KdyzSeVypne"), playerName));
 					} else {
-						plugin.Chat = true;
-						Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("VypnoutChat.KdyzSeZapne"), jmenoHrace));
+						fm.Chat = true;
+						Bukkit.broadcastMessage(replace.PlayerName(cm.config.getString("VypnoutChat.KdyzSeZapne"), playerName));
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

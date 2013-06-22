@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,19 +13,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class cmdGRAMATIKA implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public Replaces			replace;
 	
-	public cmdGRAMATIKA(FoE plugin) {
-		this.plugin = plugin;
+	public cmdGRAMATIKA() {
+		err = new ErrorManager();
+		cm = new ConfigManager();
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("gramatikacmd")) {
 			try {
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
+				replace = new Replaces(playerName);
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Gramatika"))) {
 					if (args.length == 0) {
 						sender.sendMessage(cm.config.getString("Prikazy.Gramatika") + " add cele [Slovo] [Slovo] [Oduvodneni]  " + ChatColor.GOLD + "Prida slovo do listu.");
@@ -109,7 +111,7 @@ public class cmdGRAMATIKA implements CommandExecutor {
 						}
 					}
 				} else
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 			} catch (Exception e) {
 				err.postError(e);
 			}

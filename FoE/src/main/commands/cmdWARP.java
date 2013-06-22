@@ -1,10 +1,13 @@
 package main.commands;
 
 import java.io.File;
+import java.sql.ResultSet;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.MySQL;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,14 +20,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class cmdWARP implements CommandExecutor {
-	public FoE					plugin;
 	public File					warpFile	= new File("plugins/FoE/warps.yml");
 	public YamlConfiguration	warp		= YamlConfiguration.loadConfiguration(warpFile);
-	public ConfigManager		cm			= new ConfigManager();
-	public ErrorManager			err			= new ErrorManager();
+	public ConfigManager		cm;
+	public ErrorManager			err;
+	public FeaturesManager		fm;
+	public Boolean				debug;
+	public Replaces				replace;
+	public MySQL				mysql;
 	
-	public cmdWARP(FoE plugin) {
-		this.plugin = plugin;
+	public cmdWARP() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		fm = new FeaturesManager(cm);
+		debug = fm.debug;
+		mysql = new MySQL();
 	}
 	
 	@Override
@@ -32,6 +42,7 @@ public class cmdWARP implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("warpcmd")) {
 			try {
 				Player player = (Player) sender;
+				replace = new Replaces(player);
 				if (args.length == 0) {
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " [JMENO]  " + ChatColor.GOLD + "Teleportuje na warp.");
 					sender.sendMessage(cm.config.getString("Prikazy.Warp") + " vytvorit [JMENO] [POPIS]  " + ChatColor.GOLD + "Pro vytvoreni warpu.");
@@ -63,10 +74,10 @@ public class cmdWARP implements CommandExecutor {
 						warp.set(warpName + ".world", world);
 						warp.set(warpName + ".popis", description);
 						cm.saveConfig(warp, warpFile);
-						if (plugin.debug)
-							Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
-						if (plugin.mysqlPovolit)
-							plugin.MySQL_Warp(warpName, playerName, "AKTIVNI");
+						if (debug)
+							Bukkit.broadcastMessage("MySQL: " + fm.mysqlIsEnabled);
+						if (fm.mysqlIsEnabled)
+							MySQL_Warp(warpName, playerName, "AKTIVNI");
 						
 						sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Vytvorit"), warpName, description));
 					} else {
@@ -84,19 +95,19 @@ public class cmdWARP implements CommandExecutor {
 					String playerName = sender.getName();
 					warp.set(warpName, null);
 					cm.saveConfig(warp, warpFile);
-					if (plugin.debug)
-						Bukkit.broadcastMessage("MySQL: " + plugin.mysqlPovolit);
-					if (plugin.mysqlPovolit)
-						plugin.MySQL_Warp(warpName, playerName, "ODSTRANENO");
+					if (debug)
+						Bukkit.broadcastMessage("MySQL: " + fm.mysqlIsEnabled);
+					if (fm.mysqlIsEnabled)
+						MySQL_Warp(warpName, playerName, "ODSTRANENO");
 					sender.sendMessage(replace(cm.config.getString("Warp.Zprava.Odstranit"), warpName));
 				} else if (args[0].equalsIgnoreCase("list")) {
 					if (warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false).size() > 0)
 						sender.sendMessage("" + warp.getConfigurationSection(warp.getRoot().getCurrentPath()).getKeys(false));
 					else
-						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.Zprava.Prazdno")));
+						sender.sendMessage(replace.Colors(cm.config.getString("Warp.Zprava.Prazdno")));
 				} else if (warp.contains(args[0])) {
 					if (!sender.hasPermission("FoE.Warp." + args[0]) && (!sender.hasPermission("FoE.Warp.*"))) {
-						sender.sendMessage(plugin.nahraditBarvy(cm.config.getString("Warp.NemaOpravneni")));
+						sender.sendMessage(replace.Colors(cm.config.getString("Warp.NemaOpravneni")));
 						return true;
 					}
 					String warpName = args[0];
@@ -115,6 +126,39 @@ public class cmdWARP implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+	
+	public void MySQL_Warp(String warpName, String playerName, String typ) {
+		try {
+			if (warpName == null || playerName == null) {
+				if (debug)
+					Bukkit.broadcastMessage(warpName + " - " + playerName + " - " + typ + " - Neco je null");
+				return;
+			}
+			if (typ == "AKTIVNI") {
+				if (debug)
+					Bukkit.broadcastMessage("TYP:AKTIVNI");
+				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
+				if (rs.next()) {
+					if (debug)
+						Bukkit.broadcastMessage("Aktualizuju FoE_Warpy" + warpName);
+					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'AKTIVNI', `datum` = '" + System.currentTimeMillis() + "' WHERE `warp` = '" + warpName + "'");
+				} else {
+					Bukkit.broadcastMessage("Vkladam FoE_Warpy" + warpName);
+					mysql.query("INSERT INTO `FoE_Warpy` (warp, autor, datum, typ) VALUES (" + "'" + warpName + "'," + " '" + playerName + "', '" + System.currentTimeMillis() + "', 'AKTIVNI')");
+				}
+			}
+			if (typ == "ODSTRANENO") {
+				if (debug)
+					Bukkit.broadcastMessage("TYP:ODSTRANENO");
+				ResultSet rs = mysql.query("SELECT `warp` FROM `FoE_Warpy` WHERE `warp` = '" + warpName + "'");
+				if (rs.next()) {
+					mysql.query("UPDATE `FoE_Warpy` SET `typ` = 'ODSTRANENO' WHERE `warp` = '" + warpName + "'");
+				}
+			}
+		} catch (Exception e) {
+			err.postError(e);
+		}
 	}
 	
 	public String replace(String message, String warp, String description) {

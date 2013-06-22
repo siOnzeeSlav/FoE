@@ -17,7 +17,7 @@ public class onInventoryDrag implements Listener {
 	public FoE			p;
 	public ErrorManager	err	= new ErrorManager();
 	
-	public onInventoryDrag(FoE plugin) {
+	public onInventoryDrag() {
 		this.p = plugin;
 	}
 	

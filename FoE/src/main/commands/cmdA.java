@@ -2,7 +2,7 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,20 +12,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdA implements CommandExecutor {
-	public FoE				plugin;
 	public String			vysledek	= "";
-	public ConfigManager	cm			= new ConfigManager();
-	public ErrorManager		err			= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
 	
-	public cmdA(FoE plugin) {
-		this.plugin = plugin;
+	public cmdA() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("acmd")) {
 			try {
-				String jmenoHrace = sender.getName();
+				String playerName = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.AdminChat.Psat"))) {
 					if (args.length == 0) {
 						sender.sendMessage(cm.config.getString("Prikazy.AdminChat") + " [TEXT]  " + ChatColor.GOLD + "Pro psani do adminchatu.");
@@ -40,7 +40,7 @@ public class cmdA implements CommandExecutor {
 						}
 					}
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), jmenoHrace));
+					sender.sendMessage(new Replaces(playerName).PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

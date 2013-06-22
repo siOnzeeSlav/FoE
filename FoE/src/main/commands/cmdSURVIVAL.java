@@ -2,7 +2,7 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,12 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdSURVIVAL implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public Replaces			replace;
 	
-	public cmdSURVIVAL(FoE plugin) {
-		this.plugin = plugin;
+	public cmdSURVIVAL() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
 	}
 	
 	@Override
@@ -27,14 +28,15 @@ public class cmdSURVIVAL implements CommandExecutor {
 				String playerName = sender.getName();
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Survival"))) {
 					Player player = (Player) sender;
+					replace = new Replaces(player);
 					if (player.getGameMode() == GameMode.SURVIVAL) {
-						player.sendMessage(plugin.nahradit(cm.config.getString("herniRezimy.Zpravy.MaSurvival"), playerName));
+						player.sendMessage(replace.PlayerName(cm.config.getString("herniRezimy.Zpravy.MaSurvival"), playerName));
 						return true;
 					}
 					player.setGameMode(GameMode.SURVIVAL);
-					Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("herniRezimy.Zpravy.Survival"), playerName));
+					Bukkit.broadcastMessage(replace.PlayerName(cm.config.getString("herniRezimy.Zpravy.Survival"), playerName));
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

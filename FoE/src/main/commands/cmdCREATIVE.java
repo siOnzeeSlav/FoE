@@ -2,7 +2,7 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,12 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdCREATIVE implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public Replaces			replace;
 	
-	public cmdCREATIVE(FoE plugin) {
-		this.plugin = plugin;
+	public cmdCREATIVE() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
 	}
 	
 	@Override
@@ -25,16 +26,17 @@ public class cmdCREATIVE implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("creativecmd")) {
 			try {
 				String playerName = sender.getName();
+				replace = new Replaces(playerName);
 				if ((sender.isOp()) || (sender.hasPermission("FoE.Creative"))) {
 					Player player = (Player) sender;
 					if (player.getGameMode() == GameMode.CREATIVE) {
-						player.sendMessage(plugin.nahradit(cm.config.getString("herniRezimy.Zpravy.MaCreative"), playerName));
+						player.sendMessage(replace.PlayerName(cm.config.getString("herniRezimy.Zpravy.MaCreative"), playerName));
 						return true;
 					}
 					player.setGameMode(GameMode.CREATIVE);
-					Bukkit.broadcastMessage(plugin.nahradit(cm.config.getString("herniRezimy.Zpravy.Creative"), playerName));
+					Bukkit.broadcastMessage(replace.PlayerName(cm.config.getString("herniRezimy.Zpravy.Creative"), playerName));
 				} else {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Ostatni.KdyzNemaOpravneni"), playerName));
 				}
 			} catch (Exception e) {
 				err.postError(e);

@@ -11,7 +11,7 @@ public class onPlayerDeath implements Listener {
 	public FoE			p;
 	public ErrorManager	err	= new ErrorManager();
 	
-	public onPlayerDeath(FoE plugin) {
+	public onPlayerDeath() {
 		this.p = plugin;
 	}
 	

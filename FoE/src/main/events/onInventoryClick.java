@@ -18,7 +18,7 @@ public class onInventoryClick implements Listener {
 	public FoE			p;
 	public ErrorManager	err	= new ErrorManager();
 	
-	public onInventoryClick(FoE plugin) {
+	public onInventoryClick() {
 		this.p = plugin;
 	}
 	

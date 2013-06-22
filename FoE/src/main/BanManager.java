@@ -1,13 +1,7 @@
 package main;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,7 +14,12 @@ public class BanManager {
 	public File					configFile	= new File("plugins/FoE/config.yml");
 	public YamlConfiguration	config		= YamlConfiguration.loadConfiguration(configFile);
 	public FoE					plugin;
-	public MySQL				mysql		= new MySQL(plugin);
+	public MySQL				mysql;
+	public ErrorManager			err			= new ErrorManager();
+	
+	public BanManager() {
+		mysql = new MySQL();
+	}
 	
 	public boolean isBanned(String playerName) {
 		uzivFile = new File("plugins/FoE/uzivatele/" + playerName + ".yml");
@@ -85,10 +84,7 @@ public class BanManager {
 			else
 				System.out.println("Nekde je chyba, null: " + playerName + "|" + targetName + "|" + reason + "|" + typ);
 		} catch (Exception e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -97,26 +93,6 @@ public class BanManager {
 			config.save(configFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public void Error(String message) {
-		try {
-			File u = new File("plugins/FoE/errors.log");
-			FileWriter fw = new FileWriter(u, true);
-			PrintWriter pw = new PrintWriter(fw);
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-			String time = sdf.format(date);
-			pw.println("================== " + time + " - FoE: " + plugin.getDescription().getVersion() + "\n" + "CB: " + Bukkit.getVersion() + "\n" + message + "\n==================\n");
-			pw.flush();
-			pw.close();
-			System.out.println("[FoE] ERROR!");
-			System.out.println("===========================");
-			System.out.println("Prekopirujte obsah souboru errors.log do prispevku.");
-			System.out.println("===========================");
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 	

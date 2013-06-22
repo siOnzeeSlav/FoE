@@ -20,7 +20,7 @@ public class EntityDeath implements Listener {
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public EntityDeath(FoE plugin) {
+	public EntityDeath() {
 		this.p = plugin;
 	}
 	

@@ -1,84 +1,53 @@
 package main;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class MySQL {
-	public FoE					plugin;
 	public Connection			con;
 	public Statement			sta;
-	public File					configFile		= new File("plugins/FoE/config.yml");
-	public YamlConfiguration	config			= YamlConfiguration.loadConfiguration(configFile);
-	public boolean				MySQLPovolit	= false;
+	public File					configFile	= new File("plugins/FoE/config.yml");
+	public YamlConfiguration	config		= YamlConfiguration.loadConfiguration(configFile);
+	public ErrorManager			err			= new ErrorManager();
+	public String				hostname	= config.getString("MySQL.hostname");
+	public String				database	= config.getString("MySQL.database");
+	public String				username	= config.getString("MySQL.username");
+	public String				password	= config.getString("MySQL.password");
+	public int					port		= config.getInt("MySQL.port");
 	
-	public MySQL(FoE plugin) {
-		plugin = this.plugin;
-	}
-	
-	public boolean isMySQLAllowed() {
-		return MySQLPovolit;
+	public MySQL() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, username, password);
+			sta = con.createStatement();
+		} catch (Exception e) {
+			err.postError(e);
+		}
 	}
 	
 	public ResultSet query(String query) {
 		try {
 			if (!isOpen()) {
-				sta = con.createStatement();
+				open();
 			}
 			if (query.toLowerCase().startsWith("select")) {
 				return sta.executeQuery(query);
 			} else {
 				sta.executeUpdate(query);
 			}
-		} catch (SQLException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+		} catch (Exception e) {
+			err.postError(e);
 		}
 		return null;
 	}
 	
-	public void Error(String message) {
-		try {
-			File u = new File("plugins/FoE/errors.log");
-			FileWriter fw = new FileWriter(u, true);
-			PrintWriter pw = new PrintWriter(fw);
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-			String time = sdf.format(date);
-			pw.println("================== " + time + " - FoE: MYSQL!\n" + "CB: " + Bukkit.getVersion() + "\n" + message + "\n==================\n");
-			pw.flush();
-			pw.close();
-			System.out.println("[FoE] ERROR!");
-			System.out.println("===========================");
-			System.out.println("Prekopirujte obsah souboru errors.log do prispevku.");
-			System.out.println("===========================");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-	
 	public void open() {
 		try {
-			String hostname = config.getString("MySQL.hostname");
-			String database = config.getString("MySQL.database");
-			String username = config.getString("MySQL.username");
-			String password = config.getString("MySQL.password");
-			int port = config.getInt("MySQL.port");
 			con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, username, password);
 			sta = con.createStatement();
 			int val = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Uzivatele (id INT AUTO_INCREMENT, hrac VARCHAR(32), nahranost BIGINT(20), PRIMARY KEY (id))");
@@ -86,29 +55,26 @@ public class MySQL {
 			int val3 = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Warpy (id INT AUTO_INCREMENT, warp VARCHAR(32), autor VARCHAR(32), datum BIGINT(20), typ VARCHAR(32),  PRIMARY KEY (id))");
 			int val4 = sta.executeUpdate("CREATE TABLE IF NOT EXISTS FoE_Zpravy (id INT AUTO_INCREMENT, hrac VARCHAR(32), prijemce VARCHAR(32), zprava TEXT NOT NULL, datum BIGINT(20),  PRIMARY KEY (id))");
 			if (val == 0)
-				System.out.println("Tabulka 'Uzivatele' byla zkontrolovana.");
+				System.out.println("Tabulka 'Uzivatele' nebyla vytvorena.");
 			else
 				System.out.println("Tabulka 'Uzivatele' byla vytvorena.");
 			
 			if (val2 == 0)
-				System.out.println("Tabulka 'Banlist' byla zkontrolovana.");
+				System.out.println("Tabulka 'Banlist' nebyla vytvorena.");
 			else
 				System.out.println("Tabulka 'Banlist' byla vytvorena.");
 			
 			if (val3 == 0)
-				System.out.println("Tabulka 'Warpy' byla zkontrolovana.");
+				System.out.println("Tabulka 'Warpy' nebyla vytvorena.");
 			else
 				System.out.println("Tabulka 'Warpy' byla vytvorena.");
 			
 			if (val4 == 0)
-				System.out.println("Tabulka 'Zpravy' byla zkontrolovana.");
+				System.out.println("Tabulka 'Zpravy' nebyla vytvorena.");
 			else
 				System.out.println("Tabulka 'Zpravy' byla vytvorena.");
 		} catch (SQLException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+			err.postError(e);
 		}
 	}
 	
@@ -119,11 +85,8 @@ public class MySQL {
 			} else {
 				return true;
 			}
-		} catch (SQLException e) {
-			Writer writer = new StringWriter();
-			PrintWriter printWriter = new PrintWriter(writer);
-			e.printStackTrace(printWriter);
-			Error(writer.toString());
+		} catch (Exception e) {
+			err.postError(e);
 		}
 		return false;
 	}

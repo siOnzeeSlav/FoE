@@ -16,7 +16,7 @@ public class onJoin implements Listener {
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public onJoin(FoE plugin) {
+	public onJoin() {
 		this.p = plugin;
 	}
 	

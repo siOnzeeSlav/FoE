@@ -2,7 +2,9 @@ package main.commands;
 
 import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
+import main.MySQL;
+import main.Replaces;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,12 +14,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class cmdMSG implements CommandExecutor {
-	public FoE				plugin;
-	public ConfigManager	cm	= new ConfigManager();
-	public ErrorManager		err	= new ErrorManager();
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public Replaces			replace;
+	public FeaturesManager	fm;
+	public MySQL			mysql;
 	
-	public cmdMSG(FoE plugin) {
-		this.plugin = plugin;
+	public cmdMSG() {
+		cm = new ConfigManager();
+		err = new ErrorManager();
+		fm = new FeaturesManager(cm);
+		mysql = new MySQL();
 	}
 	
 	@Override
@@ -29,10 +36,11 @@ public class cmdMSG implements CommandExecutor {
 				
 				Player target = Bukkit.getPlayer(args[0]);
 				if (target == null) {
-					sender.sendMessage(plugin.nahradit(cm.config.getString("Msg.Zprava.jeOffline"), args[0]));
+					sender.sendMessage(replace.PlayerName(cm.config.getString("Msg.Zprava.jeOffline"), args[0]));
 					return true;
 				}
 				String playerName = sender.getName();
+				replace = new Replaces(playerName);
 				if (args.length < 1) {
 					sender.sendMessage(cm.config.getString("Prikazy.Msg") + " [JMENO] [TEXT]  " + ChatColor.GOLD + "Pro poslani soukrome zpravy.");
 				} else if (args.length > 1) {
@@ -43,14 +51,24 @@ public class cmdMSG implements CommandExecutor {
 					String targetName = target.getName();
 					sender.sendMessage(reFormat(cm.config.getString("Msg.Format"), playerName, targetName, message));
 					target.sendMessage(reFormat(cm.config.getString("Msg.Format"), playerName, targetName, message));
-					if (plugin.mysqlPovolit)
-						plugin.MySQL_Message(playerName, targetName, message);
+					if (fm.mysqlIsEnabled)
+						MySQL_Message(playerName, targetName, message);
 				}
 			} catch (Exception e) {
 				err.postError(e);
 			}
 		}
 		return false;
+	}
+	
+	public void MySQL_Message(String playerName, String targetName, String message) {
+		try {
+			if (playerName == null || targetName == null || message == null)
+				return;
+			mysql.query("INSERT INTO `FoE_Zpravy` (player, prijemce, zprava, datum) VALUES ('" + playerName + "', '" + targetName + "', '" + message + "', '" + System.currentTimeMillis() + "')");
+		} catch (Exception e) {
+			err.postError(e);
+		}
 	}
 	
 	public String reFormat(String configMessage, String playerName, String targetName, String message) {

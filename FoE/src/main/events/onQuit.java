@@ -15,7 +15,7 @@ public class onQuit implements Listener {
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public onQuit(FoE plugin) {
+	public onQuit() {
 		this.p = plugin;
 	}
 	

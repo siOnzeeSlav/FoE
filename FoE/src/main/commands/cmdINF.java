@@ -13,6 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class cmdINF implements CommandExecutor {
 	public FoE				plugin;
@@ -20,8 +21,8 @@ public class cmdINF implements CommandExecutor {
 	public ConfigManager	cm	= new ConfigManager();
 	public ErrorManager		err	= new ErrorManager();
 	
-	public cmdINF(FoE plugin) {
-		this.plugin = plugin;
+	public cmdINF(Plugin plugin) {
+		plugin = this.plugin;
 	}
 	
 	public void getInfo(Player sender, String targetName) {
