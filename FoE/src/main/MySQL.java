@@ -11,11 +11,11 @@ public class MySQL {
 	public Statement		sta;
 	public ConfigManager	cm;
 	public ErrorManager		err;
-	public String			hostname	= cm.config.getString("MySQL.hostname");
-	public String			database	= cm.config.getString("MySQL.database");
-	public String			username	= cm.config.getString("MySQL.username");
-	public String			password	= cm.config.getString("MySQL.password");
-	public int				port		= cm.config.getInt("MySQL.port");
+	public String			hostname;
+	public String			database;
+	public String			username;
+	public String			password;
+	public int				port;
 	
 	public MySQL() {
 		try {
@@ -23,6 +23,11 @@ public class MySQL {
 			err = new ErrorManager();
 			con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, username, password);
 			sta = con.createStatement();
+			hostname = cm.config.getString("MySQL.hostname");
+			database = cm.config.getString("MySQL.database");
+			username = cm.config.getString("MySQL.username");
+			password = cm.config.getString("MySQL.password");
+			port = cm.config.getInt("MySQL.port");
 		} catch (Exception e) {
 			err.postError(e);
 		}

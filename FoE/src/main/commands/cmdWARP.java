@@ -32,9 +32,10 @@ public class cmdWARP implements CommandExecutor {
 	public cmdWARP() {
 		cm = new ConfigManager();
 		err = new ErrorManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 		debug = fm.debug;
-		mysql = new MySQL();
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	@Override

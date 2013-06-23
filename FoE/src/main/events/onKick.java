@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import main.ConfigManager;
 import main.ErrorManager;
 import main.FeaturesManager;
+import main.FoE;
 import main.GUIManager;
 import main.MySQL;
 import main.PlayerManager;
@@ -15,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.plugin.Plugin;
 
 public class onKick implements Listener {
 	public ConfigManager	cm;
@@ -25,17 +25,18 @@ public class onKick implements Listener {
 	public Replaces			replace;
 	public GUIManager		gm;
 	public MySQL			mysql;
-	public Plugin			plugin;
+	public FoE				plugin;
 	
-	public onKick(Plugin plugin) {
+	public onKick(FoE plugin) {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
-		mysql = new MySQL();
+		fm = new FeaturesManager();
 		pm = null;
 		gm = null;
 		replace = null;
-		plugin = this.plugin;
+		this.plugin = plugin;
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	public void delayedKick(PlayerKickEvent event) {

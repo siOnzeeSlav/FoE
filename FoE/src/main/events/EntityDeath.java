@@ -28,7 +28,7 @@ public class EntityDeath implements Listener {
 	public EntityDeath() {
 		cm = new ConfigManager();
 		err = new ErrorManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 		debug = fm.debug;
 	}
 	

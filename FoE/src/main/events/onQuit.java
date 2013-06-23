@@ -3,6 +3,7 @@ package main.events;
 import main.ConfigManager;
 import main.ErrorManager;
 import main.FeaturesManager;
+import main.FoE;
 import main.GUIManager;
 import main.MySQL;
 import main.PlayerManager;
@@ -13,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 
 public class onQuit implements Listener {
 	public ConfigManager	cm;
@@ -23,17 +23,18 @@ public class onQuit implements Listener {
 	public Replaces			replace;
 	public GUIManager		gm;
 	public MySQL			mysql;
-	public Plugin			plugin;
+	public FoE				plugin;
 	
-	public onQuit(Plugin plugin) {
+	public onQuit(FoE plugin) {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
-		mysql = new MySQL();
+		fm = new FeaturesManager();
 		pm = null;
 		gm = null;
 		replace = null;
-		plugin = this.plugin;
+		this.plugin = plugin;
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	public void delayedQuit(PlayerQuitEvent event) {

@@ -19,7 +19,7 @@ public class cmdCHAT implements CommandExecutor {
 	public cmdCHAT() {
 		cm = new ConfigManager();
 		err = new ErrorManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@Override

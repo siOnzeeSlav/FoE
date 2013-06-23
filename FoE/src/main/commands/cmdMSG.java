@@ -23,8 +23,9 @@ public class cmdMSG implements CommandExecutor {
 	public cmdMSG() {
 		cm = new ConfigManager();
 		err = new ErrorManager();
-		fm = new FeaturesManager(cm);
-		mysql = new MySQL();
+		fm = new FeaturesManager();
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	@Override

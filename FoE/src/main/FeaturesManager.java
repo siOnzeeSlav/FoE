@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import main.commands.cmdA;
@@ -49,81 +48,76 @@ import org.bukkit.plugin.Plugin;
 
 public class FeaturesManager {
 	
-	public ConfigManager		cm;
-	public boolean				Chat								= true;
-	public boolean				mysqlIsEnabled						= false;
-	public boolean				oznameniIsEnabled					= false;
-	public boolean				kdyzHracSePripojiIsEnabled			= false;
-	public boolean				kdyzHracSeOdpojiIsEnabled			= false;
-	public boolean				kdyzHracSeVyhodiIsEnabled			= false;
-	public boolean				nahranostIsEnabled					= false;
-	public boolean				nahranostPrivitaciZpravaIsEnabled	= false;
-	public boolean				antiReklamaIsEnabled				= false;
-	public boolean				cenzuraIsEnabled					= false;
-	public boolean				capsLockIsEnabled					= false;
-	public boolean				gramatikaIsEnabled					= false;
-	public boolean				vypnoutChatIsEnabled				= false;
-	public boolean				adminChatIsEnabled					= false;
-	public boolean				zpravaAdminum						= false;
-	public boolean				teleportIsEnabled					= false;
-	public boolean				guiIsEnabled						= false;
-	public boolean				guiTydny							= false;
-	public boolean				guiDny								= false;
-	public boolean				guiHodiny							= false;
-	public boolean				guiPocetHracu						= false;
-	public boolean				guiIconomy							= false;
-	public boolean				guiZabitoHracu						= false;
-	public boolean				guiZabitoMobu						= false;
-	public boolean				guiZabitoZvirat						= false;
-	public boolean				guiPocetSmrti						= false;
-	public boolean				antiSpamIsEnabled					= false;
-	public boolean				antiSpamDuplikaceIsEnabled			= false;
-	public boolean				rezervaceIsEnabled					= false;
-	public boolean				inventarIsEnabled					= false;
-	public boolean				managerBan							= false;
-	public boolean				jokesIsEnabled						= false;
-	public boolean				clearChat							= false;
-	public boolean				umrtiZpravyIsEnabled				= false;
-	public boolean				whiteListIsEnabled					= false;
-	public boolean				uvitaciZpravaIsEnabled				= false;
-	public boolean				autoZpravyIsEnabled					= false;
-	public boolean				warpIsEnabled						= false;
-	public boolean				msgIsEnabled						= false;
-	public boolean				herniRezimy							= false;
-	public LinkedList<String>	jokes;
-	public boolean				debug								= false;
-	public int					mysqlCas							= 0;
-	public int					jokesInterval						= 0;
-	public int					AntiSpamCas							= 0;
-	public int					vyhledavatAktualizaceCas			= 0;
-	public int					autoZpravyInterval					= 0;
-	public Plugin				plugin;
-	public MySQL				mysql;
-	public ErrorManager			err;
-	public SchedulerManager		sm;
-	public String				version;
+	public ConfigManager	cm;
+	public boolean			Chat								= true;
+	public boolean			mysqlIsEnabled						= false;
+	public boolean			oznameniIsEnabled					= false;
+	public boolean			kdyzHracSePripojiIsEnabled			= false;
+	public boolean			kdyzHracSeOdpojiIsEnabled			= false;
+	public boolean			kdyzHracSeVyhodiIsEnabled			= false;
+	public boolean			nahranostIsEnabled					= false;
+	public boolean			nahranostPrivitaciZpravaIsEnabled	= false;
+	public boolean			antiReklamaIsEnabled				= false;
+	public boolean			cenzuraIsEnabled					= false;
+	public boolean			capsLockIsEnabled					= false;
+	public boolean			gramatikaIsEnabled					= false;
+	public boolean			vypnoutChatIsEnabled				= false;
+	public boolean			adminChatIsEnabled					= false;
+	public boolean			zpravaAdminum						= false;
+	public boolean			teleportIsEnabled					= false;
+	public boolean			guiIsEnabled						= false;
+	public boolean			guiTydny							= false;
+	public boolean			guiDny								= false;
+	public boolean			guiHodiny							= false;
+	public boolean			guiPocetHracu						= false;
+	public boolean			guiIconomy							= false;
+	public boolean			guiZabitoHracu						= false;
+	public boolean			guiZabitoMobu						= false;
+	public boolean			guiZabitoZvirat						= false;
+	public boolean			guiPocetSmrti						= false;
+	public boolean			antiSpamIsEnabled					= false;
+	public boolean			antiSpamDuplikaceIsEnabled			= false;
+	public boolean			rezervaceIsEnabled					= false;
+	public boolean			inventarIsEnabled					= false;
+	public boolean			managerBan							= false;
+	public boolean			jokesIsEnabled						= false;
+	public boolean			clearChat							= false;
+	public boolean			umrtiZpravyIsEnabled				= false;
+	public boolean			whiteListIsEnabled					= false;
+	public boolean			uvitaciZpravaIsEnabled				= false;
+	public boolean			autoZpravyIsEnabled					= false;
+	public boolean			warpIsEnabled						= false;
+	public boolean			msgIsEnabled						= false;
+	public boolean			herniRezimy							= false;
+	public List<String>		jokes;
+	public boolean			debug								= false;
+	public int				mysqlCas							= 0;
+	public int				jokesInterval						= 0;
+	public int				AntiSpamCas							= 0;
+	public int				vyhledavatAktualizaceCas			= 0;
+	public int				autoZpravyInterval					= 0;
+	public MySQL			mysql;
+	public ErrorManager		err;
+	public SchedulerManager	sm;
+	public String			version;
+	public FoE				plugin;
 	
-	public FeaturesManager(ConfigManager cm, Plugin plugin, MySQL mysql, List<String> jokes, String version) {
-		cm = this.cm;
-		plugin = this.plugin;
-		mysql = this.mysql;
+	public FeaturesManager(FoE plugin, MySQL mysql, List<String> jokes, String version) {
+		this.plugin = plugin;
 		err = new ErrorManager();
 		sm = new SchedulerManager(plugin);
-		jokes = this.jokes;
+		this.jokes = jokes;
 		this.version = version;
+		cm = new ConfigManager();
+		if (mysqlIsEnabled)
+			this.mysql = mysql;
 	}
 	
-	public FeaturesManager(ConfigManager cm, Plugin plugin) {
-		cm = this.cm;
-		plugin = this.plugin;
-	}
-	
-	public FeaturesManager(ConfigManager cm) {
-		cm = this.cm;
+	public FeaturesManager() {
+		cm = new ConfigManager();
 	}
 	
 	public void loadValues() {
-		cm.config = YamlConfiguration.loadConfiguration(cm.configFile);
 		
 		if (cm.config.getBoolean("debug"))
 			debug = true;
@@ -194,23 +188,23 @@ public class FeaturesManager {
 			nahranostIsEnabled = true;
 			if (Status(cm.config, "Nahranost.PrivitaciZprava.Povolit"))
 				nahranostPrivitaciZpravaIsEnabled = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.Tydny-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.Tydny-Povolit"))
 				guiTydny = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.Dny-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.Dny-Povolit"))
 				guiDny = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.Hodiny-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.Hodiny-Povolit"))
 				guiHodiny = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetHracu-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetHracu-Povolit"))
 				guiPocetHracu = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-Povolit"))
 				guiIconomy = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoHracu-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoHracu-Povolit"))
 				guiZabitoHracu = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoMobu-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit"))
 				guiZabitoMobu = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoZvirat-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit"))
 				guiZabitoZvirat = true;
-			if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetSmrti-IsEnabled"))
+			if (Status(cm.config, "Ostatni.Nahranost.GUI.PocetSmrti-Povolit"))
 				guiPocetSmrti = true;
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
@@ -220,7 +214,7 @@ public class FeaturesManager {
 					Bukkit.broadcastMessage("Nahranost: Registruji hrace: " + p.getName());
 			}
 		}
-		if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-IsEnabled")) {
+		if (Status(cm.config, "Ostatni.Nahranost.GUI.iConomy-Povolit")) {
 			System.out.println("Registruji event 'onHoldingsUpdate'");
 			Bukkit.getPluginManager().registerEvents(new onHoldingsUpdate(), plugin);
 			if (debug)
@@ -396,14 +390,14 @@ public class FeaturesManager {
 			if (debug)
 				Bukkit.broadcastMessage("WhiteListZprava byla povolena.");
 		}
-		if (Status(cm.config, "jokes.Povolit")) {
+		if (Status(cm.config, "Vtipy.Povolit")) {
 			System.out.println("Registruji prikaz '" + cm.config.getString("Prikazy.Vtip") + "'");
 			Bukkit.getServer().getPluginCommand("vtipcmd").setExecutor(new cmdVTIP());
 			if (debug)
 				Bukkit.broadcastMessage("vtipcmd byl zaregistrovan.");
 			jokesIsEnabled = true;
 			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://www.foe.frelania.eu/jokes.txt").openStream()));
+				BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://www.foe.frelania.eu/vtipy.txt").openStream()));
 				StringBuilder sb = new StringBuilder();
 				String line = br.readLine();
 				while (line != null) {

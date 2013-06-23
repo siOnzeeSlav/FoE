@@ -29,7 +29,7 @@ public class onPlayerLogin implements Listener {
 		cm = new ConfigManager();
 		err = new ErrorManager();
 		bm = new BanManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

@@ -17,7 +17,6 @@ public class FoE extends JavaPlugin {
 	public ErrorManager		err;
 	public FeaturesManager	fm;
 	public PlayerManager	pm;
-	public FoE				plugin;
 	public Replaces			replace;
 	public boolean			debug;
 	
@@ -31,7 +30,7 @@ public class FoE extends JavaPlugin {
 		pm = null;
 		bm = new BanManager();
 		jokes = new ArrayList<String>();
-		fm = new FeaturesManager(cm, plugin, mysql, jokes, version);
+		fm = new FeaturesManager(this, mysql, jokes, version);
 		debug = fm.debug;
 		replace = new Replaces(jokes);
 		if (cm.loaded) {

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import main.ConfigManager;
 import main.ErrorManager;
 import main.FeaturesManager;
+import main.FoE;
 import main.GUIManager;
 import main.MySQL;
 import main.PlayerManager;
@@ -16,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.Plugin;
 
 public class onJoin implements Listener {
 	public ConfigManager	cm;
@@ -25,24 +25,25 @@ public class onJoin implements Listener {
 	public GUIManager		gm;
 	public PlayerManager	pm;
 	public Replaces			replace;
-	public Plugin			plugin;
+	public FoE				plugin;
 	public MySQL			mysql;
 	
-	public onJoin(Plugin plugin) {
+	public onJoin(FoE plugin) {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 		gm = null;
 		pm = null;
 		replace = null;
-		plugin = this.plugin;
-		mysql = new MySQL();
+		this.plugin = plugin;
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	public onJoin() {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 		gm = null;
 		pm = null;
 		replace = null;

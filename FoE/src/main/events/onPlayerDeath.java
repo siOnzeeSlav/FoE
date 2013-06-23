@@ -16,7 +16,7 @@ public class onPlayerDeath implements Listener {
 	public onPlayerDeath() {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@EventHandler

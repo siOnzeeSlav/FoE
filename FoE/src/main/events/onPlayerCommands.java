@@ -15,7 +15,7 @@ public class onPlayerCommands implements Listener {
 	
 	public onPlayerCommands() {
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@EventHandler

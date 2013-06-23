@@ -17,10 +17,11 @@ public class BanManager {
 	public FeaturesManager		fm;
 	
 	public BanManager() {
-		mysql = new MySQL();
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
+		if (fm.mysqlIsEnabled)
+			mysql = new MySQL();
 	}
 	
 	public boolean isBanned(String playerName) {

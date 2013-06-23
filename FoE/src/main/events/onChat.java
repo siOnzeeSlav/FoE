@@ -37,7 +37,7 @@ public class onChat implements Listener {
 	public onChat() {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@EventHandler

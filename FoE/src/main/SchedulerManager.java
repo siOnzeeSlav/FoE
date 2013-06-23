@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class SchedulerManager {
 	
@@ -14,18 +13,18 @@ public class SchedulerManager {
 	public int				minutesLeft3	= 0;
 	public int				minutesLeft4	= 0;
 	public int				minutesLeft5	= 0;
-	public Plugin			plugin;
+	public FoE				plugin;
 	public Replaces			replace;
 	public ConfigManager	cm;
 	public ErrorManager		err;
 	public FeaturesManager	fm;
 	
-	public SchedulerManager(Plugin plugin) {
-		plugin = this.plugin;
+	public SchedulerManager(FoE plugin) {
+		this.plugin = plugin;
 		replace = new Replaces();
 		cm = new ConfigManager();
 		err = new ErrorManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	public void minute2() {

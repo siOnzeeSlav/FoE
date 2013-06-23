@@ -18,7 +18,7 @@ public class cmdVTIP implements CommandExecutor {
 	public cmdVTIP() {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@Override

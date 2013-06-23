@@ -23,7 +23,7 @@ public class onInventoryClick implements Listener {
 	public onInventoryClick() {
 		err = new ErrorManager();
 		cm = new ConfigManager();
-		fm = new FeaturesManager(cm);
+		fm = new FeaturesManager();
 	}
 	
 	@SuppressWarnings("deprecation")
