@@ -1,7 +1,6 @@
 package main.events;
 
 import main.ErrorManager;
-import main.FoE;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,11 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class onInventoryDrag implements Listener {
 	
-	public FoE			p;
-	public ErrorManager	err	= new ErrorManager();
+	public ErrorManager	err;
 	
 	public onInventoryDrag() {
-		this.p = plugin;
+		err = new ErrorManager();
 	}
 	
 	@SuppressWarnings("deprecation")

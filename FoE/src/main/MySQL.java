@@ -1,28 +1,26 @@
 package main;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 public class MySQL {
-	public Connection			con;
-	public Statement			sta;
-	public File					configFile	= new File("plugins/FoE/config.yml");
-	public YamlConfiguration	config		= YamlConfiguration.loadConfiguration(configFile);
-	public ErrorManager			err			= new ErrorManager();
-	public String				hostname	= config.getString("MySQL.hostname");
-	public String				database	= config.getString("MySQL.database");
-	public String				username	= config.getString("MySQL.username");
-	public String				password	= config.getString("MySQL.password");
-	public int					port		= config.getInt("MySQL.port");
+	public Connection		con;
+	public Statement		sta;
+	public ConfigManager	cm;
+	public ErrorManager		err;
+	public String			hostname	= cm.config.getString("MySQL.hostname");
+	public String			database	= cm.config.getString("MySQL.database");
+	public String			username	= cm.config.getString("MySQL.username");
+	public String			password	= cm.config.getString("MySQL.password");
+	public int				port		= cm.config.getInt("MySQL.port");
 	
 	public MySQL() {
 		try {
+			cm = new ConfigManager();
+			err = new ErrorManager();
 			con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, username, password);
 			sta = con.createStatement();
 		} catch (Exception e) {

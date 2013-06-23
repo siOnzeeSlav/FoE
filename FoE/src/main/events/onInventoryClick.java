@@ -1,7 +1,8 @@
 package main.events;
 
+import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,18 +16,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class onInventoryClick implements Listener {
 	
-	public FoE			p;
-	public ErrorManager	err	= new ErrorManager();
+	public ErrorManager		err;
+	public ConfigManager	cm;
+	public FeaturesManager	fm;
 	
 	public onInventoryClick() {
-		this.p = plugin;
+		err = new ErrorManager();
+		cm = new ConfigManager();
+		fm = new FeaturesManager(cm);
 	}
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
 		try {
-			if (p.inventarPovolit) {
+			if (fm.inventarIsEnabled) {
 				Inventory inv = event.getInventory();
 				String title = inv.getTitle();
 				String[] args = title.split(" ");

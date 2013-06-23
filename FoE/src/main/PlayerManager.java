@@ -3,6 +3,8 @@ package main;
 import java.io.File;
 import java.util.HashMap;
 
+import main.events.onJoin;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -113,6 +115,22 @@ public class PlayerManager {
 	public void registerPlayer() {
 		PlayerManager pm = new PlayerManager(playerName);
 		pm.playedTime.put(playerName, System.currentTimeMillis());
+	}
+	
+	public void unRegisterPlayer() {
+		try {
+			if (playedTime.containsKey(playerName)) {
+				loadPlayer();
+				long casPripojeni = playedTime.get(playerName), vConfigu = getPlayerPlayedTime(), vysledek = System.currentTimeMillis() - casPripojeni + vConfigu;
+				uziv.set("Nahrano", vysledek);
+				saveUser();
+				onJoin onjoin = new onJoin();
+				if (onjoin.fm.mysqlIsEnabled)
+					onjoin.MySQL_Nahranost(playerName);
+			}
+		} catch (Exception e) {
+			err.postError(e);
+		}
 	}
 	
 }

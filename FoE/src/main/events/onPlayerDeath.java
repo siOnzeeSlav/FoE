@@ -1,24 +1,28 @@
 package main.events;
 
+import main.ConfigManager;
 import main.ErrorManager;
-import main.FoE;
+import main.FeaturesManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class onPlayerDeath implements Listener {
-	public FoE			p;
-	public ErrorManager	err	= new ErrorManager();
+	public ErrorManager		err;
+	public ConfigManager	cm;
+	public FeaturesManager	fm;
 	
 	public onPlayerDeath() {
-		this.p = plugin;
+		err = new ErrorManager();
+		cm = new ConfigManager();
+		fm = new FeaturesManager(cm);
 	}
 	
 	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
 		try {
-			if (p.umrtiZpravyPovolit) {
+			if (fm.umrtiZpravyIsEnabled) {
 				event.setDeathMessage("");
 			}
 		} catch (Exception e) {

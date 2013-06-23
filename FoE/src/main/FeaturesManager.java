@@ -134,17 +134,17 @@ public class FeaturesManager {
 			Bukkit.broadcastMessage("onPlayerLogin byl zaregistrovan.");
 		
 		System.out.println("Registruji event 'onJoin'");
-		Bukkit.getPluginManager().registerEvents(new onJoin(), plugin);
+		Bukkit.getPluginManager().registerEvents(new onJoin(plugin), plugin);
 		if (debug)
 			Bukkit.broadcastMessage("onJoin byl zaregistrovan.");
 		
 		System.out.println("Registruji event 'onQuit'");
-		Bukkit.getPluginManager().registerEvents(new onQuit(), plugin);
+		Bukkit.getPluginManager().registerEvents(new onQuit(plugin), plugin);
 		if (debug)
 			Bukkit.broadcastMessage("onQuit byl zaregistrovan.");
 		
 		System.out.println("Registruji event 'onKick'");
-		Bukkit.getPluginManager().registerEvents(new onKick(), plugin);
+		Bukkit.getPluginManager().registerEvents(new onKick(plugin), plugin);
 		if (debug)
 			Bukkit.broadcastMessage("onKick byl zaregistrovan.");
 		
