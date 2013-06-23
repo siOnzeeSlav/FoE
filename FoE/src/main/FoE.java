@@ -27,10 +27,9 @@ public class FoE extends JavaPlugin {
 		cm.checkConfig();
 		cm.version(version);
 		err = new ErrorManager();
-		pm = null;
 		bm = new BanManager();
 		jokes = new ArrayList<String>();
-		fm = new FeaturesManager(this, mysql, jokes, version);
+		fm = new FeaturesManager(this, mysql, jokes);
 		debug = fm.debug;
 		replace = new Replaces(jokes);
 		if (cm.loaded) {

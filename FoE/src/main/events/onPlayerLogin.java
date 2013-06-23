@@ -36,7 +36,7 @@ public class onPlayerLogin implements Listener {
 	public void onLogin(PlayerLoginEvent event) {
 		String playerName = event.getPlayer().getName();
 		try {
-			replace = new Replaces(playerName);
+			replace = new Replaces(event.getPlayer());
 			pm = new PlayerManager(playerName);
 			if (fm.whiteListIsEnabled) {
 				if (event.getResult() == Result.KICK_WHITELIST) {

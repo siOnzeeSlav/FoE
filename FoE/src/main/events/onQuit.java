@@ -29,9 +29,6 @@ public class onQuit implements Listener {
 		err = new ErrorManager();
 		cm = new ConfigManager();
 		fm = new FeaturesManager();
-		pm = null;
-		gm = null;
-		replace = null;
 		this.plugin = plugin;
 		if (fm.mysqlIsEnabled)
 			mysql = new MySQL();

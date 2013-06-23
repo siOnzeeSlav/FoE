@@ -102,12 +102,12 @@ public class FeaturesManager {
 	public String			version;
 	public FoE				plugin;
 	
-	public FeaturesManager(FoE plugin, MySQL mysql, List<String> jokes, String version) {
+	public FeaturesManager(FoE plugin, MySQL mysql, List<String> jokes) {
 		this.plugin = plugin;
 		err = new ErrorManager();
 		sm = new SchedulerManager(plugin);
 		this.jokes = jokes;
-		this.version = version;
+		version = plugin.getDescription().getVersion();
 		cm = new ConfigManager();
 		if (mysqlIsEnabled)
 			this.mysql = mysql;

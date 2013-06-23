@@ -44,9 +44,6 @@ public class onJoin implements Listener {
 		err = new ErrorManager();
 		cm = new ConfigManager();
 		fm = new FeaturesManager();
-		gm = null;
-		pm = null;
-		replace = null;
 	}
 	
 	public void delayedJoin(PlayerJoinEvent event) {
