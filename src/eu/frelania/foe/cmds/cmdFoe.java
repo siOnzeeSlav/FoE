@@ -24,10 +24,15 @@ public class cmdFoe implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("foe") && args.length < 1) {
-			sender.sendMessage("--- " + ChatColor.GREEN + "Fundamentals of Elements" + ChatColor.WHITE + " ---");
-			cmd(sender, "Verze pluginu:", foe.getDescription().getVersion());
-			cmd(sender, "Verze online:", getOnlineVersion());
+			sender.sendMessage("    _______________________");
+			sender.sendMessage("---                         ---");
+			sender.sendMessage("    " + ChatColor.GREEN + "Fundamentals of Elements");
+			cmd(sender, "    Verze pluginu:", foe.getDescription().getVersion());
+			cmd(sender, "    Verze online:", getOnlineVersion());
+			sender.sendMessage("___                         ___");
+			sender.sendMessage("    -----------------------   ");
 			cmd(sender, "/foe", "Prikaz ktery zobrazi napovedu pro plugin FoE.");
+			cmd(sender, "/clear", "Prikaz ktery vycisti chat.");
 		} else if (cmd.getName().equalsIgnoreCase("foe") && args.length > 0) {
 			sender.sendMessage("Prikaz foe nepodporuje vice argumentu!");
 		}
