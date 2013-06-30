@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.frelania.foe.cmds.cmdClear;
 import eu.frelania.foe.cmds.cmdFoe;
 
 public class FoE extends JavaPlugin {
@@ -62,8 +63,10 @@ public class FoE extends JavaPlugin {
 	}
 	
 	public void loadCommands() {
-		Bukkit.getPluginCommand("foe").setExecutor(new cmdFoe());
+		Bukkit.getPluginCommand("foe").setExecutor(new cmdFoe(this));
 		logDebug("Prikaz FoE byl nacten.");
 		
+		Bukkit.getPluginCommand("cmdclear").setExecutor(new cmdClear());
+		logDebug("Prikaz Clear byl nacten.");
 	}
 }
