@@ -34,7 +34,6 @@ public class FeaturesManager {
 	public boolean featureChatOffChat = false;
 	public boolean featureChatCapsLock = false;
 	public boolean featureUpdater = false;
-	public boolean featurePlayedTimeGui = false;
 	public boolean featureTP = false;
 	public boolean featureSlotsReservation = false;
 	public boolean featureInventory = false;
@@ -46,6 +45,16 @@ public class FeaturesManager {
 	public boolean featureMsg = false;
 	public boolean featureGamemode = false;
 	public boolean featureHelp = false;
+	public boolean featureGui = false;
+	public boolean guiWeeks = false;
+	public boolean guiDays = false;
+	public boolean guiHours = false;
+	public boolean guiPlayers = false;
+	public boolean guiKilledPlayers = false;
+	public boolean guiKilledMobs = false;
+	public boolean guiKilledAnimals = false;
+	public boolean guiDeaths = false;
+	public boolean guiIConomy = false;
 
 	public FeaturesManager(FoE plugin, List<String> jokes) {
 		foe = plugin;
@@ -74,7 +83,6 @@ public class FeaturesManager {
 		Bukkit.getPluginManager().registerEvents(new OnEntityDeath(foe), foe);
 		foe.logDebug("Event OnEntityDeath zasegistrovan");
 
-		
 		/**
 		 * Naètení DB, pokud je povolena
 		 */
@@ -109,7 +117,16 @@ public class FeaturesManager {
 
 		if (status("updater.povolit")) featureUpdater = true;
 
-		if (status("nahrano.gui.povolit")) featurePlayedTimeGui = true;
+		if (status("nahrano.gui.povolit")) featureGui = true;
+		if (status("nahrano.gui.tydny.zobrazit")) guiWeeks = true;
+		if (status("nahrano.gui.dny.zobrazit")) guiDays = true;
+		if (status("nahrano.gui.hodiny.zobrazit")) guiHours = true;
+		if (status("nahrano.gui.pocetHracu.zobrazit")) guiPlayers = true;
+		if (status("nahrano.gui.zabitoHracu.zobrazit")) guiKilledPlayers = true;
+		if (status("nahrano.gui.zabitoMobu.zobrazit")) guiKilledMobs = true;
+		if (status("nahrano.gui.zabitoZvirat.zobrazit")) guiKilledAnimals = true;
+		if (status("nahrano.gui.pocetSmrti.zobrazit")) guiDeaths = true;
+		if (status("nahrano.gui.iConomy.zobrazit")) guiIConomy = true;
 
 		if (status("teleport.povolit")) featureTP = true;
 

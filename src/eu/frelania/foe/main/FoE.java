@@ -13,14 +13,14 @@ import eu.frelania.foe.cmds.cmdClear;
 import eu.frelania.foe.cmds.cmdFoe;
 
 public class FoE extends JavaPlugin {
-	
-	private final List<String>				jokes		= new ArrayList<String>();
-	private ConfigManager					configManager;
-	private FeaturesManager					featuresManager;
-	private ErrorManager					errorManager;
-	public boolean							debugMode	= false;
-	public HashMap<String, PlayerManager>	joinedUsers;
-	
+
+	private final List<String> jokes = new ArrayList<String>();
+	private ConfigManager configManager;
+	private FeaturesManager featuresManager;
+	private ErrorManager errorManager;
+	public boolean debugMode = false;
+	public HashMap<String, PlayerManager> joinedUsers;
+
 	@Override
 	public void onEnable() {
 		joinedUsers = new HashMap<String, PlayerManager>();
@@ -28,7 +28,7 @@ public class FoE extends JavaPlugin {
 		configManager = new ConfigManager(this);
 		configManager.setVersion(getDescription().getVersion());
 		featuresManager = new FeaturesManager(this, jokes);
-		
+
 		for (Player player : getServer().getOnlinePlayers()) {
 			PlayerManager pm = new PlayerManager(this, player);
 			pm.loadPlayer();
@@ -36,7 +36,7 @@ public class FoE extends JavaPlugin {
 		}
 		loadCommands();
 	}
-	
+
 	@Override
 	public void onDisable() {
 		for (PlayerManager player : joinedUsers.values()) {
@@ -44,24 +44,23 @@ public class FoE extends JavaPlugin {
 		}
 		Bukkit.getScheduler().cancelAllTasks();
 	}
-	
+
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
-	
+
 	public FeaturesManager getFeaturesManager() {
 		return featuresManager;
 	}
-	
+
 	public ErrorManager getErrorMananger() {
 		return errorManager;
 	}
-	
+
 	public void logDebug(String msg) {
-		if (debugMode)
-			getLogger().log(Level.FINE, msg);
+		if (debugMode) getLogger().log(Level.FINE, msg);
 	}
-	
+
 	public void loadCommands() {
 		Bukkit.getPluginCommand("foe").setExecutor(new cmdFoe(this));
 		logDebug("Prikaz FoE byl nacten.");

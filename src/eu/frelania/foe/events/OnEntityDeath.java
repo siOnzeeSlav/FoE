@@ -2,7 +2,6 @@ package eu.frelania.foe.events;
 
 import java.io.IOException;
 import java.util.logging.Level;
-
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -18,7 +17,7 @@ import eu.frelania.foe.utils.Replace;
 
 public class OnEntityDeath implements Listener {
 	
-	private final FoE	foe;
+	private FoE	foe;
 	
 	public OnEntityDeath(FoE plugin) {
 		foe = plugin;
@@ -53,7 +52,7 @@ public class OnEntityDeath implements Listener {
 					killer = ((EntityDamageByEntityEvent) entityDamagerEvent).getDamager();
 				}
 				if (killer != null) {
-					// Hrace zabila jina entita
+					// Hraèe zabila jina entita
 					if (killer instanceof Player) {
 						// Hráè zabit jiným hráèem
 						foe.joinedUsers.get(player.getKiller().getName()).hasKilledPlayer();

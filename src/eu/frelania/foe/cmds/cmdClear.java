@@ -10,6 +10,9 @@ public class cmdClear implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("cmdclear") && args.length < 1) {
+			if (!sender.hasPermission("FoE.vycistitChat")) {
+				return true;
+			}
 			for (int i = 0; i < 100; i++) {
 				Bukkit.broadcastMessage("");
 			}

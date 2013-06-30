@@ -148,7 +148,7 @@ commands:
     helpcmd:
       description: FoE CMD
       permission: FoE.HELP
-    clearcmd:
+    cmdclear:
       description: FoE CMD
       permission: FoE.Clear
     vtipcmd:

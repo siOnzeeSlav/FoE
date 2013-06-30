@@ -36,13 +36,13 @@ public class ConfigManager {
 		if (!config.contains("prikazy.help")) config.set("prikazy.help", "/help");
 		if (!config.contains("prikazy.nahrano")) config.set("prikazy.nahrano", "/inf");
 		if (!config.contains("prikazy.inventar")) config.set("prikazy.inventar", "/inv");
-		if (!config.contains("prikazy.teleport.pozadavek")) config.set("prikazy.teleport.request", "/teleport");
-		if (!config.contains("prikazy.teleport.potvrdit")) config.set("prikazy.teleport.accept", "/yop");
-		if (!config.contains("prikazy.teleport.zamitnout")) config.set("prikazy.teleport.reject", "/nope");
-		if (!config.contains("prikazy.oznamit")) config.set("prikazy.broadcast", "/oznamit");
-		if (!config.contains("prikazy.vtip")) config.set("prikazy.joke", "/vtip");
+		if (!config.contains("prikazy.teleport.pozadavek")) config.set("prikazy.teleport.pozadavek", "/teleport");
+		if (!config.contains("prikazy.teleport.potvrdit")) config.set("prikazy.teleport.potvrdit", "/ano");
+		if (!config.contains("prikazy.teleport.zamitnout")) config.set("prikazy.teleport.zamitnout", "/ne");
+		if (!config.contains("prikazy.oznamit")) config.set("prikazy.oznamit", "/oznamit");
+		if (!config.contains("prikazy.vtip")) config.set("prikazy.vtip", "/vtip");
 		if (!config.contains("prikazy.warp")) config.set("prikazy.warp", "/warp");
-		if (!config.contains("prikazy.msg")) config.set("prikazy.zprava", "/msg");
+		if (!config.contains("prikazy.zprava")) config.set("prikazy.zprava", "/msg");
 		if (!config.contains("prikazy.gamemode.creative")) config.set("prikazy.gamemode.creative", "/c");
 		if (!config.contains("prikazy.gamemode.survival")) config.set("prikazy.gamemode.survival", "/s");
 
@@ -103,10 +103,6 @@ public class ConfigManager {
 		if (!deathMsgs.contains("smrt.monster.Giant")) deathMsgs.set("smrt.monster.giant", "&4{JMENO} &8byl zabit &4obrem&8.");
 		if (!deathMsgs.contains("smrt.monster.CaveSpider")) deathMsgs.set("smrt.monster.cavespider", "&4{JMENO} &8byl zabit &4pavoukem&8.");
 
-		if (!config.contains("nahrano.povolit")) config.set("nahrano.povolit", "ano");
-		if (!config.contains("nahrano.uvitaciZprava.povolit")) config.set("nahrano.uvitaciZprava.povolit", "ne");
-		if (!config.contains("nahrano.uvitaciZprava.zprava")) config.set("nahrano.uvitaciZprava.zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnu, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
-
 		if (!config.contains("chat.uvitaciZprava.povolit")) config.set("chat.uvitaciZprava.povolit", "ano");
 		if (!config.contains("chat.uvitaciZprava.zprava")) {
 			List<String> a = new ArrayList<String>();
@@ -151,7 +147,7 @@ public class ConfigManager {
 			d.add("debil");
 			d.add("kokot");
 			d.add("curak");
-			config.set("chat.cenzura.words", d);
+			config.set("chat.cenzura.slovnik", d);
 		}
 
 		if (!config.contains("chat.gramatika.povolit")) config.set("chat.gramatika.povolit", "ano");
@@ -180,10 +176,13 @@ public class ConfigManager {
 		if (!config.contains("updater.povolit")) config.set("updater.povolit", "ano");
 		if (!config.contains("updater.vyhledatAktualizace")) config.set("updater.vyhledatAktualizace", 10);
 
+		if (!config.contains("nahrano.povolit")) config.set("nahrano.povolit", "ano");
+		if (!config.contains("nahrano.uvitaciZprava.povolit")) config.set("nahrano.uvitaciZprava.povolit", "ne");
+		if (!config.contains("nahrano.uvitaciZprava.zprava")) config.set("nahrano.uvitaciZprava.zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnu, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
 		if (!config.contains("nahrano.gui.povolit")) config.set("nahrano.gui.povolit", "ano");
 		if (!config.contains("nahrano.gui.nadpis")) config.set("nahrano.gui.nadpis", "&4F&8o&4E");
-		if (!config.contains("nahrano.gui.tydnu.zprava")) config.set("nahrano.gui.tydnu.zprava", "Nahrano Tydnu:");
-		if (!config.contains("nahrano.gui.tydnu.zobrazit")) config.set("nahrano.gui.tydnu.zobrazit", "ano");
+		if (!config.contains("nahrano.gui.tydny.zprava")) config.set("nahrano.gui.tydnu.zprava", "Nahrano Tydnu:");
+		if (!config.contains("nahrano.gui.tydny.zobrazit")) config.set("nahrano.gui.tydnu.zobrazit", "ano");
 		if (!config.contains("nahrano.gui.dny.zprava")) config.set("nahrano.gui.dny.zprava", "Nahrano Dnu:");
 		if (!config.contains("nahrano.gui.dny.zobrazit")) config.set("nahrano.gui.dny.zobrazit", "ano");
 		if (!config.contains("nahrano.gui.hodiny.zprava")) config.set("nahrano.gui.hodiny.zprava", "Nahrano Hodin:");
@@ -205,9 +204,9 @@ public class ConfigManager {
 		if (!config.contains("teleport.pozadavky")) config.set("teleport.pozadavky", "ano");
 		if (!config.contains("teleport.tpKdyzNeniOnline")) config.set("teleport.tpKdyzNeniOnline", "ne");
 		if (!config.contains("teleport.zprava.uspech")) config.set("teleport.zprava.uspech", "&4uspesne &8jste se teleportoval k &4{JMENO}");
-		if (!config.contains("teleport.zprava.uspech")) config.set("teleport.zprava.uspechOffline", "&4uspesne &8jste se teleportoval k poslední pozici &4{JMENO}");
+		if (!config.contains("teleport.zprava.uspechOffline")) config.set("teleport.zprava.uspechOffline", "&4uspesne &8jste se teleportoval k poslední pozici &4{JMENO}");
 		if (!config.contains("teleport.zprava.hracOffline")) config.set("teleport.zprava.hracOffline", "&4Hrac {JMENO} &8neni online! Zkusime najit jeho posledni pozici.");
-		if (!config.contains("teleport.zprava.hracovaPoziceNeulozena")) config.set("teleport.zprava.NeniZaznamenan", "&8Litujeme, ale nenašli jsme poslední polohu &4{JMENO}&8.");
+		if (!config.contains("teleport.zprava.hracovaPoziceNeulozena")) config.set("teleport.zprava.hracovaPoziceNeulozena", "&8Litujeme, ale nenašli jsme poslední polohu &4{JMENO}&8.");
 
 		if (!config.contains("rezervaceMist.povolit")) config.set("rezervaceMist.povolit", "ano");
 		if (!config.contains("rezervaceMist.nechatVyhrazenoSlotu")) config.set("rezervaceMist.nechatVyhrazenoSlotu", 0);

@@ -31,7 +31,7 @@ public class cmdFoe implements CommandExecutor {
 			cmd(sender, "    Verze online:", getOnlineVersion());
 			sender.sendMessage("___                         ___");
 			sender.sendMessage("    -----------------------   ");
-			cmd(sender, "/foe", "Prikaz ktery zobrazi napovedu pro plugin FoE.");
+			sender.sendMessage(ChatColor.GREEN + "/foe" + ChatColor.WHITE + "  --  " + ChatColor.GOLD + "Prikaz ktery zobrazi napovedu pro plugin FoE.");
 			cmd(sender, "prikazy.chat.adminChat", "Prikaz ktery umozni komunikovat pouze s adminy.");
 			cmd(sender, "prikazy.chat.vycistitChat", "Prikaz ktery vycisti chat.");
 			cmd(sender, "prikazy.chat.vypnoutChat", "Prikaz ktery umozni vypnout chat hracum.");

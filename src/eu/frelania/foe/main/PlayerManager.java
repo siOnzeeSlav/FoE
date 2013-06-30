@@ -14,6 +14,7 @@ public class PlayerManager {
 	public Player player;
 	public String playerName;
 	private long joinedTime;
+	private GuiManager guiManager;
 
 	public PlayerManager(FoE plugin, Player player) {
 		foe = plugin;
@@ -43,6 +44,10 @@ public class PlayerManager {
 		if (!userConfig.contains("stats.zabito.hracu")) userConfig.set("stats.zabito.hracu", 0);
 		if (!userConfig.contains("stats.zabito.monster")) userConfig.set("stats.zabito.monster", 0);
 		if (!userConfig.contains("stats.zabito.zvirat")) userConfig.set("stats.zabito.zvirat", 0);
+		
+		if(foe.getFeaturesManager().featureGui){
+			guiManager = new GuiManager(foe, this);
+		}
 
 		saveUser();
 	}
@@ -78,29 +83,65 @@ public class PlayerManager {
 	}
 
 	public void hasDied() {
-		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasDied() - Player: " + player.getName() + ", nove skore: " + userConfig.getInt("stats.smrti") + 1);
-		userConfig.set("stats.smrti", userConfig.getInt("stats.smrti") + 1);
+		int newScore = userConfig.getInt("stats.smrti") + 1;
+		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasDied() - Player: " + player.getName() + ", nove skore: " + newScore);
+		userConfig.set("stats.smrti", newScore);
+		
+		if(guiManager != null && guiManager.guiDeaths != null){
+			guiManager.guiDeaths.setScore(newScore);
+		}
 	}
 
 	public void hasKilledPlayer() {
-		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledPlayer() - Player: " + player.getName() + ", nove skore: " + userConfig.getInt("stats.zabito.hracu") + 1);
-		userConfig.set("stats.zabito.hracu", userConfig.getInt("stats.zabito.hracu") + 1);
+		int newScore = userConfig.getInt("stats.zabito.hracu") + 1;
+		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledPlayer() - Player: " + player.getName() + ", nove skore: " + newScore);
+		userConfig.set("stats.zabito.hracu", newScore);
+		
+		if(guiManager != null && guiManager.guiKilledPlayers != null){
+			guiManager.guiKilledPlayers.setScore(newScore);
+		}
 	}
 
 	public void hasKilledMonster() {
-		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledMonster() - Player: " + player.getName() + ", nove skore: " + userConfig.getInt("stats.zabito.monster") + 1);
-		userConfig.set("stats.zabito.monster", userConfig.getInt("stats.zabito.monster") + 1);
+		int newScore = userConfig.getInt("stats.zabito.monster") + 1;
+		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledMonster() - Player: " + player.getName() + ", nove skore: " + newScore);
+		userConfig.set("stats.zabito.monster", newScore);
+		
+		if(guiManager != null && guiManager.guiKilledMobs != null){
+			guiManager.guiKilledMobs.setScore(newScore);
+		}
 	}
 
 	public void hasKilledAnimal() {
-		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledAnimal() - Player: " + player.getName() + ", nove skore: " + userConfig.getInt("stats.zabito.zvirat") + 1);
-		userConfig.set("stats.zabito.zvirat", userConfig.getInt("stats.zabito.zvirat") + 1);
+		int newScore = userConfig.getInt("stats.zabito.zvirat") + 1;
+		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledAnimal() - Player: " + player.getName() + ", nove skore: " + newScore);
+		userConfig.set("stats.zabito.zvirat", newScore);
+		
+		if(guiManager != null && guiManager.guiKilledAnimals != null){
+			guiManager.guiKilledAnimals.setScore(newScore);
+		}
 	}
 
 	public int getPlayedTime() {
 		saveNewPlayedTime();
 
 		return userConfig.getInt("stats.nahrano");
+	}
+
+	public int getKilledPlayers() {
+		return userConfig.getInt("stats.zabito.hracu");
+	}
+
+	public int getKilledMobs() {
+		return userConfig.getInt("stats.zabito.monster");
+	}
+
+	public int getKilledAnimals() {
+		return userConfig.getInt("stats.zabito.zvirat");
+	}
+
+	public int getDeaths() {
+		return userConfig.getInt("stats.smrti");
 	}
 
 }
