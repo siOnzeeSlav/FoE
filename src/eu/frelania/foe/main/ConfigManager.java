@@ -35,7 +35,7 @@ public class ConfigManager {
 		if (!config.contains("prikazy.manager.kick")) config.set("prikazy.manager.kick", "/kick");
 		if (!config.contains("prikazy.help")) config.set("prikazy.help", "/help");
 		if (!config.contains("prikazy.nahrano")) config.set("prikazy.nahrano", "/inf");
-		if (!config.contains("prikazy.inventar")) config.set("prikazy.inventory", "/inv");
+		if (!config.contains("prikazy.inventar")) config.set("prikazy.inventar", "/inv");
 		if (!config.contains("prikazy.teleport.pozadavek")) config.set("prikazy.teleport.request", "/teleport");
 		if (!config.contains("prikazy.teleport.potvrdit")) config.set("prikazy.teleport.accept", "/yop");
 		if (!config.contains("prikazy.teleport.zamitnout")) config.set("prikazy.teleport.reject", "/nope");
