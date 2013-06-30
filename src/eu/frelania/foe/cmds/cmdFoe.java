@@ -32,7 +32,17 @@ public class cmdFoe implements CommandExecutor {
 			sender.sendMessage("___                         ___");
 			sender.sendMessage("    -----------------------   ");
 			cmd(sender, "/foe", "Prikaz ktery zobrazi napovedu pro plugin FoE.");
-			cmd(sender, "/clear", "Prikaz ktery vycisti chat.");
+			cmd(sender, "prikazy.chat.adminChat", "Prikaz ktery umozni komunikovat pouze s adminy.");
+			cmd(sender, "prikazy.chat.vycistitChat", "Prikaz ktery vycisti chat.");
+			cmd(sender, "prikazy.chat.vypnoutChat", "Prikaz ktery umozni vypnout chat hracum.");
+			cmd(sender, "prikazy.chat.cenzura", "Prikaz pres ktery muzeme upravit cenzurni zasobu.");
+			cmd(sender, "prikazy.chat.gramatika", "Prikaz pres ktery muzeme upravit gramatickou zasobu.");
+			cmd(sender, "prikazy.manager.ban", "Prikaz ktery zablokuje pristup hraci na server.");
+			cmd(sender, "prikazy.manager.unban", "Prikaz ktery povoli pristup hraci na serveru.");
+			cmd(sender, "prikazy.manager.kick", "Prikaz ktery vyhodi hrace ze serveru.");
+			cmd(sender, "prikazy.help", "Prikaz ktery umozni oslovit vsechny adminy soukromou zpravou.");
+			cmd(sender, "prikazy.nahrano", "Prikaz ktery umozni zobrazit ktery hrac tu jak dlouho hraje.");
+			cmd(sender, "prikazy.inventar", "Prikaz ktery zobrazi hracuv inventar.");
 		} else if (cmd.getName().equalsIgnoreCase("foe") && args.length > 0) {
 			sender.sendMessage("Prikaz foe nepodporuje vice argumentu!");
 		}
@@ -40,7 +50,7 @@ public class cmdFoe implements CommandExecutor {
 	}
 	
 	public void cmd(CommandSender sender, String cmd, String info) {
-		sender.sendMessage(ChatColor.GREEN + cmd + ChatColor.WHITE + "  --  " + ChatColor.GOLD + info);
+		sender.sendMessage(ChatColor.GREEN + foe.getConfigManager().config.getString(cmd) + ChatColor.WHITE + "  --  " + ChatColor.GOLD + info);
 	}
 	
 	public String getOnlineVersion() {
