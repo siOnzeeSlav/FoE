@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/bukkit-1.5.2-R1.0.jar"/>
+	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/iConomy.jar"/>
+	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/minecraft_server.jar"/>
+	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/spigot-1.5.2-R1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
