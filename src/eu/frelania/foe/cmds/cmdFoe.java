@@ -27,8 +27,8 @@ public class cmdFoe implements CommandExecutor {
 			sender.sendMessage("    _______________________");
 			sender.sendMessage("---                         ---");
 			sender.sendMessage("    " + ChatColor.GREEN + "Fundamentals of Elements");
-			cmd(sender, "    Verze pluginu:", foe.getDescription().getVersion());
-			cmd(sender, "    Verze online:", getOnlineVersion());
+			sender.sendMessage(ChatColor.GREEN + "    Verze pluginu:" + ChatColor.WHITE + "  --  " + ChatColor.GOLD + foe.getDescription().getVersion());
+			sender.sendMessage(ChatColor.GREEN + "    Verze online:" + ChatColor.WHITE + "  --  " + ChatColor.GOLD + getOnlineVersion());
 			sender.sendMessage("___                         ___");
 			sender.sendMessage("    -----------------------   ");
 			sender.sendMessage(ChatColor.GREEN + "/foe" + ChatColor.WHITE + "  --  " + ChatColor.GOLD + "Prikaz ktery zobrazi napovedu pro plugin FoE.");
