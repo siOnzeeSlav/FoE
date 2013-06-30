@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import eu.frelania.foe.events.*;
 import eu.frelania.foe.utils.MySQL;
+import eu.frelania.foe.events.*;
 
 public class FeaturesManager {
 
@@ -67,6 +67,12 @@ public class FeaturesManager {
 
 		Bukkit.getPluginManager().registerEvents(new OnPlayerQuit(foe), foe);
 		foe.logDebug("Event OnPlayerQuit zasegistrovan");
+
+		Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(foe), foe);
+		foe.logDebug("Event OnPlayerDeath zasegistrovan");
+
+		Bukkit.getPluginManager().registerEvents(new OnEntityDeath(foe), foe);
+		foe.logDebug("Event OnEntityDeath zasegistrovan");
 
 		
 		/**
@@ -130,12 +136,12 @@ public class FeaturesManager {
 
 		if (status("help.povolit")) featureHelp = true;
 
-		if (status("prevestConfig")) {
+		if (status("ostatni.prevestConfig")) {
 			// TODO: Aktualizace configu
-			foe.getConfigManager().config.set("prevestConfig", "ne");
+			foe.getConfigManager().config.set("ostatni.prevestConfig", "ne");
 		}
 
-		foe.getLogger().log(Level.INFO, "Configuration successfully loaded!");
+		foe.getLogger().log(Level.INFO, "Nastaveni uspesne nacteno!");
 
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoE extends JavaPlugin {
@@ -24,6 +25,12 @@ public class FoE extends JavaPlugin {
 		configManager = new ConfigManager(this);
 		configManager.setVersion(getDescription().getVersion());
 		featuresManager = new FeaturesManager(this, jokes);
+		
+		for(Player player : getServer().getOnlinePlayers()){
+			PlayerManager pm = new PlayerManager(this, player);
+			pm.loadPlayer();
+			joinedUsers.put(player.getName(), pm);
+		}
 	}
 
 	@Override

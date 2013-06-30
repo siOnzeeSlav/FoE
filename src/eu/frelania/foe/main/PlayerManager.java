@@ -38,7 +38,7 @@ public class PlayerManager {
 		userConfig.set("login.ip", player.getAddress().toString());
 		if (!userConfig.contains("ban.zabanovan")) userConfig.set("ban.zabanovan", false);
 		if (!userConfig.contains("ban.duvod")) userConfig.set("ban.duvod", "");
-		if (!userConfig.contains("stats.nahrano")) userConfig.set("stats.nahrano", 0L);
+		if (!userConfig.contains("stats.nahrano")) userConfig.set("stats.nahrano", 0);
 		if (!userConfig.contains("stats.smrti")) userConfig.set("stats.smrti", 0);
 		if (!userConfig.contains("stats.zabito.hracu")) userConfig.set("stats.zabito.hracu", 0);
 		if (!userConfig.contains("stats.zabito.monster")) userConfig.set("stats.zabito.monster", 0);
@@ -68,10 +68,13 @@ public class PlayerManager {
 	}
 
 	private void saveNewPlayedTime() {
-		Long total = ((System.currentTimeMillis() / 1000) - joinedTime) + userConfig.getLong("stats.nahrano");
-
-		joinedTime = System.currentTimeMillis();
-		userConfig.set("stats.nahrano", total);
+		long nowTime = System.currentTimeMillis() / 1000;
+		if (joinedTime < nowTime) {
+			if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.saveNewPlayedTime() - Player: " + player.getName() + ", playedTime: " + userConfig.getInt("stats.nahrano") + ", now: " + nowTime);
+			long total = (System.currentTimeMillis() / 1000 - joinedTime) + userConfig.getInt("stats.nahrano");
+			joinedTime = System.currentTimeMillis();
+			userConfig.set("stats.nahrano", total);
+		}
 	}
 
 	public void hasDied() {
@@ -92,6 +95,12 @@ public class PlayerManager {
 	public void hasKilledAnimal() {
 		if (foe.debugMode) foe.getLogger().log(Level.FINE, "PlayerManager.hasKilledAnimal() - Player: " + player.getName() + ", nove skore: " + userConfig.getInt("stats.zabito.zvirat") + 1);
 		userConfig.set("stats.zabito.zvirat", userConfig.getInt("stats.zabito.zvirat") + 1);
+	}
+
+	public int getPlayedTime() {
+		saveNewPlayedTime();
+
+		return userConfig.getInt("stats.nahrano");
 	}
 
 }

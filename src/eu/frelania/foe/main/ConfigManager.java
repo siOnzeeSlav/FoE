@@ -66,6 +66,7 @@ public class ConfigManager {
 		if (!config.contains("kdyzSeHrac.kick.zprava")) config.set("kdyzSeHrac.kick.zprava", "&4{NICK}&8 byl vykopnut!");
 
 		if (!config.contains("smrt.povolitVlastniZpravy")) config.set("smrt.povolitVlastniZpravy", "ano");
+		if (!deathMsgs.contains("smrt.hrac")) deathMsgs.set("smrt.hrac", "&4{TARGET} &8byl zabit &4{JMENO} &8s predmetem &4{ITEM}&8.");
 		if (!deathMsgs.contains("smrt.sebevrazda.block_explosion")) deathMsgs.set("smrt.sebevrazda.block_explosion", "&4{JMENO} &8zabil vybuch.");
 		if (!deathMsgs.contains("smrt.sebevrazda.drowning")) deathMsgs.set("smrt.sebevrazda.drowning", "&4{JMENO} &8se utopil.");
 		if (!deathMsgs.contains("smrt.sebevrazda.fall")) deathMsgs.set("smrt.sebevrazda.fall", "&4{JMENO} &8spadl z vysky.");
@@ -103,14 +104,19 @@ public class ConfigManager {
 		if (!deathMsgs.contains("smrt.monster.CaveSpider")) deathMsgs.set("smrt.monster.cavespider", "&4{JMENO} &8byl zabit &4pavoukem&8.");
 
 		if (!config.contains("nahrano.povolit")) config.set("nahrano.povolit", "ano");
-		if (!config.contains("nahrano.uvitaciZprava.povolit")) config.set("nahrano.uvitaciZprava.povolit", "ano");
+		if (!config.contains("nahrano.uvitaciZprava.povolit")) config.set("nahrano.uvitaciZprava.povolit", "ne");
 		if (!config.contains("nahrano.uvitaciZprava.zprava")) config.set("nahrano.uvitaciZprava.zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnu, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
 
 		if (!config.contains("chat.uvitaciZprava.povolit")) config.set("chat.uvitaciZprava.povolit", "ano");
-		if (!config.contains("chat.uvitaciZprava.zprava")) config.set("chat.uvitaciZprava.zprava", "&4Vitej {JMENO}&8 doufame ze se ti u nas na serveru bude libit.");
+		if (!config.contains("chat.uvitaciZprava.zprava")) {
+			List<String> a = new ArrayList<String>();
+			a.add("&4Vitej {JMENO}&8 doufame ze se ti u nas na serveru bude libit.");
+			a.add("&8Jiz jsi zde stravil &7{NAHRANO}");
+			config.set("chat.uvitaciZprava.zprava", a);
+		}
 
 		if (!config.contains("chat.vycistitChat.povolit")) config.set("chat.vycistitChat.povolit", "ano");
-		
+
 		if (!config.contains("chat.adminChat.povolit")) config.set("chat.adminChat.povolit", "ano");
 		if (!config.contains("chat.adminChat.zprava")) config.set("chat.adminChat.zprava", "&8[&4AdminChat&8] &e{JMENO}:&4{ZPRAVA}");
 
@@ -118,16 +124,16 @@ public class ConfigManager {
 		if (!config.contains("chat.antiReklama.link.zprava")) config.set("chat.antiReklama.link.zprava", "&4{JMENO}&8 byl banovan za reklamu na web!");
 		if (!config.contains("chat.antiReklama.link.provest")) config.set("chat.antiReklama.link.provest", "");
 		if (!config.contains("chat.antiReklama.link.whitelist")) {
-			List<String> d = new ArrayList<String>();
-			d.add("www.frelania.eu");
-			config.set("antiReklama.link.whitelist", d);
+			List<String> b = new ArrayList<String>();
+			b.add("www.frelania.eu");
+			config.set("antiReklama.link.whitelist", b);
 		}
 		if (!config.contains("chat.antiReklama.ip.zprava")) config.set("chat.antiReklama.ip.zprava", "&4{JMENO}&8 byl banovan za IP reklamu!");
 		if (!config.contains("chat.antiReklama.ip.provest")) config.set("chat.antiReklama.ip.provest", "");
 		if (!config.contains("chat.antiReklama.ip.whitelist")) {
-			List<String> e = new ArrayList<String>();
-			e.add("93.91.250.111:27887");
-			config.set("AntiReklama.ip.whitelist", e);
+			List<String> c = new ArrayList<String>();
+			c.add("93.91.250.111:27887");
+			config.set("AntiReklama.ip.whitelist", c);
 		}
 
 		if (!config.contains("chat.antiSpam.povolit")) config.set("chat.antiSpam.povolit", "ano");
@@ -141,25 +147,25 @@ public class ConfigManager {
 		if (!config.contains("chat.cenzura.zprava")) config.set("chat.cenzura.zprava", "{JMENO} nadavat se zde nesmi!");
 		if (!config.contains("chat.cenzura.provest")) config.set("chat.cenzura.provest", "");
 		if (!config.contains("chat.cenzura.slovnik")) {
-			List<String> a = new ArrayList<String>();
-			a.add("debil");
-			a.add("kokot");
-			a.add("curak");
-			config.set("chat.cenzura.words", a);
+			List<String> d = new ArrayList<String>();
+			d.add("debil");
+			d.add("kokot");
+			d.add("curak");
+			config.set("chat.cenzura.words", d);
 		}
 
 		if (!config.contains("chat.gramatika.povolit")) config.set("chat.gramatika.povolit", "ano");
 		if (!config.contains("chat.gramatika.duvody")) config.set("chat.gramatika.duvody.mislet", "&4Vyjmenovane Slovo - Vzdycky tvrde Y! ' m&fY&4slet '");
 		if (!config.contains("chat.gramatika.slovnik.castecnaSlova")) {
-			List<String> b = new ArrayList<String>();
-			b.add("kdiz,kdyz");
-			b.add("mislet,myslet");
-			config.set("chat.gramatika.slovnik.castecnaSlova", b);
+			List<String> e = new ArrayList<String>();
+			e.add("kdiz,kdyz");
+			e.add("mislet,myslet");
+			config.set("chat.gramatika.slovnik.castecnaSlova", e);
 		}
 		if (!config.contains("chat.gramatika.slovnik.celySlova")) {
-			List<String> c = new ArrayList<String>();
-			c.add("us,uz");
-			config.set("chat.gramatika.slovnik.celySlova", c);
+			List<String> f = new ArrayList<String>();
+			f.add("us,uz");
+			config.set("chat.gramatika.slovnik.celySlova", f);
 		}
 
 		if (!config.contains("chat.vypnoutChat.povolit")) config.set("chat.vypnoutChat.povolit", "ano");
@@ -225,10 +231,10 @@ public class ConfigManager {
 		if (!config.contains("autoZpravy.interval")) config.set("autoZpravy.interval", 60);
 		if (!config.contains("autoZpravy.prefix")) config.set("autoZpravy.prefix", "&8[&4FoE&8]");
 		if (!config.contains("autoZpravy.zpravy")) {
-			List<String> e = new ArrayList<String>();
-			e.add("{PREFIX} {JMENO} vis ze u nas na serveru muzes umrit hlady ?");
-			e.add("{PREFIX} kupte si u nas nejakou vec a podporte tim server.");
-			config.set("autoZpravy.zpravy", e);
+			List<String> g = new ArrayList<String>();
+			g.add("{PREFIX} {JMENO} vis ze u nas na serveru muzes umrit hlady ?");
+			g.add("{PREFIX} kupte si u nas nejakou vec a podporte tim server.");
+			config.set("autoZpravy.zpravy", g);
 		}
 
 		if (!config.contains("warp.povolit")) config.set("warp.povolit", "ano");
@@ -242,7 +248,7 @@ public class ConfigManager {
 		if (!config.contains("msg.povolit")) config.set("msg.povolit", "ano");
 		if (!config.contains("msg.zprava.jeOffline")) config.set("msg.zprava.jeOffline", "{JMENO} je offline.");
 		if (!config.contains("msg.format")) config.set("msg.format", "&8[&4{JMENO}&8 -> &4{TARGET}&8]&f {ZPRAVA}");
-		
+
 		if (!config.contains("gamemode.povolit")) config.set("gamemode.povolit", "ano");
 		if (!config.contains("gamemode.zpravy.creative")) config.set("gamemode.zpravy.creative", "&4{JMENO} &8zmenil svuj herni rezim na &4Creative&8.");
 		if (!config.contains("gamemode.zpravy.survival")) config.set("gamemode.zpravy.survival", "&4{JMENO} &8zmenil svuj herni rezim na &4Survival&8.");
@@ -252,9 +258,9 @@ public class ConfigManager {
 		if (!config.contains("gamemode.zpravy.jizMaAdventure")) config.set("gamemode.zpravy.jizMaAdventure", "&4Jiz&8 mas &4adventure&8!");
 
 		if (!config.contains("help.povolit")) config.set("help.povolit", "ano");
-		
-		if (!config.contains("chyboveZpravy.nedostatecneOpravneni")) config.set("chyboveZpravy.nedostatecneOpravneni", "&4Na tuto akci nemate &8opravneni&4!");
-		if (!config.contains("prevestConfig")) config.set("prevestConfig", "ne");
+
+		if (!config.contains("ostatni.nedostatecneOpravneni")) config.set("ostatni.nedostatecneOpravneni", "&4Na tuto akci nemate &8opravneni&4!");
+		if (!config.contains("ostatni.prevestConfig")) config.set("ostatni.prevestConfig", "ne");
 
 		saveConfig(config, configFile);
 		saveConfig(deathMsgs, deathMsgsFile);
