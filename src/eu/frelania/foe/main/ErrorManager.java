@@ -67,8 +67,8 @@ public class ErrorManager {
 			pw.println("--------------------------------------------------------------------------------------");
 			pw.println("\n" + message + "\n");
 			pw.println("--------------------------------------------------------------------------------------");
-			pw.println(" Nahlašte prosím tuto chybu co nejdøíve na: http://grief.cz/FoE-errors - Díky siOnzee");
-			pw.println(" Téma pluginu na FH fóru: http://grief.cz/FoE");
+			pw.println(" Nahlaste prosim tuto chybu co nejdrive na: http://grief.cz/FoE-errors - Diky siOnzee");
+			pw.println(" Tema pluginu na FH foru: http://grief.cz/FoE");
 			pw.println("");
 			pw.flush();
 			pw.close();
