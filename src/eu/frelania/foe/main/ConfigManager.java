@@ -118,14 +118,14 @@ public class ConfigManager {
 
 		if (!config.contains("chat.antiReklama.povolit")) config.set("chat.antiReklama.povolit", "ano");
 		if (!config.contains("chat.antiReklama.link.zprava")) config.set("chat.antiReklama.link.zprava", "&4{JMENO}&8 byl banovan za reklamu na web!");
-		if (!config.contains("chat.antiReklama.link.provest")) config.set("chat.antiReklama.link.provest", "");
+		if (!config.contains("chat.antiReklama.link.provest")) config.set("chat.antiReklama.link.provest", "kick {JMENO}");
 		if (!config.contains("chat.antiReklama.link.whitelist")) {
 			List<String> b = new ArrayList<String>();
 			b.add("www.frelania.eu");
 			config.set("antiReklama.link.whitelist", b);
 		}
 		if (!config.contains("chat.antiReklama.ip.zprava")) config.set("chat.antiReklama.ip.zprava", "&4{JMENO}&8 byl banovan za IP reklamu!");
-		if (!config.contains("chat.antiReklama.ip.provest")) config.set("chat.antiReklama.ip.provest", "");
+		if (!config.contains("chat.antiReklama.ip.provest")) config.set("chat.antiReklama.ip.provest", "kick {JMENO}");
 		if (!config.contains("chat.antiReklama.ip.whitelist")) {
 			List<String> c = new ArrayList<String>();
 			c.add("93.91.250.111:27887");
