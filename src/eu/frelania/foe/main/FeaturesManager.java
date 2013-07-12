@@ -72,16 +72,19 @@ public class FeaturesManager {
 		 * Registrace eventù
 		 */
 		Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(foe), foe);
-		foe.logDebug("Event OnPlayerJoin zasegistrovan");
+		foe.logDebug("Event OnPlayerJoin zaregistrovan");
 
 		Bukkit.getPluginManager().registerEvents(new OnPlayerQuit(foe), foe);
-		foe.logDebug("Event OnPlayerQuit zasegistrovan");
+		foe.logDebug("Event OnPlayerQuit zaregistrovan");
 
 		Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(foe), foe);
-		foe.logDebug("Event OnPlayerDeath zasegistrovan");
+		foe.logDebug("Event OnPlayerDeath zaregistrovan");
 
 		Bukkit.getPluginManager().registerEvents(new OnEntityDeath(foe), foe);
-		foe.logDebug("Event OnEntityDeath zasegistrovan");
+		foe.logDebug("Event OnEntityDeath zaregistrovan");
+		
+		Bukkit.getPluginManager().registerEvents(new OnPlayerChat(foe), foe);
+		foe.logDebug("Event OnPlayerChat zaregistrovan");
 
 		/**
 		 * Naètení DB, pokud je povolena
@@ -155,6 +158,62 @@ public class FeaturesManager {
 
 		if (status("ostatni.prevestConfig")) {
 			// TODO: Aktualizace configu
+			
+			set("oznameni.povolit", "Oznameni.Povolit");
+			
+			set("kdyzSeHrac.pripoji.povolit", "KdyzHracSe.Pripoji.Povolit");
+			set("kdyzSeHrac.odpoji.povolit", "KdyzHracSe.Odpoji.Povolit");
+			set("kdyzSeHrac.kick.povolit", "KdyzHracSe.Vyhodi.Povolit");
+			
+			set("smrt.povolitVlastniZpravy", "umrtiZpravy.Povolit");
+			
+			set("nahrano.povolit", "Nahranost.Povolit");
+			
+			set("chat.uvitaciZprava.povolit", "uvitaciZprava.Povolit");
+			set("chat.vycistitChat.povolit", "clearChat.Povolit");
+			set("chat.adminChat.povolit", "AdminChat.Povolit");
+			set("chat.antiReklama.povolit", "AntiReklama.Povolit");
+			set("chat.antiSpam.povolit", "AntiSpam.Povolit");
+			set("chat.cenzura.povolit", "Cenzura.Povolit");
+			set("chat.gramatika.povolit", "Gramatika.Povolit");
+			set("chat.vypnoutChat.povolit", "VypnoutChat.Povolit");
+			set("chat.capsLock.povolit", "capsLock.Povolit");
+			
+			set("updater.povolit", "VyhledavatAktualizace.Povolit");
+			
+			set("nahrano.gui.povolit", "Ostatni.Nahranost.GUI.Povolit");
+			set("nahrano.gui.tydny.zobrazit", "Ostatni.Nahranost.GUI.Tydny-Povolit");
+			set("nahrano.gui.dny.zobrazit", "Ostatni.Nahranost.GUI.Dny-Povolit");
+			set("nahrano.gui.hodiny.zobrazit", "Ostatni.Nahranost.GUI.Hodiny-Povolit");
+			set("nahrano.gui.pocetHracu.zobrazit", "Ostatni.Nahranost.GUI.PocetHracu-Povolit");
+			set("nahrano.gui.zabitoHracu.zobrazit", "Ostatni.Nahranost.GUI.ZabitoHracu-Povolit");
+			set("nahrano.gui.zabitoMobu.zobrazit", "Ostatni.Nahranost.GUI.ZabitoZvirat-Povolit");
+			set("nahrano.gui.zabitoZvirat.zobrazit", "Ostatni.Nahranost.GUI.ZabitoMobu-Povolit");
+			set("nahrano.gui.pocetSmrti.zobrazit", "Ostatni.Nahranost.GUI.PocetSmrti-Povolit");
+			set("nahrano.gui.iConomy.zobrazit", "Ostatni.Nahranost.GUI.iConomy-Povolit");
+			
+			set("teleport.povolit", "TP.Povolit");
+			
+			set("rezervaceMist.povolit", "Rezervace.Povolit");
+			
+			set("inventar.povolit", "Inventar.Povolit");
+			
+			set("manager.povolit", "Manager.Povolit");
+			
+			set("vtipy.povoli", "Vtipy.Povolit");
+			
+			// FIXME: WhiteList Zpráva byla odstranìna!  -  set("whiteList.povolit", ""));
+			
+			set("autoZpravy.povolit", "autoZpravy.Povolit");
+			
+			set("warp.povolit", "Warp.Povolit");
+			
+			set("msg.povolit", "Msg.Povolit");
+			
+			set("gamemode.povolit", "herniRezimy.Povolit");
+			
+			set("help.povolit", "zpravaAdminum.Povolit");
+			
 			foe.getConfigManager().config.set("ostatni.prevestConfig", "ne");
 		}
 
@@ -174,6 +233,11 @@ public class FeaturesManager {
 			foe.getErrorMananger().log(Level.INFO, "\"" + path + "\" nebyl nalezen, aktualizujte prosim FoE/config.yml");
 		}
 		return false;
+	}
+
+	private void set(String what, String msg) {
+		foe.getConfigManager().config.set(what, foe.getConfigManager().config.get(msg));
+		foe.getConfigManager().config.set(msg, null);
 	}
 
 }
