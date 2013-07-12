@@ -2,13 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/bukkit-1.5.2-R1.0.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://jd.bukkit.org/rb/apidocs/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/iConomy.jar"/>
-	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/minecraft_server.jar"/>
-	<classpathentry kind="lib" path="H:/PluginWorkspace/libs/spigot-1.5.2-R1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siOnzeeSlav/workspace/FoE/bin/iConomy.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siOnzeeSlav/workspace/FoE/bin/minecraft_server.1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siOnzeeSlav/workspace/FoE/bin/spigot.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siOnzeeSlav/workspace/FoE/bin/bukkit-1.6.2-R0.1-20130711.012359-4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
