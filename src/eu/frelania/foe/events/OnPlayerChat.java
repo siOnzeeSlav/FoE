@@ -78,6 +78,16 @@ public class OnPlayerChat implements Listener {
 		
 		// TODO: Grammar
 		// TODO: ChatCapsLock
+		if(foe.getFeaturesManager().featureChatCapsLock) {
+			String capsMessage = message.toUpperCase();
+			if(message == capsMessage){
+				if(!player.hasPermission("FoE.Chat.CapsLock")){
+					event.setCancelled(true);
+					player.sendMessage(Replace.format(foe.getConfigManager().config.getString("chat.capsLock.zprava")));
+					return;
+				}
+			}
+		}
 		// TODO: AntiSpam
 		// TODO: Disable Chat
 	}

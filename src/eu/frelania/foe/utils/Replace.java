@@ -9,6 +9,11 @@ public class Replace {
 
 	public static String playerName(String message, String playerName) {
 		if (message.matches(".*\\{JMENO}.*")) message = message.replaceAll("\\{JMENO}", playerName);
+
+		return Replace.format(message);
+	}
+	
+	public static String format(String message){
 		
 		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
 		return message;
@@ -25,8 +30,7 @@ public class Replace {
 			message = message.replaceAll("\\{CAS}", time);
 		}
 
-		message = message.replaceAll("(&([a-fk-or0-9]))", "§$2");
-		return message;
+		return Replace.format(message);
 	}
 
 	public static String formatTime(int par) {
@@ -38,12 +42,11 @@ public class Replace {
 
 		return ((hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
 	}
-	public static String killedMsg(String msg, String player, String killer, String item) {
-		if (msg.matches(".*\\{JMENO}.*")) msg = msg.replaceAll("\\{JMENO}", player);
-		if (msg.matches(".*\\{ZABIJAK}.*")) msg = msg.replaceAll("\\{ZABIJAK}", killer);
-		if (msg.matches(".*\\{ITEM}.*")) msg = msg.replaceAll("\\{ITEM}", item);
-		
-		msg = msg.replaceAll("(&([a-fk-or0-9]))", "§$2");
-		return msg;
+	public static String killedMsg(String message, String player, String killer, String item) {
+		if (message.matches(".*\\{JMENO}.*")) message = message.replaceAll("\\{JMENO}", player);
+		if (message.matches(".*\\{ZABIJAK}.*")) message = message.replaceAll("\\{ZABIJAK}", killer);
+		if (message.matches(".*\\{ITEM}.*")) message = message.replaceAll("\\{ITEM}", item);
+
+		return Replace.format(message);
 	}
 }

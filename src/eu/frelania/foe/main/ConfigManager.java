@@ -181,8 +181,8 @@ public class ConfigManager {
 		if (!config.contains("nahrano.uvitaciZprava.zprava")) config.set("nahrano.uvitaciZprava.zprava", "&4{JMENO}&8 na serveru jste nahral &4{TYDEN}&8 tydnu, &4{DEN} &8dnu, &4{HODIN} &8hodin, &4{MINUT} &8minut, &4{SEKUND}&8 sekund");
 		if (!config.contains("nahrano.gui.povolit")) config.set("nahrano.gui.povolit", "ano");
 		if (!config.contains("nahrano.gui.nadpis")) config.set("nahrano.gui.nadpis", "&4F&8o&4E");
-		if (!config.contains("nahrano.gui.tydny.zprava")) config.set("nahrano.gui.tydnu.zprava", "Nahrano Tydnu:");
-		if (!config.contains("nahrano.gui.tydny.zobrazit")) config.set("nahrano.gui.tydnu.zobrazit", "ano");
+		if (!config.contains("nahrano.gui.tydny.zprava")) config.set("nahrano.gui.tydny.zprava", "Nahrano Tydnu:");
+		if (!config.contains("nahrano.gui.tydny.zobrazit")) config.set("nahrano.gui.tydny.zobrazit", "ano");
 		if (!config.contains("nahrano.gui.dny.zprava")) config.set("nahrano.gui.dny.zprava", "Nahrano Dnu:");
 		if (!config.contains("nahrano.gui.dny.zobrazit")) config.set("nahrano.gui.dny.zobrazit", "ano");
 		if (!config.contains("nahrano.gui.hodiny.zprava")) config.set("nahrano.gui.hodiny.zprava", "Nahrano Hodin:");
