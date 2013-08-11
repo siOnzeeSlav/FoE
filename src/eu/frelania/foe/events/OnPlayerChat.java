@@ -35,6 +35,35 @@ public class OnPlayerChat implements Listener {
 		String playerName = player.getName();
 		Server server = Bukkit.getServer();
 		
+		// Vypnuti chatu
+		if(foe.modeChatOff && !player.hasPermission("FoE.Chat.OffChat")) {
+			event.setCancelled(true);
+			player.sendMessage(Replace.format(foe.getConfigManager().config.getString("chat.vypnoutChat.kdyzJeVypnut")));
+			return;
+		}
+		
+		// TODO: AntiSpam
+		if(foe.getFeaturesManager().featureChatAntiSpam){
+			if(foe.joinedUsers.get(player.getName()).lastChatMessage.toLowerCase() == message.toLowerCase()){
+				event.setCancelled(true);
+				player.sendMessage(Replace.format(foe.getConfigManager().config.getString("chat.antiSpam.zprava")));
+				return;
+			}
+		}
+		
+		// TODO: ChatCapsLock
+		if(foe.getFeaturesManager().featureChatCapsLock) {
+			String capsMessage = message.toUpperCase();
+			if(message == capsMessage){
+				if(!player.hasPermission("FoE.Chat.CapsLock")){
+					event.setCancelled(true);
+					player.sendMessage(Replace.format(foe.getConfigManager().config.getString("chat.capsLock.zprava")));
+					return;
+				}
+			}
+		}
+		
+		// Cenzura
 		if(foe.getFeaturesManager().featureChatCensor) {
 			for (String word : foe.getConfigManager().config.getStringList("chat.cenzura.slovnik")) {
 				if (message.equalsIgnoreCase(word) || message.contains(word)) {
@@ -46,6 +75,7 @@ public class OnPlayerChat implements Listener {
 			}
 		}
 		
+		// Antireklama
 		if(foe.getFeaturesManager().featureChatAntiAds) {
 			List<String> ips = foe.getConfigManager().config.getStringList("chat.antiReklama.ip.whitelist");
 			List<String> links = foe.getConfigManager().config.getStringList("chat.antiReklama.link.whitelist");
@@ -77,19 +107,6 @@ public class OnPlayerChat implements Listener {
 		}
 		
 		// TODO: Grammar
-		// TODO: ChatCapsLock
-		if(foe.getFeaturesManager().featureChatCapsLock) {
-			String capsMessage = message.toUpperCase();
-			if(message == capsMessage){
-				if(!player.hasPermission("FoE.Chat.CapsLock")){
-					event.setCancelled(true);
-					player.sendMessage(Replace.format(foe.getConfigManager().config.getString("chat.capsLock.zprava")));
-					return;
-				}
-			}
-		}
-		// TODO: AntiSpam
-		// TODO: Disable Chat
 	}
 	
 	public void writeToLog(String message) {

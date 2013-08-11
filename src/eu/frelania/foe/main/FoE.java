@@ -20,6 +20,8 @@ public class FoE extends JavaPlugin {
 	private ErrorManager errorManager;
 	public boolean debugMode = false;
 	public HashMap<String, PlayerManager> joinedUsers;
+	
+	public boolean modeChatOff = false;
 
 	@Override
 	public void onEnable() {

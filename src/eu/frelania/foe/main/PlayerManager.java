@@ -15,6 +15,7 @@ public class PlayerManager {
 	public String playerName;
 	private long joinedTime;
 	private GuiManager guiManager;
+	public String lastChatMessage;
 
 	public PlayerManager(FoE plugin, Player player) {
 		foe = plugin;
